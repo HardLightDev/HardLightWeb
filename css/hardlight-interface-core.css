@@ -360,7 +360,7 @@ html[data-aero-night] #aero-boot-overlay {
 
 /* ================================================================
    Original: GATE / ENTRANCE SYSTEM
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 #gate-container {
   position: fixed;
@@ -370,12 +370,21 @@ html[data-aero-night] #aero-boot-overlay {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e0f2fe, #bae6fd, #7dd3fc);
+  /* HardLight + EVA: gate día con menos blanco directo; mantiene el look Aero sin quemar la primera pantalla. */
+  background: linear-gradient(135deg, #bfeffd, #79d2ed 48%, #62d4bf);
   transition: opacity 0.9s var(--ease-out), visibility 0.9s;
 }
 
 html[data-aero-night] #gate-container {
   background: linear-gradient(135deg, #022c22, #064e3b, #0f766e);
+}
+
+html:not([data-aero-night]) #gate-container {
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle at 44% 52%, rgba(0, 146, 190, 0.18) 0%, rgba(0, 146, 190, 0) 46%),
+    radial-gradient(circle at 68% 62%, rgba(15, 118, 110, 0.18) 0%, rgba(15, 118, 110, 0) 48%),
+    linear-gradient(135deg, #b8edf9 0%, #76cce8 46%, #4ec4b2 100%);
 }
 
 #gate-container.door-burst {
@@ -389,7 +398,7 @@ html[data-aero-night] #gate-container {
 
 /* ================================================================
    Original: Auto-hide gate after 6s if user doesn't interact (accessibility fallback)
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (prefers-reduced-motion: no-preference) {
   #gate-container {
@@ -421,6 +430,13 @@ html[data-aero-night] .gate-sky {
   background: radial-gradient(circle at center, rgba(2, 132, 199, 0.3) 0%, rgba(6, 78, 59, 0.6) 50%, rgba(2, 44, 34, 0.9) 100%);
 }
 
+html:not([data-aero-night]) .gate-sky {
+  background:
+    radial-gradient(circle at center, rgba(235, 251, 255, 0.24) 0%, rgba(153, 221, 242, 0.34) 44%, rgba(32, 162, 202, 0.24) 100%),
+    radial-gradient(circle at 58% 45%, rgba(35, 190, 180, 0.20), transparent 52%),
+    linear-gradient(135deg, rgba(64, 181, 217, 0.30), rgba(41, 185, 158, 0.22));
+}
+
 .gate-scene {
   position: relative;
   z-index: 20;
@@ -450,27 +466,41 @@ html[data-aero-night] .gate-sky {
   height: 100%;
 }
 
+html:not([data-aero-night]) .logo-icon-wrapper {
+  color: #0b7fa5;
+  filter: drop-shadow(0 0 18px rgba(4, 120, 150, 0.32));
+}
+
 .logo-text {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(3.5rem, 10vw, 7rem);
-  color: #fff;
+  color: #043f5f;
   letter-spacing: 0.25em;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.42),
+    0 0 26px rgba(0, 142, 185, 0.24),
+    0 18px 58px rgba(3, 55, 82, 0.18);
+  font-weight: 900;
+}
+
+html[data-aero-night] .logo-text {
+  color: #f8fdff;
   text-shadow:
     0 0 40px rgba(255, 255, 255, 0.6),
     0 0 80px rgba(0, 212, 255, 0.5),
     0 0 120px rgba(0, 212, 255, 0.2);
-  font-weight: 900;
 }
 
 .logo-subtext {
   font-family: 'Rajdhani', monospace;
   font-size: 13px;
-  color: #0284c7;
+  color: #075985;
   letter-spacing: 0.6em;
   text-transform: uppercase;
   margin-top: 12px;
-  font-weight: 700;
-  opacity: 0.9;
+  font-weight: 800;
+  opacity: 0.98;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.34), 0 0 12px rgba(3, 105, 161, 0.18);
 }
 
 html[data-aero-night] .logo-subtext {
@@ -487,16 +517,26 @@ html[data-aero-night] .logo-subtext {
   font-size: 12px;
   letter-spacing: 0.5em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 800;
+  color: rgba(4, 73, 101, 0.84);
+  font-weight: 900;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.30), 0 0 12px rgba(3, 105, 161, 0.14);
   animation: etherealPulse 3s infinite;
+}
+
+html[data-aero-night] .click-to-start {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: none;
 }
 
 .click-to-start .line {
   width: 2px;
   height: 48px;
-  background: linear-gradient(to bottom, #fff, transparent);
+  background: linear-gradient(to bottom, rgba(3, 105, 161, 0.72), rgba(255, 255, 255, 0));
   border-radius: 2px;
+}
+
+html[data-aero-night] .click-to-start .line {
+  background: linear-gradient(to bottom, #fff, transparent);
 }
 
 .light-door-container {
@@ -513,9 +553,14 @@ html[data-aero-night] .logo-subtext {
   top: 0;
   bottom: 0;
   width: 50vw;
+  background: linear-gradient(135deg, rgba(184, 237, 249, 0.66), rgba(80, 190, 215, 0.34));
+  backdrop-filter: blur(24px) saturate(132%);
+  transition: transform 1.8s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+html[data-aero-night] .door-panel {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(224, 242, 254, 0.55));
   backdrop-filter: blur(40px) saturate(150%);
-  transition: transform 1.8s cubic-bezier(0.7, 0, 0.2, 1);
 }
 
 html[data-aero-night] .door-panel {
@@ -582,8 +627,12 @@ html[data-aero-night] .door-panel {
   opacity: 0;
   display: none;
   pointer-events: none;
-  background: radial-gradient(circle at center, #fff 0%, rgba(186, 230, 253, 0.95) 40%, rgba(125, 211, 252, 0.9) 100%);
+  background: radial-gradient(circle at center, rgba(236, 253, 255, 0.92) 0%, rgba(125, 211, 252, 0.78) 42%, rgba(45, 212, 191, 0.66) 100%);
   transition: opacity 2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+html[data-aero-night] #entry-flash {
+  background: radial-gradient(circle at center, #fff 0%, rgba(186, 230, 253, 0.95) 34%, rgba(6, 78, 59, 0.78) 100%);
 }
 
 /* ================================================================
@@ -1505,7 +1554,7 @@ html[data-aero-night] .faq-item::after {
 
 /* ================================================================
    Original: SECTION HEADERS
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 .section-header h2 {
   font-family: 'Outfit', sans-serif;
@@ -1887,7 +1936,7 @@ html[data-aero-night] .roster-card .talent-desc {
 /* ================================================================
    Original: NEWS GRID
    HardLight + EVA: Tarjetas de bitácora. Mantener lectura, escala y compatibilidad;
-   cualquier efecto nuevo debe probarse en modo día y noche.
+   las fechas se retiraron porque no aportaban a la lectura del portafolio.
    ================================================================ */
 .news-grid {
   display: grid;
@@ -4148,7 +4197,7 @@ html[data-aero-night] body {
    Original: PORTFOLIO PATCH 10.3.2 — LOBBY REDESIGN WITHOUT FILLER BOX / Scope: only the
    first section. Removes the decorative console module and / rebuilds the hero as a
    balanced editorial/aero landing block.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 
 /* HardLight + EVA: The rejected side console is no longer part of the lobby composition.. Zona superior protegida: afecta primera impresión, scroll y responsive. */
@@ -4472,7 +4521,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Lobby: keep the liked right-side copy position on wide screens, but reserve
    / enough horizontal space so the glass paragraph never intersects the title.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (min-width: 1500px) {
   .hero-section.section-observer {
@@ -4534,7 +4583,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Medium desktop gets a cleaner editorial stack. This avoids crushed overlap
    on / 1366/1440 while preserving the premium lobby composition.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (min-width: 1024px) and (max-width: 1499px) {
   .hero-section.section-observer {
@@ -4629,7 +4678,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Keep small devices readable and stop the lobby from turning into a cramped /
    logo slab.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (max-width: 640px) {
   .hero-tagline {
@@ -4685,7 +4734,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Common section header grammar: title, divider and helper text keep a single
    axis.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 .section-header,
 .section-header-row {
@@ -4850,7 +4899,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Tablet/mobile: stack the header elements before they become weirdly
    distributed.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (max-width: 900px) {
   .section-header,
@@ -4912,7 +4961,7 @@ html[data-aero-night]::before {
 /* ================================================================
    Original: Inicio: the welcome glass keeps its position, but grows horizontally and /
    vertically so it feels intentional instead of a compact note pasted over the hero.
-   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, contraste y responsive.
    ================================================================ */
 @media (min-width: 1500px) {
   .hero-content {

@@ -116,17 +116,17 @@ function formatBoxText(value) {
 
 const NEWS = [
     {
-        cat: 'PORTAFOLIO', date: '29 DIC 2025',
+        cat: 'PORTAFOLIO',
         title: 'Portafolio Para Enviar Por DM',
         desc: 'Esta página responde rápido cuando alguien pide portafolio: qué hago, cómo pienso una interfaz y qué tipo de trabajo puedo resolver. El objetivo es que la lectura sea directa y no dependa de explicar todo por mensaje.'
     },
     {
-        cat: 'DIRECCIÓN CREATIVA', date: '20 OCT 2026',
+        cat: 'DIRECCIÓN CREATIVA',
         title: 'Diseño Web Con Criterio Propio',
         desc: 'Cada bloque está pensado como una decisión: jerarquía, contraste, ritmo, movimiento y tono visual. El enfoque mezcla desarrollo, diseño y criterio práctico sin repetir efectos solo porque se ven bien.'
     },
     {
-        cat: 'EXPERIMENTACIÓN WEB', date: '15 NOV 2026',
+        cat: 'EXPERIMENTACIÓN WEB',
         title: 'Experimentar También Es Método',
         desc: 'Pruebo estilos, layouts, microinteracciones y atmósferas para encontrar caminos menos obvios. Experimentar sirve cuando termina en algo usable, legible y defendible dentro del proyecto.'
     }
@@ -166,10 +166,28 @@ function initDOM() {
 initDOM();
 
 // ================================================================
+// HardLight + EVA: LOBBY START. En recarga el navegador intenta restaurar scroll; aquí lo anulamos para que el portafolio siempre abra desde el inicio real.
+// ================================================================
+function forceLobbyLanding() {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const reset = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if (typeof updateNavActive === 'function') updateNavActive('inicio');
+    };
+    reset();
+    requestAnimationFrame(reset);
+    setTimeout(reset, 60);
+}
+
+
+// ================================================================
 // HardLight + EVA: APP INIT. Orden de arranque probado; documentar cualquier cambio antes de moverlo.
 // ================================================================
 window.addEventListener('load', () => {
     if (!DOM.gateContainer) initDOM();
+    forceLobbyLanding();
 
     document.body.classList.remove('no-js');
 
@@ -549,8 +567,9 @@ function triggerEntrySequence() {
             .set(DOM.entryFlash, { display: "none" });
     }
 
-    // HardLight + EVA: Fase 6: entra el contenido principal.
+    // HardLight + EVA: Fase 6: entra el contenido principal. Mantener el reset antes de liberar scroll evita recargas en mitad de la página.
     tl.call(() => {
+        forceLobbyLanding();
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
         State.uiVisible = true;
@@ -1024,7 +1043,7 @@ function handleCardLeave(cardElement, realName) {
 }
 
 // ================================================================
-// HardLight + EVA: NEWS & FAQ RENDERING. Mantener contenido útil y sin duplicar la misma idea en tres lugares.
+// HardLight + EVA: NEWS & FAQ RENDERING. Mantener contenido útil; la bitácora ya no muestra fechas porque aquí importa el criterio, no una cronología decorativa.
 // ================================================================
 function renderNews() {
     const grid = document.getElementById('news-grid');
@@ -1050,7 +1069,6 @@ function renderNews() {
                         <span class="dot"></span>
                         <span class="txt">${n.cat}</span>
                     </span>
-                    <span class="news-date">${n.date}</span>
                 </div>
                 <h3>${n.title}</h3>
                 <p class="box-copy">${formatBoxText(n.desc)}</p>
