@@ -44,44 +44,44 @@ const BackgroundShader = {
 };
 
 // ================================================================
-// HardLight + EVA: Datos de habilidades destacadas. Las tarjetas deben explicar capacidades reales, no rellenar espacio con palabras bonitas.
+// HardLight + EVA: Datos de habilidades destacadas. Mantenerlas concretas: cada tarjeta debe aportar una capacidad distinta y evitar repetir el hero.
 // ================================================================
 const PORTFOLIO_ITEMS = [
     {
-        id: 1, name: 'DESARROLLO WEB', role: 'FRONTEND', color: '#29da78',
+        id: 1, name: 'DESARROLLO FULLSTACK', role: 'PHP · JS', color: '#29da78',
         suit: '✦', volume: 0.6,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
-        desc: 'Construyo interfaces web con HTML, CSS y JavaScript cuidando estructura semántica, responsive, rendimiento, estados de UI y compatibilidad real. Mi forma de trabajo es directa: primero que funcione, luego que respire, y al final que tenga identidad sin perder claridad.'
+        desc: 'Construyo sitios desde la base técnica hasta la interfaz: estructura, vistas, componentes, contenido y comportamiento. Mi stack fuerte es PHP, JavaScript, HTML y CSS, con prioridad en que la web funcione, se entienda y pueda mantenerse.'
     },
     {
-        id: 2, name: 'DISEÑO DE INTERFAZ', role: 'UI/UX', color: '#00D4FF',
+        id: 2, name: 'FRONTEND CON DISEÑO', role: 'UI RESPONSIVE', color: '#00D4FF',
         suit: '✧', volume: 0.5,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/paus.wav',
-        desc: 'Trabajo sistemas visuales con jerarquía, contraste, navegación, modales, tarjetas, estados y microinteracciones. No busco decorar pantallas: ordeno la experiencia para que quien la vea entienda qué es, dónde mirar y por qué se siente distinta.'
+        desc: 'Trabajo frontend como una mezcla de código y lectura visual: jerarquía, espaciado, estados, responsive e interacción. No busco llenar la pantalla; busco que cada bloque tenga función, ritmo y una identidad reconocible.'
     },
     {
-        id: 3, name: 'DIRECCIÓN CREATIVA', role: 'CRITERIO', color: '#C6F135',
+        id: 3, name: 'PHP Y BACKEND WEB', role: 'LÓGICA', color: '#C6F135',
         suit: '✺', volume: 0.62,
         audio: 'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missil.mp3',
-        desc: 'Tomo una idea y la llevo a una dirección visual concreta: tono, ritmo, referencias, límites, detalles que sí aportan y elementos que se descartan. Me interesa que cada proyecto tenga una voz propia, no un resultado intercambiable.'
+        desc: 'Uso PHP para ordenar la parte funcional: separar vistas, preparar formularios, manejar rutas simples y estructurar datos sin inflar el proyecto. Prefiero una base clara y estable antes que una arquitectura grande que nadie necesita.'
     },
     {
-        id: 4, name: 'EXPERIMENTACIÓN WEB', role: 'EXPLORACIÓN', color: '#8B5CF6',
+        id: 4, name: 'WIDGETS WEB PARA OBS', role: 'STREAM TOOLS', color: '#8B5CF6',
         suit: '✦', volume: 0.56,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
-        desc: 'Exploro estilos y formatos para salir del molde sin perder usabilidad. Pruebo atmósferas, layouts, vidrio, movimiento, audio o textura cuando suman, y descarto lo que solo hace ruido. La creatividad tiene libertad, pero también criterio.'
+        desc: 'Desarrollo widgets web para OBS y StreamElements: chats personalizados, alertas, notificaciones, paneles y overlays dinámicos. Si la idea tiene una lógica clara y una interfaz posible, se puede convertir en una herramienta real.'
     },
     {
-        id: 5, name: 'PULIDO VISUAL', role: 'DETALLE', color: '#38BDF8',
+        id: 5, name: 'DIRECCIÓN CREATIVA WEB', role: 'CRITERIO', color: '#38BDF8',
         suit: '◆', volume: 0.48,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/paus.wav',
-        desc: 'Reviso contraste, espaciado, legibilidad, modo día/noche, scroll, hover, móvil, 1080p y 4K. Es una parte meticulosa del proceso: encontrar esos detalles pequeños que hacen que una web pase de ‘funciona’ a ‘está bien terminada’.'
+        desc: 'Defino dirección visual para que una web no parezca ensamblada al azar: tono, referencias, composición, interacción y límites. La creatividad funciona mejor cuando hay criterio para decidir qué entra, qué sale y qué se pule.'
     },
     {
-        id: 6, name: 'ENTREGA TÉCNICA', role: 'PRODUCCIÓN', color: '#F472B6',
+        id: 6, name: 'PULIDO Y ENTREGA WEB', role: 'QA VISUAL', color: '#F472B6',
         suit: '✹', volume: 0.52,
         audio: 'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missil.mp3',
-        desc: 'Dejo el proyecto ordenado para revisar, subir y mostrar: archivos limpios, rutas coherentes, SEO básico, textos consistentes, assets controlados y pruebas mínimas. Una entrega debe sentirse lista, no como una maqueta sostenida con cinta.'
+        desc: 'Reviso contraste, textos, responsive, modo día/noche, hover, scroll, estructura de archivos y detalles de entrega. Esta parte evita que una web bonita se caiga por cosas pequeñas cuando alguien la abre en un dispositivo real.'
     }
 ];
 
@@ -108,8 +108,8 @@ function formatBoxText(value) {
     return escapeHTML(value)
         .replace(/\.\.\./g, ELLIPSIS_TOKEN)
         .replace(/\r?\n/g, '<br>')
-        // HardLight + EVA: Ritmo de texto solo dentro de boxes. Cada punto puede abrir una nueva línea para mejorar lectura sin afectar correos ni dominios.
-        // HardLight + EVA: También contempla cierres con comillas, por ejemplo: "caso de estudio". Se requiere... sin romper emails ni URLs.
+        // HardLight + EVA: Ritmo de texto solo dentro de boxes. El salto por oración mejora lectura; no aplicarlo a todo el sitio porque rompe flujo y enlaces.
+        // Mantiene correos, URLs y cierres con comillas sin partirlos de forma rara.
         .replace(/([^\s@\/\.][.!?])([&quot;"”’']?)(\s+)(?=[A-ZÁÉÍÓÚÜÑ¿¡0-9])/g, '$1$2<br>')
         .replace(new RegExp(ELLIPSIS_TOKEN, 'g'), '...');
 }
@@ -118,32 +118,32 @@ const NEWS = [
     {
         cat: 'PORTAFOLIO', date: '29 DIC 2025',
         title: 'Portafolio Para Enviar Por DM',
-        desc: 'Esta página responde rápido cuando alguien pide portafolio: qué hago, cómo pienso una interfaz y qué nivel de cuidado puedo sostener. No intento llenar espacio; intento que el trabajo se entienda en pocos segundos.'
+        desc: 'Esta página responde rápido cuando alguien pide portafolio: qué hago, cómo pienso una interfaz y qué tipo de trabajo puedo resolver. El objetivo es que la lectura sea directa y no dependa de explicar todo por mensaje.'
     },
     {
         cat: 'DIRECCIÓN CREATIVA', date: '20 OCT 2026',
         title: 'Diseño Web Con Criterio Propio',
-        desc: 'Cada bloque está pensado como una decisión: jerarquía, contraste, ritmo, movimiento y tono visual. Mi enfoque no parte de fórmulas cerradas; parte de una intención y se ajusta hasta que comunica mejor.'
+        desc: 'Cada bloque está pensado como una decisión: jerarquía, contraste, ritmo, movimiento y tono visual. El enfoque mezcla desarrollo, diseño y criterio práctico sin repetir efectos solo porque se ven bien.'
     },
     {
         cat: 'EXPERIMENTACIÓN WEB', date: '15 NOV 2026',
         title: 'Experimentar También Es Método',
-        desc: 'Pruebo estilos, vidrio, layouts, microinteracciones y atmósferas para encontrar caminos menos obvios. La experimentación no es adorno: es una forma de descubrir cómo una web puede sentirse más clara y propia.'
+        desc: 'Pruebo estilos, layouts, microinteracciones y atmósferas para encontrar caminos menos obvios. Experimentar sirve cuando termina en algo usable, legible y defendible dentro del proyecto.'
     }
 ];
 
 const FAQS = [
     {
         q: 'PF_01 // MANIFIESTO',
-        a: 'Este portafolio existe para mostrar que una web puede ser funcional, legible y aun así tener carácter. No busco decorar por decorar; busco que cada decisión visual ayude a que la idea se entienda mejor.'
+        a: 'Este portafolio existe para mostrar que una web puede ser funcional, legible y aun así tener carácter. Trabajo con libertad creativa, pero con criterio: si un efecto no ayuda a entender o presentar mejor una idea, se ajusta.'
     },
     {
         q: 'PF_02 // ENFOQUE_TÉCNICO',
-        a: 'Trabajo desde desarrollo web, diseño de interfaz y dirección creativa. Me interesa construir páginas con estructura limpia, responsive sólido, textos claros y una estética pensada para el proyecto.'
+        a: 'Soy dev fullstack con foco en frontend y diseño. Mi experiencia más fuerte está en PHP, JavaScript, HTML y CSS, creando páginas, interfaces, componentes y sistemas visuales con estructura clara.'
     },
     {
         q: 'PF_03 // CONTACTO',
-        a: 'Para trabajos, referencias visuales o propuestas relacionadas con diseño y desarrollo web, puedes ubicarme como HardLight Dev. @hardlight_editor en Discord.'
+        a: 'El contacto principal está visible en el hero, la barra lateral y el footer. Para trabajos o propuestas de desarrollo web: hardlight.editor@gmail.com o Discord @hardlight_editor.'
     }
 ];
 
@@ -657,12 +657,12 @@ function getSkillTitleLines(name) {
     // No dejar que el navegador decida el corte: los títulos compuestos necesitan líneas controladas.
     const cleanName = String(name || '').trim();
     const customLines = {
-        'DESARROLLO WEB': ['DESARROLLO', 'WEB'],
-        'DISEÑO DE INTERFAZ': ['DISEÑO DE', 'INTERFAZ'],
-        'DIRECCIÓN CREATIVA': ['DIRECCIÓN', 'CREATIVA'],
-        'EXPERIMENTACIÓN WEB': ['EXPERIMENTACIÓN', 'WEB'],
-        'PULIDO VISUAL': ['PULIDO', 'VISUAL'],
-        'ENTREGA TÉCNICA': ['ENTREGA', 'TÉCNICA']
+        'DESARROLLO FULLSTACK': ['DESARROLLO', 'FULLSTACK'],
+        'FRONTEND CON DISEÑO': ['FRONTEND', 'CON DISEÑO'],
+        'PHP Y BACKEND WEB': ['PHP Y', 'BACKEND WEB'],
+        'WIDGETS WEB PARA OBS': ['WIDGETS WEB', 'PARA OBS'],
+        'DIRECCIÓN CREATIVA WEB': ['DIRECCIÓN', 'CREATIVA WEB'],
+        'PULIDO Y ENTREGA WEB': ['PULIDO Y', 'ENTREGA WEB']
     };
     return customLines[cleanName] || cleanName.split(/\s+/).filter(Boolean);
 }
@@ -1024,7 +1024,7 @@ function handleCardLeave(cardElement, realName) {
 }
 
 // ================================================================
-// HardLight + EVA: NEWS & FAQ RENDERING. Aquí se ajustan textos visibles y ritmo de tarjetas. Mantenerlo claro, directo y comprobable; nada de frases de relleno.
+// HardLight + EVA: NEWS & FAQ RENDERING. Mantener contenido útil y sin duplicar la misma idea en tres lugares.
 // ================================================================
 function renderNews() {
     const grid = document.getElementById('news-grid');
@@ -1316,11 +1316,15 @@ function openModal(type) {
     const data = {
         protocol: {
             t: 'MI CRITERIO DE TRABAJO',
-            b: 'HardLight Portfolio muestra cómo trabajo una web: claridad primero, identidad visual después y movimiento solo cuando aporta. Me interesa que una página se sienta diseñada, desarrollada y dirigida con intención, no inflada con efectos porque sí. Si un detalle no mejora la lectura o la experiencia, se ajusta hasta que deje de estorbar.'
+            b: 'HardLight Portfolio muestra cómo trabajo una web: estructura técnica, frontend cuidado, diseño con identidad y movimiento solo cuando aporta. Me interesa desarrollar páginas, interfaces y piezas interactivas que se puedan usar, mostrar y explicar con claridad.'
+        },
+        contacto: {
+            t: 'CONTACTO DIRECTO',
+            b: 'Correo: hardlight.editor@gmail.com\nDiscord: @hardlight_editor\nPuedes escribirme para páginas web, rediseños, interfaces, widgets para OBS, chats personalizados, alertas, paneles o ideas web a medida.'
         },
         legal: {
             t: 'USO DE ESTA REFERENCIA',
-            b: 'Este sitio funciona como portafolio y referencia visual de HardLight Dev. Los textos, estilos e interacciones están pensados para presentar habilidades de desarrollo web, diseño de interfaz y dirección creativa. Puede servir como referencia, pero debe adaptarse antes de reutilizarse en otro contexto profesional.'
+            b: 'Este sitio funciona como portafolio y referencia visual de HardLight Dev. Los textos, estilos e interacciones están pensados para presentar habilidades de desarrollo web, frontend, diseño de interfaz, dirección creativa y entrega técnica.'
         },
         privacidad: {
             t: 'PRIVACIDAD',
@@ -1328,7 +1332,7 @@ function openModal(type) {
         },
         creditos: {
             t: 'CREDITOS',
-            b: 'Dirección creativa, diseño y desarrollo web: HardLight Dev.\nAsistencia técnica, revisión visual y paciencia digital: EVA.\nSistema visual: HardLight Aero Portfolio.'
+            b: 'Dirección creativa, diseño y desarrollo web: HardLight Dev.\nAsistencia técnica, revisión visual y soporte de iteración: EVA.\nSistema visual: HardLight Aero Portfolio.'
         }
     };
 
