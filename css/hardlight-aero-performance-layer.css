@@ -1,0 +1,372 @@
+/* ================================================================
+   Original: HARDLIGHT PORTFOLIO — AERO PERFORMANCE LAYER
+   HardLight + EVA: No mover sin revisar responsive y saltos de layout.
+   ================================================================ */
+
+:root {
+  /* ================================================================
+   Original: MODO DÍA (FRUTIGER AERO - MULTI-STOP PANTONE GRADIENTS)
+   HardLight + EVA: Se dejó estable después de pruebas reales de layout y contraste.
+   ================================================================ */
+  --p-day-base: #E8F0F8;
+  /* HardLight + EVA: Softer, less blinding base. Mantener este bloque porque sostiene vidrio, contraste y jerarquía. */
+  --p-day-blue-light: #C8E1F5;
+  /* HardLight + EVA: Deeper light blue. Cambiar con precisión; este bloque afecta varias piezas del layout. */
+  --p-day-blue-vibrant: #0088CC;
+  /* HardLight + EVA: Richer blue, less glaring. Probar cambios pequeños; un ajuste mínimo puede alterar el layout. */
+  --p-day-green: #29da78;
+  /* HardLight + EVA: Slightly deeper green. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+  --p-day-text-main: #0B243B;
+  /* HardLight + EVA: Deep navy instead of black. Funciona estable; documentar antes de cambiar. */
+  --p-day-text-muted: #3B5A75;
+  /* HardLight + EVA: Softer blue-grey. Mantener intención, escala y compatibilidad. */
+
+  /* HardLight + EVA: Volumen y gloss en lugar de colores planos. No tocar eventos de audio sin comprobar permisos del navegador. */
+  --bg-day:
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 45%),
+    radial-gradient(circle at 85% 15%, rgba(41, 218, 120, 0.15) 0%, rgba(41, 218, 120, 0) 55%),
+    radial-gradient(circle at 50% 90%, rgba(0, 136, 204, 0.2) 0%, rgba(0, 136, 204, 0) 70%),
+    linear-gradient(135deg, #A2D2FF 0%, #7CB9E8 45%, #4C9EEB 100%);
+
+  --t-main: var(--p-day-text-main);
+  --t-sec: var(--p-day-text-muted);
+  --cyan: var(--p-day-blue-vibrant);
+  --lime: var(--p-day-green);
+  --cyan-glow: rgba(0, 136, 204, 0.4);
+
+  /* HardLight + EVA: Cristal con volumen direccional. No tocar eventos de audio sin comprobar permisos del navegador. */
+  --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%);
+  --glass-border: rgba(255, 255, 255, 0.6);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-dramatic: cubic-bezier(0.85, 0, 0.15, 1);
+  --glass-blur: blur(36px) saturate(220%);
+}
+
+html[data-aero-night] {
+  /* ================================================================
+   Original: MODO NOCHE (CYBER AERO - PROFUNDIDAD VOLUMÉTRICA)
+   HardLight + EVA: No mover sin revisar responsive y saltos de layout.
+   ================================================================ */
+  --p-night-base: #0B1221;
+  /* HardLight + EVA: PANTONE 2768 C. Se dejó estable después de pruebas de layout y contraste. */
+  --p-night-navy: #041E42;
+  /* HardLight + EVA: PANTONE 282 C. Mantener este bloque porque sostiene vidrio, contraste y jerarquía. */
+  --p-night-cyan: #00BCE4;
+  /* HardLight + EVA: PANTONE 306 C. Cambiar con precisión; este bloque afecta varias piezas del layout. */
+  --p-night-lime: #29da78;
+  /* HardLight + EVA: PANTONE 382 C. Probar cambios pequeños; un ajuste mínimo puede alterar el layout. */
+  --p-night-text-main: #FFFFFF;
+  --p-night-text-muted: #A2AAAD;
+  /* HardLight + EVA: PANTONE 429 C. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+
+  /* HardLight + EVA: Múltiples fuentes de luz para evitar un fondo plano. El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen cortes visibles entre secciones. */
+  --bg-night:
+    radial-gradient(circle at 50% 30%, rgba(134, 92, 255, 0.30) 0%, rgba(134, 92, 255, 0) 34%),
+    radial-gradient(circle at 42% 50%, rgba(0, 188, 228, 0.28) 0%, rgba(0, 188, 228, 0) 42%),
+    radial-gradient(circle at 60% 56%, rgba(41, 218, 120, 0.16) 0%, rgba(41, 218, 120, 0) 44%),
+    radial-gradient(circle at 54% 68%, rgba(236, 72, 153, 0.13) 0%, rgba(236, 72, 153, 0) 42%),
+    radial-gradient(circle at 50% 50%, rgba(4, 30, 66, 0.64) 0%, rgba(4, 30, 66, 0) 100%),
+    linear-gradient(135deg, #070b18 0%, #06162b 42%, #021124 100%);
+
+  --t-main: var(--p-night-text-main);
+  --t-sec: var(--p-night-text-muted);
+  --cyan: var(--p-night-cyan);
+  --lime: var(--p-night-lime);
+  --cyan-glow: rgba(0, 188, 228, 0.5);
+
+  --glass-bg: linear-gradient(135deg, rgba(27, 43, 68, 0.58) 0%, rgba(9, 19, 36, 0.40) 58%, rgba(0, 188, 228, 0.08) 100%);
+  --glass-border: rgba(186, 230, 253, 0.24);
+  --glass-highlight: rgba(255, 255, 255, 0.34);
+  --glass-inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.22), inset 0 -1px 1px rgba(0, 0, 0, 0.24);
+}
+
+/* ================================================================
+   Original: SISTEMA DE SOMBRAS Y VOLUMEN PARA TARJETAS / (Se excluye .roster-card .aero-
+   glass-card — tiene su propio sistema de sombras)
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y stats deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.info-box,
+.faq-item,
+.news-card {
+  background: var(--glass-bg) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.04),
+    0 16px 48px -8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid var(--glass-border);
+  border-top: 2px solid rgba(255, 255, 255, 0.9);
+  border-left: 2px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--glass-blur);
+}
+
+/* HardLight + EVA: News cards inside project area still share base glass styles. Las tarjetas combinan glow, tilt y stats; evitar brillo duplicado y pérdida de lectura. */
+.aero-glass-card:not(.roster-card .aero-glass-card) {
+  background: var(--glass-bg) !important;
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.04),
+    0 16px 48px -8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid var(--glass-border);
+  border-top: 2px solid rgba(255, 255, 255, 0.9);
+  border-left: 2px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--glass-blur);
+}
+
+html[data-aero-night] .info-box,
+html[data-aero-night] .faq-item,
+html[data-aero-night] .news-card {
+  background: var(--glass-bg) !important;
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.34),
+    0 24px 64px -12px rgba(0, 0, 0, 0.46),
+    0 0 30px rgba(0, 188, 228, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.20),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.26) !important;
+  border-color: var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.22);
+}
+
+html[data-aero-night] .aero-glass-card:not(.roster-card .aero-glass-card) {
+  background: var(--glass-bg) !important;
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.34),
+    0 24px 64px -12px rgba(0, 0, 0, 0.46),
+    0 0 30px rgba(0, 188, 228, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.20),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.26) !important;
+  border-color: var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.22);
+}
+
+/* ================================================================
+   Original: Elevación orgánica en hover para interactivos (excluye tarjetas de proyecto —
+   usan GSAP 3D)
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y stats deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.info-box:hover,
+.faq-item:hover,
+.news-card:hover {
+  transform: translateY(-8px) scale(1.035) !important;
+  box-shadow:
+    0 12px 32px -4px rgba(0, 0, 0, 0.08),
+    0 40px 80px -12px rgba(65, 182, 230, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 1) !important;
+}
+
+html[data-aero-night] .info-box:hover,
+html[data-aero-night] .faq-item:hover,
+html[data-aero-night] .news-card:hover {
+  box-shadow:
+    0 16px 40px -4px rgba(0, 0, 0, 0.48),
+    0 48px 100px -12px rgba(0, 188, 228, 0.20),
+    0 0 34px rgba(134, 92, 255, 0.10),
+    inset 0 1px 2px rgba(255, 255, 255, 0.30) !important;
+}
+
+/* ================================================================
+   Original: ANIMACIONES DE ENTRADA Y SALIDA (CLICK & HOVER)
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+
+/* HardLight + EVA: 1. Modal Animations via CSS Keyframes. La animación depende del orden; probar timings antes de cambiar. */
+.modal-overlay,
+.modal-card {
+  transition: none !important;
+  /* HardLight + EVA: Desactivar transiciones base para usar Keyframes. Mantener este bloque porque sostiene vidrio, contraste y jerarquía. */
+}
+
+@keyframes modalEntryOverlay {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(36px) saturate(220%);
+  }
+}
+
+@keyframes modalExitOverlay {
+  0% {
+    opacity: 1;
+    backdrop-filter: blur(36px) saturate(220%);
+    visibility: visible;
+  }
+
+  99% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    visibility: hidden;
+  }
+}
+
+@keyframes modalEntryCard {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(50px) rotateX(15deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes modalExitCard {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0deg);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(-30px) rotateX(-10deg);
+  }
+}
+
+.modal-overlay.modal-visible {
+  animation: modalEntryOverlay 0.6s var(--ease-out) forwards;
+}
+
+.modal-overlay.modal-visible .modal-card {
+  animation: modalEntryCard 0.8s var(--ease-spring) forwards;
+}
+
+.modal-overlay.modal-hidden {
+  animation: modalExitOverlay 0.6s var(--ease-dramatic) forwards;
+  pointer-events: none !important;
+  visibility: visible !important;
+}
+
+.modal-overlay.modal-hidden .modal-card {
+  animation: modalExitCard 0.5s var(--ease-dramatic) forwards;
+}
+
+/* HardLight + EVA: 2. Project Hover Info Animations (Migrated to hardlight-interface-core.css hover-panel). Las tarjetas combinan glow, tilt y stats; evitar brillo duplicado y pérdida de lectura. */
+
+/* HardLight + EVA: 3. FAQ Content Animations (Desactivamos transition para usar GSAP). La animación depende del orden; probar timings antes de cambiar. */
+.faq-content {
+  transition: none !important;
+  max-height: none !important;
+  height: 0;
+  overflow: hidden;
+}
+
+.faq-content.open {
+  height: auto;
+}
+
+/* HardLight + EVA: 4. Estilos de botones unificados. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+button {
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.5s var(--ease-out), background 0.5s var(--ease-out), border-color 0.5s ease !important;
+}
+
+.faq-btn {
+  background: transparent !important;
+  border: none !important;
+}
+
+button:active {
+  transform: scale(0.92) translateY(0) !important;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s ease !important;
+}
+
+button#aero-theme-toggle:hover,
+button#aero-theme-toggle:active,
+button#aero-theme-toggle:focus {
+  transform: none !important;
+}
+
+@media (max-width: 1023px) {
+
+  button#aero-theme-toggle,
+  button#aero-theme-toggle:hover,
+  button#aero-theme-toggle:focus {
+    transform: translateX(50%) !important;
+  }
+  
+  button#aero-theme-toggle:active {
+    transform: translateX(50%) scale(0.92) !important;
+  }
+}
+
+/* HardLight + EVA: Material Symbols Rounded. Funciona estable; documentar antes de cambiar. */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Rounded', sans-serif !important;
+  font-weight: 300 !important;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24 !important;
+}
+
+/* ================================================================
+   Original: ANIMACIONES DEL SLIDER MODO DÍA/NOCHE
+   HardLight + EVA: La animación depende del orden: si cambias timing sin pruebas, el cristal
+   empieza a tartamudear.
+   ================================================================ */
+.toggle-track {
+  transition: background 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out) !important;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.1)) !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), inset 0 -1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+html[data-aero-night] .toggle-track {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 188, 228, 0.3), rgba(4, 30, 66, 0.6)) !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 -1px 2px rgba(0, 188, 228, 0.4) !important;
+}
+
+.toggle-thumb {
+  transition: transform 0.7s var(--ease-spring), background 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out), width 0.4s var(--ease-spring), border-radius 0.4s var(--ease-spring) !important;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1e8f7 100%) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 2px 4px #ffffff, 0 0 15px rgba(255, 255, 255, 0.6) !important;
+}
+
+html[data-aero-night] .toggle-thumb {
+  background: radial-gradient(circle at 30% 30%, #00bce4 0%, #041e42 100%) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px #41b6e6, 0 0 15px rgba(0, 188, 228, 0.8) !important;
+}
+
+#aero-theme-toggle:active .toggle-thumb {
+  width: 26px;
+  border-radius: 11px;
+}
+
+html[data-aero-night] #aero-theme-toggle:active .toggle-thumb {
+  transform: translateX(16px);
+}
+
+.toggle-side {
+  transition: opacity 0.5s var(--ease-out), transform 0.6s var(--ease-spring), color 0.5s var(--ease-out) !important;
+}
+
+html[data-aero-night] .toggle-side--day {
+  opacity: 0.3;
+  transform: translateX(-5px) scale(0.9);
+}
+
+html:not([data-aero-night]) .toggle-side--night {
+  opacity: 0.3;
+  transform: translateX(5px) scale(0.9);
+}
+
+/* ================================================================
+   Original: Project art container styles removed (portfolio cards fully redesigned to
+   glass panels)
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y stats deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */

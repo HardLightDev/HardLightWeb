@@ -1,0 +1,5380 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Outfit:wght@400;700;900&family=Rajdhani:wght@500;700&family=Varela+Round&display=swap');
+
+/* ================================================================
+   Original: HARDLIGHT PORTFOLIO — INTERFACE CORE / RESPONSIVE VISUAL SYSTEM
+   HardLight + EVA: No mover sin revisar responsive y saltos de layout.
+   ================================================================ */
+
+:root {
+  --lime: #29da78;
+  --lime-b: #29da78;
+  --lime-dk: #1b9d55;
+  --cyan: #00d2ff;
+  --cyan-dim: rgba(0, 210, 255, 0.2);
+  --cyan-glow: rgba(0, 210, 255, 0.7);
+  --lime-dim: rgba(41, 218, 120, 0.2);
+  --lime-glow: rgba(41, 218, 120, 0.6);
+
+  /* HardLight + EVA: Premium Glass Variables. Se dejó estable después de pruebas de layout y contraste. */
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-highlight: rgba(255, 255, 255, 0.85);
+  --glass-blur: blur(40px) saturate(220%) brightness(1.08);
+  --glass-inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+
+  --t-main: #061f33;
+  --t-sec: #22435e;
+  --t-muted: #50718c;
+
+  --bg-day: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 30%, #7dd3fc 60%, #a5f3fc 80%, #b8f2d1 100%);
+  --bg-night:
+    radial-gradient(circle at 50% 36%, rgba(125, 92, 255, 0.28) 0%, rgba(125, 92, 255, 0) 36%),
+    radial-gradient(circle at 44% 52%, rgba(0, 210, 255, 0.22) 0%, rgba(0, 210, 255, 0) 42%),
+    radial-gradient(circle at 58% 58%, rgba(41, 218, 120, 0.16) 0%, rgba(41, 218, 120, 0) 46%),
+    linear-gradient(145deg, #050b18 0%, #07172b 42%, #06283f 72%, #02111f 100%);
+
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.7), var(--glass-inner-glow);
+  --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--glass-inner-glow);
+  --shadow-btn: 0 6px 18px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06), inset 0 2px 4px rgba(255, 255, 255, 0.9), inset 0 -8px 12px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 20px var(--cyan-glow);
+
+  --sidebar: 85px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+html[data-aero-night] {
+  --glass-bg: rgba(10, 25, 41, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-highlight: rgba(255, 255, 255, 0.25);
+  --glass-inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  --t-main: #f0f9ff;
+  --t-sec: #bae6fd;
+  --t-muted: #7dd3fc;
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15), var(--glass-inner-glow);
+  --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--glass-inner-glow);
+  --shadow-btn: 0 6px 18px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -8px 12px rgba(0, 0, 0, 0.3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* HardLight + EVA: Fixed Background Overlay to fix Chrome backdrop-filter bug. El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen cortes visibles entre secciones. */
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+  background: var(--bg-day);
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+html[data-aero-night]::before {
+  background: var(--bg-night);
+}
+
+/* HardLight + EVA: Hide native cursor everywhere — robust. No cambiar tamaños del cursor sin revisar click, hover y middle-click. */
+html,
+body,
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+::-webkit-slider-thumb {
+  cursor: none !important;
+}
+
+::-moz-range-thumb {
+  cursor: none !important;
+}
+
+body {
+  background: transparent;
+  color: var(--t-main);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+@keyframes floatOrb {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-40px) scale(1.08);
+  }
+}
+
+@keyframes floatLogo {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+
+@keyframes aeroBoot {
+
+  0%,
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes glossSweep {
+  0% {
+    transform: translateX(0) skewX(-25deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(400%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes etherealPulse {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 20px #fff, 0 0 40px var(--cyan-glow);
+  }
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* ================================================================
+   Original: CUSTOM CURSOR — PREMIUM SMOOTH EDITION
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 999998;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+
+#cursor-dot {
+  display: none !important;
+  /* HardLight + EVA: Hidden because the main cursor is now a solid arrow pointer. No cambiar tamaños del cursor sin revisar click, hover y middle-click. */
+}
+
+#cursor.visible,
+#cursor-dot.visible {
+  opacity: 1;
+}
+
+#cursor .cursor-inner {
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,1)"/><stop offset="100%" stop-color="rgba(0,210,255,0.1)"/></linearGradient></defs><path d="M 0 0 L 0 54 L 20 34 L 36 64 L 42 58 L 26 28 L 54 28 Z" fill="url(%23g)" stroke="%23ffffff" stroke-width="2.5" stroke-linejoin="round"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 4px rgba(0, 210, 255, 0.25));
+  transition: transform 0.3s var(--ease-spring), filter 0.3s, background-image 0.2s;
+  will-change: transform;
+  transform-origin: top left;
+}
+
+#cursor.hovered .cursor-inner {
+  transform: scale(1.9);
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,1)"/><stop offset="100%" stop-color="rgba(132,204,22,0.6)"/></linearGradient></defs><path d="M 0 0 L 0 46 L 14 32 L 28 60 L 34 54 L 20 26 L 46 26 Z" fill="url(%23g)" stroke="%23ffffff" stroke-width="2.2" stroke-linejoin="round"/></svg>');
+  filter: drop-shadow(0 0 10px var(--lime-glow));
+}
+
+#cursor.clicking .cursor-inner {
+  transform: scale(1.36);
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,1)"/><stop offset="100%" stop-color="rgba(0,210,255,0.8)"/></linearGradient></defs><path d="M 0 0 L 0 46 L 14 32 L 28 60 L 34 54 L 20 26 L 46 26 Z" fill="url(%23g)" stroke="%23ffffff" stroke-width="2.2" stroke-linejoin="round"/></svg>');
+  filter: drop-shadow(0 0 12px var(--cyan-glow));
+}
+
+#cursor.middle-clicking .cursor-inner {
+  transform: scale(2.36);
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="-32 -32 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,0.4)"/><stop offset="100%" stop-color="rgba(0,210,255,0.1)"/></linearGradient></defs><circle cx="0" cy="0" r="30" fill="url(%23g)" stroke="%23ffffff" stroke-width="2"/><path d="M 0 -24 L 5 -15 L -5 -15 Z M 0 24 L 5 15 L -5 15 Z M -24 0 L -15 -5 L -15 5 Z M 24 0 L 15 -5 L 15 5 Z" fill="%23ffffff" opacity="0.9"/></svg>');
+  filter: drop-shadow(0 0 15px var(--cyan-glow));
+  animation: pulse-hex 1.5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+#cursor.denied .cursor-inner {
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,1)"/><stop offset="100%" stop-color="rgba(244,63,94,0.8)"/></linearGradient></defs><path d="M 0 0 L 0 46 L 14 32 L 28 60 L 34 54 L 20 26 L 46 26 Z" fill="url(%23g)" stroke="%23ffffff" stroke-width="1.8" stroke-linejoin="round"/></svg>');
+  filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.8));
+}
+
+/* ================================================================
+   Original: WEBGL CANVAS BACKGROUND (Disabled for extreme optimization)
+   HardLight + EVA: El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen
+   cortes visibles entre secciones.
+   ================================================================ */
+
+/* ================================================================
+   Original: AERO BOOT OVERLAY
+   HardLight + EVA: Bloque probado. Mantener intención, escala y compatibilidad antes de ajustar.
+   ================================================================ */
+#aero-boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: aeroBoot 1.8s var(--ease-out) forwards;
+  pointer-events: none;
+}
+
+html[data-aero-night] #aero-boot-overlay {
+  background: linear-gradient(145deg, #022c22, #064e3b);
+}
+
+.aero-boot-glow {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 60%);
+  filter: blur(20px);
+  animation: pulse 1.2s infinite;
+}
+
+/* ================================================================
+   Original: NOISE TEXTURE OVERLAY (Subtle film grain)
+   HardLight + EVA: El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen
+   cortes visibles entre secciones.
+   ================================================================ */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ================================================================
+   Original: GATE / ENTRANCE SYSTEM
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+#gate-container {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd, #7dd3fc);
+  transition: opacity 0.9s var(--ease-out), visibility 0.9s;
+}
+
+html[data-aero-night] #gate-container {
+  background: linear-gradient(135deg, #022c22, #064e3b, #0f766e);
+}
+
+#gate-container.door-burst {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#gate-container.hidden-gate {
+  display: none !important;
+}
+
+/* ================================================================
+   Original: Auto-hide gate after 6s if user doesn't interact (accessibility fallback)
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  #gate-container {
+    animation: gateAutoHide 0.01s linear 6s forwards;
+  }
+
+  #gate-container:active,
+  #gate-container:focus-within,
+  #gate-container.door-opening,
+  #gate-container.door-burst {
+    animation: none;
+  }
+}
+
+@keyframes gateAutoHide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.gate-sky {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.95) 0%, rgba(186, 230, 253, 0.85) 50%, rgba(125, 211, 252, 0.9) 100%);
+}
+
+html[data-aero-night] .gate-sky {
+  background: radial-gradient(circle at center, rgba(2, 132, 199, 0.3) 0%, rgba(6, 78, 59, 0.6) 50%, rgba(2, 44, 34, 0.9) 100%);
+}
+
+.gate-scene {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.celestial-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: floatLogo 7s ease-in-out infinite;
+}
+
+.logo-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  color: #fff;
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.95));
+  margin-bottom: 28px;
+  animation: pulse 3.5s infinite;
+}
+
+.logo-icon-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  color: #fff;
+  letter-spacing: 0.25em;
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.6),
+    0 0 80px rgba(0, 212, 255, 0.5),
+    0 0 120px rgba(0, 212, 255, 0.2);
+  font-weight: 900;
+}
+
+.logo-subtext {
+  font-family: 'Rajdhani', monospace;
+  font-size: 13px;
+  color: #0284c7;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+html[data-aero-night] .logo-subtext {
+  color: #7dd3fc;
+}
+
+.click-to-start {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 800;
+  animation: etherealPulse 3s infinite;
+}
+
+.click-to-start .line {
+  width: 2px;
+  height: 48px;
+  background: linear-gradient(to bottom, #fff, transparent);
+  border-radius: 2px;
+}
+
+.light-door-container {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.5s;
+}
+
+.door-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(224, 242, 254, 0.55));
+  backdrop-filter: blur(40px) saturate(150%);
+  transition: transform 1.8s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+html[data-aero-night] .door-panel {
+  background: linear-gradient(135deg, rgba(10, 25, 41, 0.7), rgba(6, 78, 59, 0.5));
+}
+
+.door-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+}
+
+.door-panel.left {
+  left: 0;
+  border-right: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset -8px 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.door-panel.right {
+  right: 0;
+  border-left: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 8px 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.central-slit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #fff;
+  transform: translateX(-50%) scaleY(0);
+  box-shadow:
+    0 0 40px 12px #fff,
+    0 0 80px 25px var(--cyan-glow),
+    0 0 120px 40px rgba(0, 210, 255, 0.3);
+  opacity: 0;
+  z-index: 9;
+  transition: transform 0.8s var(--ease-spring), opacity 0.5s;
+}
+
+#gate-container.door-opening .light-door-container,
+#gate-container.door-opening .central-slit {
+  opacity: 1;
+}
+
+#gate-container.door-opening .central-slit {
+  transform: translateX(-50%) scaleY(1);
+}
+
+#gate-container.door-burst .door-panel.left {
+  transform: translateX(-105vw);
+}
+
+#gate-container.door-burst .door-panel.right {
+  transform: translateX(105vw);
+}
+
+#entry-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 9001;
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+  background: radial-gradient(circle at center, #fff 0%, rgba(186, 230, 253, 0.95) 40%, rgba(125, 211, 252, 0.9) 100%);
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* ================================================================
+   Original: THEME WIPE & TOGGLE
+   HardLight + EVA: La animación depende del orden: si cambias timing sin pruebas, el cristal
+   empieza a tartamudear.
+   ================================================================ */
+#theme-wipe-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: var(--bg-day);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+}
+
+html[data-aero-night] #theme-wipe-overlay {
+  background: var(--bg-night);
+}
+
+#theme-wipe-overlay.wiping {
+  opacity: 1;
+}
+
+#aero-theme-toggle {
+  position: fixed;
+  top: 24px;
+  right: 140px;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid var(--glass-highlight);
+  padding: 10px 18px;
+  border-radius: 50px;
+  box-shadow: var(--shadow-card);
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--t-main);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s var(--ease-out), visibility 0.6s var(--ease-out), transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+
+@media (max-width: 1023px) {
+  #aero-theme-toggle {
+    right: 50%;
+    transform: translateX(50%);
+    top: 16px;
+    padding: 8px 16px;
+    font-size: 10px;
+  }
+
+  #aero-theme-toggle:hover {
+    transform: translateX(50%) translateY(-2px);
+  }
+}
+
+#aero-theme-toggle.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#aero-theme-toggle:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.toggle-track {
+  width: 44px;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 11px;
+  position: relative;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.toggle-thumb {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #fff, #f0f9ff);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.5s var(--ease-spring), background 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+}
+
+html[data-aero-night] .toggle-thumb {
+  transform: translateX(22px);
+  background: linear-gradient(135deg, #7dd3fc, #0284c7);
+  border-color: #7dd3fc;
+  box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+/* ================================================================
+   Original: MAIN CONTENT & REVEAL SYSTEM
+   HardLight + EVA: La animación depende del orden: si cambias timing sin pruebas, el cristal
+   empieza a tartamudear.
+   ================================================================ */
+.main-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding-right: 120px;
+  opacity: 0;
+  transform: scale(1.02);
+  filter: blur(8px);
+  will-change: opacity, transform, filter;
+}
+
+@media (max-width: 1023px) {
+  .main-content {
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* HardLight + EVA: Reveal animations — GSAP handles this now. La animación depende del orden; probar timings antes de cambiar. */
+.reveal {
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, transform, filter;
+}
+
+/* HardLight + EVA: No-JS fallback: show everything. Probar cambios pequeños; un ajuste mínimo puede alterar el layout. */
+noscript .reveal,
+.no-js .reveal {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ================================================================
+   Original: SIDEBAR (Desktop)
+   HardLight + EVA: Responsive real: probar ancho, alto, dock y scroll
+   antes de declarar victoria.
+   ================================================================ */
+.desktop-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto;
+  padding: 24px 12px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid var(--glass-highlight);
+  border-radius: 50px;
+  box-shadow: var(--shadow-card);
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 80px;
+}
+
+@media (min-width: 1024px) {
+  .desktop-sidebar {
+    display: flex;
+  }
+}
+
+.logo-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff, #bae6fd);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s;
+  flex-shrink: 0;
+}
+
+.logo-box::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 12%;
+  right: 12%;
+  height: 38%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.1));
+  border-radius: 50px 50px 24px 24px;
+}
+
+.logo-box span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #0284c7;
+  z-index: 1;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.logo-box:hover {
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 12px 30px rgba(0, 212, 255, 0.35), inset 0 2px 6px #fff;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nav-link {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  color: var(--t-sec);
+  font-family: 'Nunito', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.35s var(--ease-spring), color 0.35s var(--ease-spring), border-color 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-spring), transform 0.35s var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-btn);
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 15%;
+  right: 15%;
+  height: 32%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), transparent);
+  border-radius: 24px 24px 12px 12px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: linear-gradient(135deg, #bae6fd, #38bdf8);
+  color: #0c4a6e;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-btn);
+  transform: scale(1.08);
+}
+
+.audio-btn-enhanced {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #b8f2d1, #29da78);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  color: #0d5a33;
+  box-shadow: var(--shadow-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-spring);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.audio-btn-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 15%;
+  right: 15%;
+  height: 32%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), transparent);
+  border-radius: 24px 24px 12px 12px;
+}
+
+.audio-btn-enhanced:hover {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 12px 30px rgba(132, 204, 22, 0.45), inset 0 2px 6px #fff;
+}
+
+.audio-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  /* HardLight + EVA: Anchor for absolute positioning. Funciona estable; documentar antes de cambiar. */
+}
+
+/* HardLight + EVA: Slide-out Glass Pill for Volume Control. No tocar eventos de audio sin comprobar permisos del navegador. */
+.volume-slider-container {
+  position: absolute;
+  right: calc(100% + 16px);
+  /* HardLight + EVA: Pop out to the left of the button. No tocar sin probar 1920x1080 y responsive. */
+  top: 50%;
+  width: 140px;
+  height: 44px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid var(--glass-highlight);
+  border-radius: 22px;
+  /* HardLight + EVA: Glass pill shape. No tocar sin probar 720p, 1080p y 4K. */
+  box-shadow: var(--shadow-card);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-50%) translateX(20px) scale(0.8);
+  transform-origin: right center;
+  transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring), visibility 0.4s;
+  z-index: 60;
+}
+
+/* HardLight + EVA: Hover trigger. No mover sin revisar responsive y saltos de layout. */
+.audio-wrapper:hover .volume-slider-container,
+.volume-slider-container:focus-within {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0) scale(1);
+}
+
+/* HardLight + EVA: Premium Slider Track. Se dejó estable después de pruebas de layout y contraste. */
+.volume-slider-container input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+html[data-aero-night] .volume-slider-container input[type="range"] {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* HardLight + EVA: Shiny Glass Thumb. Mantener este bloque porque sostiene vidrio, contraste y jerarquía. */
+.volume-slider-container input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff, var(--cyan));
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 10px var(--cyan-glow);
+  cursor: none !important;
+  transition: transform 0.2s var(--ease-spring);
+}
+
+.volume-slider-container input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* ================================================================
+   Original: SECTIONS
+   HardLight + EVA: Tocar con precisión, no con cambio grande; este bloque sostiene más cosas de las
+   que parece.
+   ================================================================ */
+.section-observer {
+  min-height: 100vh;
+  padding: 120px 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* HardLight + EVA: Defer rendering cost for off-screen sections. Probar cambios pequeños; un ajuste mínimo puede alterar el layout. */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 100vh;
+}
+
+/* HardLight + EVA: Header compacto con una respiración mínima superior. Zona superior protegida: afecta primera impresión, scroll y responsive. */
+.hero-section.section-observer {
+  min-height: 100svh;
+  justify-content: flex-start;
+  padding-top: clamp(16px, 2.2vh, 24px);
+  padding-bottom: clamp(28px, 5vh, 56px);
+  /* HardLight + EVA: Hero is always visible — no deferred rendering. Zona superior protegida: afecta primera impresión, scroll y responsive. */
+  content-visibility: visible;
+  contain-intrinsic-size: unset;
+}
+
+@media (min-width: 1024px) {
+  .section-observer {
+    padding: 120px 140px;
+  }
+  .hero-section.section-observer {
+    padding-top: 18px;
+    padding-bottom: 36px;
+  }
+}
+
+.hero-section {
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-bg-text span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15vw;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  animation: breathe 8s ease-in-out infinite;
+}
+
+html[data-aero-night] .hero-bg-text span {
+  color: rgba(255, 255, 255, 0.025);
+  text-shadow: none;
+}
+
+.hero-content {
+  max-width: 900px;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-tagline {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--t-sec);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  background: var(--glass-bg);
+  padding: 12px 28px;
+  border-radius: 40px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: var(--glass-blur);
+}
+
+.pulse-star {
+  font-size: 22px;
+  color: var(--cyan);
+  animation: pulse 2.5s infinite;
+  text-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.aero-title {
+  font-family: 'Varela Round', sans-serif;
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1.25;
+  color: var(--t-main);
+  margin-top: -0.2em;
+  margin-bottom: 24px;
+  padding-top: 0.2em;
+  padding-bottom: 0.1em;
+  letter-spacing: normal;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.aero-title-glow {
+  /* HardLight + EVA: Day mode readability patch. El verde lima era bonito, pero en modo día se iba a tomar café con el fondo.
+     No convertir esto en arcoíris fosforescente: el titular necesita contraste, no fuegos artificiales. */
+  background: linear-gradient(90deg, #075985 0%, #0284c7 36%, #0f766e 68%, #0369a1 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(0 2px 4px rgba(255, 255, 255, 0.32))
+    drop-shadow(0 4px 12px rgba(2, 31, 54, 0.20));
+  animation: shimmer 6s linear infinite;
+}
+
+html[data-aero-night] .aero-title-glow {
+  background: linear-gradient(90deg, #0284c7, #38bdf8, #84cc16, #0284c7);
+  background-size: 200% auto;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+}
+
+.hero-paragraph {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--t-sec);
+  max-width: 720px;
+  margin-bottom: 52px;
+  font-weight: 600;
+  background: var(--glass-bg);
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: var(--glass-blur);
+  border-left: 5px solid var(--cyan);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+/* ================================================================
+   Original: PREMIUM BUTTONS — Frutiger Aero Glass Pills
+   HardLight + EVA: Bloque probado. Mantener intención, escala y compatibilidad antes de ajustar.
+   ================================================================ */
+.btn-casino {
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.55), rgba(56, 189, 248, 0.45));
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-top: 2px solid rgba(255, 255, 255, 0.9);
+  border-left: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-btn);
+  border-radius: 50px;
+  padding: 18px 48px;
+  color: #0c4a6e;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(180%);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
+}
+
+.btn-casino::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 12%;
+  right: 12%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+  border-radius: 50px 50px 20px 20px;
+  pointer-events: none;
+}
+
+.btn-casino::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.06), transparent);
+  pointer-events: none;
+  border-radius: 0 0 50px 50px;
+}
+
+.btn-casino:hover {
+  transform: scale(1.06) translateY(-3px);
+  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.3), inset 0 2px 6px rgba(255, 255, 255, 0.8), var(--glass-inner-glow);
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.7), rgba(56, 189, 248, 0.6));
+}
+
+.btn-casino:active {
+  transform: scale(0.97);
+}
+
+html[data-aero-night] .btn-casino {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(2, 132, 199, 0.3));
+  color: #bae6fd;
+  border-color: rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.4);
+  border-left-color: rgba(255, 255, 255, 0.35);
+}
+
+html[data-aero-night] .btn-casino:hover {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.4), rgba(2, 132, 199, 0.45));
+  box-shadow: 0 16px 40px rgba(0, 210, 255, 0.25), inset 0 2px 6px rgba(255, 255, 255, 0.2), var(--glass-inner-glow);
+}
+
+.btn-protocolo {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  border-top: 2px solid var(--glass-highlight);
+  border-left: 2px solid var(--glass-highlight);
+  box-shadow: var(--shadow-btn);
+  border-radius: 50px;
+  padding: 18px 48px;
+  color: var(--t-main);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  backdrop-filter: var(--glass-blur);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out), border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-protocolo::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 12%;
+  right: 12%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.05));
+  border-radius: 50px 50px 20px 20px;
+  pointer-events: none;
+}
+
+.btn-protocolo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.04), transparent);
+  pointer-events: none;
+  border-radius: 0 0 50px 50px;
+}
+
+.btn-protocolo:hover {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.06) translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1), inset 0 2px 6px rgba(255, 255, 255, 0.9), var(--glass-inner-glow);
+}
+
+.btn-protocolo:active {
+  transform: scale(0.97);
+}
+
+html[data-aero-night] .btn-protocolo:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), inset 0 2px 6px rgba(255, 255, 255, 0.15), var(--glass-inner-glow);
+}
+
+.easter-egg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 24px;
+  border-radius: 40px;
+  background: rgba(236, 72, 153, 0.06);
+  border: 1.5px solid rgba(236, 72, 153, 0.2);
+  border-top: 2px solid rgba(236, 72, 153, 0.3);
+  backdrop-filter: blur(20px) saturate(150%);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out), border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.easter-egg-btn::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 15%;
+  right: 15%;
+  height: 35%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
+  border-radius: 40px 40px 16px 16px;
+  pointer-events: none;
+}
+
+.easter-egg-btn:hover {
+  background: rgba(236, 72, 153, 0.12);
+  box-shadow: 0 12px 30px rgba(236, 72, 153, 0.2), var(--glass-inner-glow);
+  border-color: rgba(236, 72, 153, 0.5);
+  transform: scale(1.04);
+}
+
+.signal-dot {
+  width: 10px;
+  height: 10px;
+  background: #EC4899;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #EC4899, 0 0 24px rgba(236, 72, 153, 0.4);
+  animation: pulse 1.2s infinite;
+}
+
+.signal-text {
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #EC4899;
+  z-index: 2;
+}
+
+.signal-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(transparent,
+      transparent 2px,
+      rgba(236, 72, 153, 0.03) 2px,
+      rgba(236, 72, 153, 0.03) 4px);
+  pointer-events: none;
+}
+
+/* ================================================================
+   Original: PREMIUM GLASSMORPHISM CARDS
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.aero-glass-card,
+.info-box,
+.faq-item {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid var(--glass-highlight);
+  border-radius: 28px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.5s, border-color 0.4s;
+}
+
+.aero-glass-card:hover,
+.info-box:hover,
+.faq-item:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+/* HardLight + EVA: Specular highlight reflection on top. No tocar sin probar 720p, 1080p y 4K. */
+.aero-glass-card::before,
+.info-box::before,
+.faq-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.12) 40%,
+      transparent 100%);
+  pointer-events: none;
+  border-radius: 28px 28px 0 0;
+}
+
+/* HardLight + EVA: Bottom inner shadow for depth. No mover sin revisar responsive y saltos de layout. */
+.aero-glass-card::after,
+.info-box::after,
+.faq-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.04), transparent);
+  pointer-events: none;
+  border-radius: 0 0 28px 28px;
+}
+
+html[data-aero-night] .aero-glass-card::after,
+html[data-aero-night] .info-box::after,
+html[data-aero-night] .faq-item::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
+}
+
+/* ================================================================
+   Original: SECTION HEADERS
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+.section-header h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  color: var(--t-main);
+  margin-bottom: 18px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.section-divider {
+  width: 90px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cyan), var(--lime), var(--cyan));
+  background-size: 200% auto;
+  border-radius: 4px;
+  box-shadow: 0 0 20px var(--cyan-glow);
+  margin-bottom: 28px;
+  animation: shimmer 4s linear infinite;
+}
+
+.section-hint {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t-sec);
+  max-width: 500px;
+}
+
+/* ================================================================
+   Original: PORTFOLIO GRID & CARDS — WITH FIXED POPUP
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.talents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 44px;
+  margin-top: 70px;
+}
+
+@media (max-width: 640px) {
+  .talents-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================
+   Original: PROJECTS CARDS — HARDLIGHT PORTFOLIO BRAND IDENTITY / Frutiger Aero
+   Glassmorphism + 3D Tilt Physics
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+
+.roster-card {
+  perspective: 1200px;
+  height: 480px;
+  cursor: pointer;
+  position: relative;
+  /* HardLight + EVA: Isolate repaint/layout to just this card. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+  contain: layout style;
+}
+
+/* HardLight + EVA: ===== INNER GLASS PANEL =====. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+.roster-card .aero-glass-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px !important;
+  border: 1.5px solid transparent !important;
+
+  /* ================================================================
+   Original: Day mode: light aero glass with per-project color tint in padding-box and
+   linear-gradient shine in border-box
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+  background:
+    linear-gradient(160deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(207, 235, 255, 0.25) 60%,
+      rgba(var(--card-color-rgb), 0.06) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.15)) border-box !important;
+
+  backdrop-filter: blur(40px) saturate(220%) brightness(1.06) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(1.06) !important;
+  box-shadow: var(--shadow-card) !important;
+  padding: 28px !important;
+  color: var(--t-main) !important;
+
+  transform-style: preserve-3d !important;
+  will-change: transform !important;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease !important;
+  overflow: hidden !important;
+}
+
+/* HardLight + EVA: Hover elevation + per-project glow + cursor-following border shine. No cambiar tamaños del cursor sin revisar click, hover y middle-click. */
+.roster-card:hover .aero-glass-card {
+  box-shadow:
+    var(--shadow-card-hover),
+    0 0 40px color-mix(in srgb, var(--card-color) 20%, transparent) !important;
+  background:
+    linear-gradient(160deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(207, 235, 255, 0.25) 60%,
+      rgba(var(--card-color-rgb), 0.06) 100%) padding-box,
+    radial-gradient(circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.15) 100%) border-box !important;
+}
+
+/* HardLight + EVA: ===== UPPER SPECULAR REFLECTION =====. No tocar sin probar 1920x1080 y responsive. */
+.roster-card .aero-glass-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 45% !important;
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%) !important;
+  border-radius: 28px 28px 60% 60% / 28px 28px 40px 40px !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+/* ================================================================
+   Original: ===== SINGLE-SHINE FIX: keep one cursor glow only on the border ===== / The
+   previous full-card radial glow duplicated the hover shine and made / the portfolio cards
+   look like they had two brightness layers stacked. / ::after now works only as a soft
+   bottom depth shadow.
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+.roster-card .aero-glass-card::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 30% !important;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.045), transparent) !important;
+  opacity: 1 !important;
+  transition: none !important;
+  pointer-events: none !important;
+  border-radius: 0 0 28px 28px !important;
+  z-index: 2 !important;
+}
+.roster-card:hover .aero-glass-card::after {
+  opacity: 1 !important;
+}
+
+/* HardLight + EVA: ===== NIGHT MODE =====. No mover sin revisar responsive y saltos de layout. */
+html[data-aero-night] .roster-card .aero-glass-card {
+  background:
+    linear-gradient(160deg,
+      rgba(22, 38, 60, 0.66) 0%,
+      rgba(8, 18, 34, 0.48) 55%,
+      rgba(var(--card-color-rgb), 0.10) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(125, 211, 252, 0.14) 45%,
+      rgba(var(--card-color-rgb), 0.16) 100%) border-box !important;
+  border: 1.5px solid transparent !important;
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(0, 210, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    var(--glass-inner-glow) !important;
+  color: var(--t-main) !important;
+}
+html[data-aero-night] .roster-card:hover .aero-glass-card {
+  background:
+    linear-gradient(160deg,
+      rgba(24, 42, 66, 0.70) 0%,
+      rgba(8, 18, 34, 0.50) 55%,
+      rgba(var(--card-color-rgb), 0.14) 100%) padding-box,
+    radial-gradient(circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(var(--card-color-rgb), 0.72) 0%,
+      rgba(255, 255, 255, 0.30) 50%,
+      rgba(125, 211, 252, 0.10) 100%) border-box !important;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.50),
+    0 0 36px color-mix(in srgb, var(--card-color) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    var(--glass-inner-glow) !important;
+}
+html[data-aero-night] .roster-card .aero-glass-card::before {
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(125, 211, 252, 0.06) 42%,
+    transparent 100%) !important;
+}
+html[data-aero-night] .roster-card .aero-glass-card::after {
+  background: linear-gradient(to top, rgba(1, 8, 18, 0.22), transparent) !important;
+}
+
+/* HardLight + EVA: ===== DECORATIVE BACKGROUND SYMBOL =====. El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen cortes visibles entre secciones. */
+.roster-card .card-bg-symbol {
+  position: absolute !important;
+  bottom: -20px !important;
+  right: -10px !important;
+  font-size: 11rem !important;
+  line-height: 1 !important;
+  color: var(--card-color) !important;
+  opacity: 0.07 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  transform: translateZ(0) !important;
+  transition: opacity 0.5s ease !important;
+  user-select: none !important;
+}
+.roster-card:hover .card-bg-symbol {
+  opacity: 0.14 !important;
+}
+html[data-aero-night] .roster-card .card-bg-symbol {
+  opacity: 0.12 !important;
+}
+html[data-aero-night] .roster-card:hover .card-bg-symbol {
+  opacity: 0.22 !important;
+}
+
+/* HardLight + EVA: ===== CARD HEADER ROW: Code Badge + Project Dot =====. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+.roster-card .card-header-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 16px !important;
+  transform: translateZ(20px) !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* HardLight + EVA: Agency Code Badge. Cambiar con precisión; este bloque afecta varias piezas del layout. */
+.roster-card .card-code {
+  font-family: 'Rajdhani', monospace !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--t-sec) !important;
+  background: var(--glass-bg) !important;
+  padding: 5px 14px !important;
+  border-radius: 30px !important;
+  border: 1px solid var(--glass-border) !important;
+  border-top: 1.5px solid var(--glass-highlight) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+}
+
+/* HardLight + EVA: Per-project glowing color dot. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+.roster-card .talent-dot {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background: var(--card-color) !important;
+  box-shadow: 0 0 12px var(--card-color), 0 0 24px color-mix(in srgb, var(--card-color) 50%, transparent) !important;
+  animation: pulse 2.5s infinite !important;
+  flex-shrink: 0 !important;
+}
+
+/* HardLight + EVA: ===== MAIN SCRAMBLE TITLE =====. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+.roster-card .slot-text {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(2.2rem, 3.5vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  margin: 0 0 12px !important;
+  color: var(--t-main) !important;
+  transform: translateZ(40px) !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+  position: relative !important;
+  z-index: 5 !important;
+  letter-spacing: -0.02em !important;
+}
+html[data-aero-night] .roster-card .slot-text {
+  color: #ffffff !important;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--card-color) 35%, transparent) !important;
+}
+
+/* HardLight + EVA: ===== ROLE LABEL =====. Funciona estable; documentar antes de cambiar. */
+.roster-card .card-role {
+  font-family: 'Rajdhani', sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: var(--t-sec) !important;
+  margin: 0 !important;
+  transform: translateZ(30px) !important;
+  position: relative !important;
+  z-index: 5 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+html[data-aero-night] .roster-card .card-role {
+  color: var(--t-muted) !important;
+}
+
+/* HardLight + EVA: Role suit symbol accent. Mantener intención, escala y compatibilidad. */
+.roster-card .card-suit {
+  font-size: 1rem !important;
+  color: var(--card-color) !important;
+  text-shadow: 0 0 12px var(--card-color) !important;
+  letter-spacing: 0 !important;
+}
+
+/* HardLight + EVA: ===== HOVER PANEL: Description =====. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+.roster-card .hover-panel {
+  position: absolute !important;
+  bottom: 18px !important;
+  top: auto !important;
+  left: 18px !important;
+  right: 18px !important;
+  padding: 22px !important;
+
+  /* HardLight + EVA: Match the site's glass panel style. No tocar sin probar 720p, 1080p y 4K. */
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(36px) saturate(220%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-top: 2px solid var(--glass-highlight) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--shadow-card) !important;
+
+  /* HardLight + EVA: Animate in from below. No mover sin revisar responsive y saltos de layout. */
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(18px) scale(0.95) !important;
+  transition: all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+
+  /* HardLight + EVA: Float forward in 3D. Se dejó estable después de pruebas de layout y contraste. */
+  translate: 0 0 60px !important;
+  z-index: 10 !important;
+}
+
+.roster-card:hover .hover-panel {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+/* HardLight + EVA: Night mode hover panel. Mantener este bloque porque sostiene vidrio, contraste y jerarquía. */
+html[data-aero-night] .roster-card .hover-panel {
+  background:
+    linear-gradient(135deg,
+      rgba(24, 42, 66, 0.70) 0%,
+      rgba(8, 18, 34, 0.58) 58%,
+      rgba(var(--card-color-rgb), 0.09) 100%) !important;
+  border: 1px solid rgba(186, 230, 253, 0.18) !important;
+  border-top: 2px solid color-mix(in srgb, var(--card-color) 42%, rgba(255,255,255,0.42)) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.48),
+    0 0 18px color-mix(in srgb, var(--card-color) 12%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* HardLight + EVA: ===== PROJECT DESCRIPTION =====. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+.roster-card .talent-desc {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+  color: var(--t-sec) !important;
+  margin: 0 !important;
+  opacity: 0.9 !important;
+}
+html[data-aero-night] .roster-card .talent-desc {
+  color: var(--t-muted) !important;
+}
+
+
+
+
+/* ================================================================
+   Original: NEWS GRID
+   HardLight + EVA: Tarjetas de bitácora. Mantener lectura, escala y compatibilidad;
+   cualquier efecto nuevo debe probarse en modo día y noche.
+   ================================================================ */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+@media (max-width: 900px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.news-card {
+  padding: 28px;
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out), border-color 0.4s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.news-chip {
+  background: var(--glass-bg);
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-family: 'Rajdhani', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--t-main);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.news-chip .dot {
+  width: 10px;
+  height: 10px;
+  background: var(--card-color);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--card-color);
+}
+
+.news-date {
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  color: var(--t-muted);
+  font-weight: 700;
+}
+
+.news-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--t-main);
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.news-card p {
+  font-family: 'Rajdhani', monospace;
+  font-size: 14px;
+  color: var(--t-sec);
+  line-height: 1.7;
+}
+
+/* ================================================================
+   Original: INFO BOX
+   HardLight + EVA: No tocar sin prueba, o al menos se rompe justo cuando
+   alguien lo abre en 1920x1080.
+   ================================================================ */
+.info-box {
+  padding: 52px;
+  margin-top: 48px;
+}
+
+.info-header {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.info-header h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--cyan);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.info-header p {
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  color: var(--t-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.info-desc {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.9;
+  color: var(--t-main);
+  margin-bottom: 36px;
+}
+
+.info-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  list-style: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  color: var(--t-sec);
+}
+
+@media (max-width: 640px) {
+  .info-list {
+    grid-template-columns: 1fr;
+  }
+
+  .info-box {
+    padding: 32px 24px;
+  }
+}
+
+/* ================================================================
+   Original: FAQ
+   HardLight + EVA: No tocar sin probar 720p, 1080p y 4K; aquí ya se pagó el impuesto del
+   revisión visual.
+   ================================================================ */
+.faq-container {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.faq-item {
+  padding: 0;
+}
+
+.faq-item:hover {
+  transform: scale(1.01);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.faq-btn {
+  width: 100%;
+  padding: 28px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+  border-radius: 28px;
+}
+
+.faq-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.faq-btn-left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.faq-label {
+  background: var(--glass-bg);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--cyan);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  letter-spacing: 0.05em;
+}
+
+.faq-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--t-main);
+}
+
+.faq-icon {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--cyan);
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.5s var(--ease-spring), background 0.3s, color 0.3s;
+  flex-shrink: 0;
+}
+
+.faq-btn[aria-expanded="true"] .faq-icon {
+  transform: rotate(45deg);
+  background: var(--cyan);
+  color: #fff;
+}
+
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-spring);
+}
+
+.faq-content.open {
+  max-height: 400px;
+}
+
+.faq-text {
+  padding: 0 36px 36px 36px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--t-sec);
+  line-height: 1.9;
+}
+
+/* ================================================================
+   Original: MOBILE DOCK — Frutiger Aero Glass Pills
+   HardLight + EVA: Responsive real: probar ancho, alto, dock y scroll
+   antes de declarar victoria.
+   ================================================================ */
+.mobile-dock {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94%;
+  max-width: 400px;
+  height: auto;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1.5px solid var(--glass-highlight);
+  border-left: 1.5px solid var(--glass-highlight);
+  border-radius: 28px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px 8px;
+  gap: 4px;
+}
+
+@media (min-width: 1024px) {
+  .mobile-dock {
+    display: none;
+  }
+}
+
+.mobile-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--t-muted);
+  gap: 3px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.35s var(--ease-spring), transform 0.35s var(--ease-spring), background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  padding: 8px 6px;
+  border-radius: 16px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  overflow: hidden;
+  min-width: 56px;
+}
+
+.mobile-btn:hover {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-color: var(--glass-border) !important;
+  border-top-color: var(--glass-highlight) !important;
+  box-shadow: var(--shadow-btn) !important;
+  color: var(--t-main) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+}
+
+.mobile-btn::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 12%;
+  right: 12%;
+  height: 35%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), transparent);
+  border-radius: 16px 16px 8px 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-btn .material-symbols-outlined {
+  font-size: 22px;
+  transition: transform 0.35s var(--ease-spring), filter 0.35s ease;
+}
+
+.mobile-btn.active {
+  color: #0c4a6e;
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.5), rgba(56, 189, 248, 0.4));
+  border-color: rgba(255, 255, 255, 0.6);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-btn);
+}
+
+.mobile-btn.active::before {
+  opacity: 1;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
+}
+
+.mobile-btn.active .material-symbols-outlined {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 3px 6px rgba(0, 212, 255, 0.4));
+}
+
+.mobile-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+html[data-aero-night] .mobile-btn.active {
+  color: #bae6fd;
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(2, 132, 199, 0.25));
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.35);
+}
+
+
+/* ================================================================
+   Original: DEAD-ZONE TRIM: DATA → FOOTER
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.data-section.section-observer {
+  min-height: auto;
+  justify-content: flex-start;
+  padding-bottom: 28px;
+}
+
+@media (min-width: 1024px) {
+  .data-section.section-observer {
+    padding-bottom: 32px;
+  }
+}
+
+/* ================================================================
+   Original: FOOTER
+   HardLight + EVA: El footer debe cerrar sin espacios muertos visibles.
+   ================================================================ */
+.main-footer {
+  padding: 24px 28px 20px 28px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.main-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.45), transparent);
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .main-footer::before {
+    right: -120px;
+  }
+}
+
+html[data-aero-night] .main-footer::before {
+  background: linear-gradient(to top, rgba(2, 44, 34, 0.4), transparent);
+}
+
+.footer-logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.35em;
+  margin-bottom: 48px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  animation: breathe 10s ease-in-out infinite;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.footer-links button {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--t-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  position: relative;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1.5px solid var(--glass-border);
+  border-top: 2px solid var(--glass-highlight);
+  border-left: 2px solid var(--glass-highlight);
+  box-shadow: var(--shadow-btn);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out), border-color 0.35s ease, color 0.3s ease;
+}
+
+.footer-links button::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 12%;
+  right: 12%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.05));
+  border-radius: 50px 50px 20px 20px;
+  pointer-events: none;
+}
+
+.footer-links button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.04), transparent);
+  pointer-events: none;
+  border-radius: 0 0 50px 50px;
+}
+
+.footer-links button:hover {
+  color: var(--cyan);
+  transform: scale(1.06) translateY(-3px);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 35px rgba(0, 210, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 0.8), var(--glass-inner-glow);
+}
+
+html[data-aero-night] .footer-links button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 14px 35px rgba(0, 210, 255, 0.12), inset 0 2px 6px rgba(255, 255, 255, 0.12), var(--glass-inner-glow);
+}
+
+.footer-sub {
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--t-muted);
+  letter-spacing: 0.25em;
+  margin-bottom: 10px;
+}
+
+.footer-sub-lower {
+  font-family: 'Rajdhani', monospace;
+  font-size: 11px;
+  color: var(--t-muted);
+  opacity: 0.7;
+  letter-spacing: 0.2em;
+}
+
+/* ================================================================
+   Original: MODAL — PREMIUM GLASS
+   HardLight + EVA: Tocar con precisión, no con cambio grande; este bloque sostiene más cosas de las
+   que parece.
+   ================================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9900;
+  background: rgba(2, 44, 34, 0.35);
+  backdrop-filter: blur(30px) saturate(160%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-out), visibility 0.5s var(--ease-out);
+}
+
+.modal-overlay.modal-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-overlay.modal-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-card {
+  max-width: 520px;
+  width: 100%;
+  padding: 52px;
+  border-radius: 36px;
+  transform: scale(0.92) translateY(30px);
+  opacity: 0;
+  transition: transform 0.6s var(--ease-spring), opacity 0.5s var(--ease-out);
+}
+
+.modal-overlay.modal-visible .modal-card {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--cyan);
+  margin-bottom: 28px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.modal-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--t-main);
+  line-height: 1.9;
+  margin-bottom: 44px;
+  white-space: pre-line;
+}
+
+.btn-modal-close {
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.5), rgba(56, 189, 248, 0.4));
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-left: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-btn);
+  border-radius: 50px;
+  padding: 14px 36px;
+  color: #0c4a6e;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  backdrop-filter: blur(16px) saturate(160%);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-modal-close::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 12%;
+  right: 12%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.05));
+  border-radius: 50px 50px 20px 20px;
+  pointer-events: none;
+}
+
+.btn-modal-close:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3), inset 0 2px 6px rgba(255, 255, 255, 0.8), var(--glass-inner-glow);
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.65), rgba(56, 189, 248, 0.55));
+}
+
+html[data-aero-night] .btn-modal-close {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(2, 132, 199, 0.25));
+  color: #bae6fd;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.35);
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+html[data-aero-night] .btn-modal-close:hover {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.35), rgba(2, 132, 199, 0.4));
+  box-shadow: 0 12px 30px rgba(0, 210, 255, 0.2), inset 0 2px 6px rgba(255, 255, 255, 0.15), var(--glass-inner-glow);
+}
+
+
+
+/* ================================================================
+   Original: PARTICLES / SUIT SYSTEM (Frutiger Aero)
+   HardLight + EVA: Si parece exagerado, recuerda que un margen de 1px ya intentó destruir la
+   paz.
+   ================================================================ */
+.suit-particle {
+  position: fixed;
+  top: -10%;
+  pointer-events: none;
+  z-index: 5;
+  animation: floatParticle linear infinite;
+  will-change: transform;
+  text-shadow: 0 0 10px currentColor;
+  opacity: 0.7;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translate3d(0, 120vh, 0) rotate(360deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* ================================================================
+   Original: LIVE FEED BADGE
+   HardLight + EVA: Zona delicada: cambiarlo sin revisar hover, scroll y móvil puede abrir una
+   fallo visual.
+   ================================================================ */
+.live-feed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-family: 'Rajdhani', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--t-main);
+  letter-spacing: 0.15em;
+  box-shadow: var(--shadow-card);
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #22c55e, 0 0 24px rgba(34, 197, 94, 0.3);
+  animation: pulse 2s infinite;
+}
+
+/* ================================================================
+   Original: CUSTOM SCROLLBAR — Aero Glass Capsule
+   HardLight + EVA: Nota de mantenimiento: funciona, respira, no lo conviertas en
+   experimento de madrugada.
+   ================================================================ */
+#custom-scrollbar {
+  position: fixed;
+  right: 4px;
+  top: 0;
+  width: 10px;
+  height: 100vh;
+  z-index: 60;
+  padding: 8px 0;
+}
+
+#custom-scroll-thumb {
+  width: 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(186, 230, 253, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.04);
+  transition: background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), width 0.3s var(--ease-spring), border-color 0.3s ease;
+  cursor: none;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#custom-scroll-thumb::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 20%;
+  right: 20%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
+  border-radius: 10px 10px 6px 6px;
+  pointer-events: none;
+}
+
+#custom-scroll-thumb:hover,
+#custom-scroll-thumb.dragging {
+  width: 10px;
+  background: linear-gradient(135deg, rgba(186, 230, 253, 0.55), rgba(56, 189, 248, 0.4));
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 4px 16px rgba(0, 210, 255, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.06);
+}
+
+html[data-aero-night] #custom-scroll-thumb {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(0, 210, 255, 0.1));
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.15);
+}
+
+html[data-aero-night] #custom-scroll-thumb:hover,
+html[data-aero-night] #custom-scroll-thumb.dragging {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(2, 132, 199, 0.25));
+  border-color: rgba(0, 210, 255, 0.4);
+  box-shadow:
+    0 4px 16px rgba(0, 210, 255, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================================
+   Original: AERO ACCENT UTILITIES
+   HardLight + EVA: Bloque probado. Mantener intención, escala y compatibilidad antes de ajustar.
+   ================================================================ */
+.aero-text-main {
+  color: var(--t-main);
+}
+
+.aero-text-secondary {
+  color: var(--t-sec);
+}
+
+.aero-text-muted {
+  color: var(--t-muted);
+}
+
+.aero-accent {
+  color: var(--cyan);
+}
+
+.accent-italic {
+  font-style: italic;
+  color: var(--cyan);
+}
+
+.accent-cyan {
+  color: var(--cyan);
+  text-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.center-div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.select-none {
+  user-select: none;
+}
+
+.mt-action {
+  margin-top: 32px;
+}
+
+/* HardLight + EVA: Skip link for accessibility. No tocar sin probar 1920x1080 y responsive. */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  padding: 12px 24px;
+  border-radius: 30px;
+  z-index: 100001;
+  color: var(--t-main);
+  font-weight: 800;
+  text-decoration: none;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 20px;
+}
+
+/* ================================================================
+   Original: PERFORMANCE MODE
+   HardLight + EVA: No tocar sin probar 720p, 1080p y 4K; aquí ya se pagó el impuesto del
+   revisión visual.
+   ================================================================ */
+.force-pause * {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* ================================================================
+   Original: REDUCED MOTION
+   HardLight + EVA: No mover sin revisar responsive y saltos de layout.
+   ================================================================ */
+/* ================================================================
+   Original: @media (prefers-reduced-motion: reduce) { / *, *::before, *::after { /
+   animation-duration: 0.01ms !important; / animation-iteration-count: 1 !important; /
+   transition-duration: 0.01ms !important; / } / .reveal { opacity: 1; transform: none;
+   filter: none; } / #aero-boot-overlay { animation: none; opacity: 0; } / }
+   HardLight + EVA: La animación depende del orden: si cambias timing sin pruebas, el cristal
+   empieza a tartamudear.
+   ================================================================ */
+
+/* ================================================================
+   Original: RESPONSIVE TWEAKS
+   HardLight + EVA: Responsive real: probar ancho, alto, dock y scroll
+   antes de declarar victoria.
+   ================================================================ */
+@media (max-width: 1023px) {
+  .section-observer {
+    padding: 80px 20px;
+  }
+
+  .hero-section.section-observer {
+    padding-top: 24px;
+    padding-bottom: 36px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .hero-content {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .hero-paragraph {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+    padding: 20px;
+    margin-bottom: 36px;
+  }
+
+  .hero-tagline {
+    justify-content: center;
+    font-size: 11px;
+    padding: 10px 20px;
+    letter-spacing: 0.2em;
+  }
+
+  .section-header {
+    text-align: center;
+  }
+
+  .section-divider {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-hint {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .info-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-links {
+    gap: 12px;
+  }
+
+  .footer-links button {
+    padding: 12px 24px;
+    font-size: 10px;
+  }
+
+  .main-footer {
+    padding: 24px 20px 18px 20px;
+  }
+
+  .main-footer::before {
+    right: 0;
+  }
+
+  .footer-logo {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: 32px;
+  }
+
+  .footer-sub {
+    font-size: 11px;
+  }
+
+  .aero-title {
+    margin-bottom: 24px;
+  }
+
+  .btn-casino,
+  .btn-protocolo {
+    padding: 14px 32px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  .easter-egg-btn {
+    padding: 10px 18px;
+    font-size: 10px;
+  }
+
+  .modal-card {
+    padding: 36px 24px;
+  }
+
+  .modal-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-observer {
+    padding: 60px 16px;
+  }
+
+  .hero-section.section-observer {
+    padding-top: 18px;
+    padding-bottom: 28px;
+  }
+
+  .btn-casino,
+  .btn-protocolo {
+    padding: 13px 26px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-actions {
+    gap: 12px;
+  }
+
+  .aero-title {
+    font-size: clamp(2.4rem, 10vw, 3.5rem);
+    margin-bottom: 20px;
+  }
+
+  .hero-paragraph {
+    font-size: 0.9rem;
+    padding: 16px;
+  }
+
+  .info-box {
+    padding: 24px 16px;
+  }
+
+  .modal-card {
+    padding: 28px 20px;
+  }
+
+  .faq-btn {
+    padding: 18px 20px;
+  }
+
+  .faq-btn-left {
+    gap: 14px;
+  }
+
+  .faq-title {
+    font-size: 15px;
+  }
+
+  .footer-links {
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-links button {
+    padding: 12px 28px;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .main-footer {
+    padding-top: 18px;
+    padding-bottom: 72px;
+  }
+
+  .mobile-dock {
+    bottom: 10px;
+    width: 96%;
+    border-radius: 22px;
+    padding: 8px 6px;
+  }
+
+  .mobile-btn {
+    min-width: 48px;
+    padding: 6px 4px;
+    font-size: 7px;
+  }
+
+  .mobile-btn .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+/* ================================================================
+   Original: VIEW TRANSITIONS (THEME TOGGLE)
+   HardLight + EVA: La animación depende del orden: si cambias timing sin pruebas, el cristal
+   empieza a tartamudear.
+   ================================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.8s;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* HardLight + EVA: Final responsive dead-zone overrides. Las separaciones existen para el flujo, pero deben ser visualmente transparentes. */
+@media (max-width: 1023px) {
+  .data-section.section-observer {
+    min-height: auto;
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-section.section-observer {
+    padding-bottom: 18px;
+  }
+
+  .footer-logo {
+    margin-bottom: 22px;
+  }
+
+  .footer-links {
+    margin-bottom: 28px;
+  }
+}
+
+
+@media (max-width: 1023px) and (min-width: 481px) {
+  .main-footer {
+    padding-bottom: 76px;
+  }
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.2.5 — INVISIBLE SECTION GAPS + ELONGATED CARDS / Scope:
+   preserve current header/footer spacing and visual identity.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+
+/* ================================================================
+   Original: Keep structural section separation for scroll/anchors, but make every seam /
+   visually transparent. This prevents sub-pixel bands without flattening the / HardLight
+   background or deleting the section rhythm.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.main-content,
+.hero-section,
+.roster-section,
+.intel-section,
+.data-section {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+
+.section-observer.separator-top::before,
+.main-footer.separator-top::before {
+  background-color: transparent;
+}
+
+/* ================================================================
+   Original: A tiny overlap hides browser anti-aliasing seams while preserving the same /
+   scroll structure. Header and footer dimensions are intentionally untouched.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.roster-section,
+.intel-section,
+.data-section,
+.main-footer {
+  margin-top: -1px;
+}
+
+/* ================================================================
+   Original: Project cards: slightly longer, better centered, and still fully Portfolio/Aero.
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.talents-grid {
+  width: min(100%, 1160px);
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: stretch;
+  grid-template-columns: repeat(3, minmax(300px, 350px));
+  gap: clamp(34px, 3.2vw, 54px);
+}
+
+.roster-card {
+  width: 100%;
+  height: clamp(505px, 52vh, 560px);
+  min-height: 505px;
+}
+
+.roster-card .aero-glass-card {
+  padding: clamp(26px, 2.1vw, 32px) !important;
+}
+
+.roster-card .hover-panel {
+  bottom: 20px !important;
+  left: 20px !important;
+  right: 20px !important;
+}
+
+.roster-card .card-bg-symbol {
+  bottom: -28px !important;
+  right: -14px !important;
+  font-size: clamp(10.5rem, 11vw, 12.5rem) !important;
+}
+
+@media (max-width: 1180px) {
+  .talents-grid {
+    width: min(100%, 980px);
+    grid-template-columns: repeat(3, minmax(260px, 315px));
+    gap: clamp(26px, 2.8vw, 38px);
+  }
+
+  .roster-card {
+    height: 510px;
+    min-height: 510px;
+  }
+}
+
+@media (max-width: 900px) {
+  .talents-grid {
+    width: min(100%, 720px);
+    grid-template-columns: repeat(2, minmax(280px, 340px));
+  }
+}
+
+@media (max-width: 640px) {
+  .talents-grid {
+    width: min(100%, 420px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .roster-card {
+    height: 500px;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 420px) {
+  .roster-card {
+    height: 480px;
+    min-height: 480px;
+  }
+
+  .roster-card .aero-glass-card {
+    padding: 22px !important;
+  }
+
+  .roster-card .hover-panel {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    padding: 18px !important;
+  }
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.2.6 — TRUE INVISIBLE SEAMS + MIDDLE CLICK SVG FIX / Scope:
+   keep the section separators structurally present, but invisible. / Cursor CSS
+   size/scale remains unchanged; only the SVG viewBox gets safe padding.
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+
+/* ================================================================
+   Original: Structural separators stay alive for anchors, scroll rhythm and browser
+   layout, / but their visual edge is erased.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top-color: transparent !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ================================================================
+   Original: Paint guard: covers only the anti-aliased seam with the exact fixed page /
+   background, without deleting the separator class or changing section sizes.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top {
+  isolation: isolate;
+}
+
+.section-observer.separator-top::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -3px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 6px !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: var(--bg-day) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+html[data-aero-night] .section-observer.separator-top::before {
+  background: var(--bg-night) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+.section-observer.separator-top > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================================================================
+   Original: Footer seam patch uses ::after so the original footer glow in ::before
+   remains intact.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.main-footer.separator-top {
+  isolation: isolate;
+}
+
+.main-footer.separator-top::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -3px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 6px !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: var(--bg-day) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+html[data-aero-night] .main-footer.separator-top::after {
+  background: var(--bg-night) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+.main-footer.separator-top > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================================================================
+   Original: Middle-click cursor: same CSS size and same scale as before. The SVG is
+   padded / inside its own viewBox so the circular stroke no longer gets raster-clipped.
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+#cursor.middle-clicking .cursor-inner {
+  transform: scale(2.36) !important;
+  transform-origin: center center !important;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 96 96" overflow="visible" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision"><defs><linearGradient id="g" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" stop-color="rgba(255,255,255,0.4)"/><stop offset="100%25" stop-color="rgba(0,210,255,0.1)"/></linearGradient></defs><circle cx="48" cy="48" r="44.5" fill="url(%23g)" stroke="%23ffffff" stroke-width="3"/><path d="M 48 12 L 55.5 25.5 L 40.5 25.5 Z M 48 84 L 55.5 70.5 L 40.5 70.5 Z M 12 48 L 25.5 40.5 L 25.5 55.5 Z M 84 48 L 70.5 40.5 L 70.5 55.5 Z" fill="%23ffffff" opacity="0.9"/></svg>') !important;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.2.7 — TRANSPARENT SEPARATORS, NO PAINTED SEAMS / Scope:
+   separators remain in the DOM/layout, but every painted seam layer is fully
+   transparent.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+
+/* HardLight + EVA: Keep the structural classes alive, but remove every visible line/color.. Zona delicada: revisar hover, scroll y móvil antes de cambiar. */
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top: 1px solid rgba(255, 255, 255, 0) !important;
+  outline: 0 solid transparent !important;
+  box-shadow: none !important;
+}
+
+/* ================================================================
+   Original: Do not repaint the seam with gradients or fixed backgrounds. That created /
+   the visible strip. The separator layer exists, but it is optically invisible.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top::before,
+.main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-aero-night] .section-observer.separator-top::before,
+html[data-aero-night] .main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* ================================================================
+   Original: Remove accidental 1px collision shadows introduced by overlap fixes while /
+   preserving the real section spacing and anchors.
+   HardLight + EVA: Bloque probado. Mantener intención, escala y compatibilidad antes de ajustar.
+   ================================================================ */
+.roster-section,
+.intel-section,
+.data-section,
+.main-footer {
+  margin-top: 0 !important;
+}
+
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.2.8 — FLUID 1080P/4K SECTION FLOW + CURSOR PRELOAD / Scope:
+   keep separators structurally present and optically transparent.
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+:root {
+  --portfolio-side-safe: clamp(72px, 7vw, 150px);
+  --portfolio-sidebar-safe: 120px;
+  --portfolio-content-max: 1420px;
+  --cursor-middle-svg: url('data:image/svg+xml;utf8,<svg viewBox="0 0 96 96" overflow="visible" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision"><defs><linearGradient id="g" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" stop-color="rgba(255,255,255,0.4)"/><stop offset="100%25" stop-color="rgba(0,210,255,0.1)"/></linearGradient></defs><circle cx="48" cy="48" r="42.5" fill="url(%23g)" stroke="%23ffffff" stroke-width="3"/><path d="M 48 13 L 55.5 26.5 L 40.5 26.5 Z M 48 83 L 55.5 69.5 L 40.5 69.5 Z M 13 48 L 26.5 40.5 L 26.5 55.5 Z M 83 48 L 69.5 40.5 L 69.5 55.5 Z" fill="%23ffffff" opacity="0.9"/></svg>');
+}
+
+/* ================================================================
+   Original: Avoid Chrome's content-visibility placeholder from inventing 100vh blocks in
+   / screenshots/real scrolling. The separators stay, but layout is content-aware.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer {
+  content-visibility: visible !important;
+  contain-intrinsic-size: unset !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top: 1px solid transparent !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.section-observer.separator-top::before,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding-right: var(--portfolio-sidebar-safe) !important;
+  }
+
+  .section-observer {
+    min-height: auto !important;
+    justify-content: flex-start !important;
+    padding-left: var(--portfolio-side-safe) !important;
+    padding-right: calc(var(--portfolio-side-safe) + var(--portfolio-sidebar-safe)) !important;
+    padding-top: clamp(62px, 7vh, 92px) !important;
+    padding-bottom: clamp(62px, 7vh, 92px) !important;
+  }
+
+  .hero-section.section-observer {
+    min-height: clamp(560px, 62svh, 760px) !important;
+    justify-content: center !important;
+    padding-top: clamp(36px, 5vh, 64px) !important;
+    padding-bottom: clamp(44px, 6vh, 72px) !important;
+  }
+
+  .roster-section.section-observer {
+    padding-top: clamp(66px, 7vh, 96px) !important;
+    padding-bottom: clamp(72px, 8vh, 108px) !important;
+  }
+
+  .intel-section.section-observer {
+    padding-top: clamp(62px, 7vh, 96px) !important;
+    padding-bottom: clamp(70px, 8vh, 104px) !important;
+  }
+
+  .data-section.section-observer {
+    padding-top: clamp(70px, 8vh, 104px) !important;
+    padding-bottom: clamp(34px, 5vh, 58px) !important;
+  }
+
+  .hero-content,
+  .section-header,
+  .section-header-row,
+  .section-observer > .section-hint,
+  .talents-grid,
+  .news-grid,
+  .info-box,
+  .faq-container {
+    width: min(100%, var(--portfolio-content-max)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .hero-content {
+    max-width: min(900px, var(--portfolio-content-max)) !important;
+  }
+
+  .section-header-row {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 28px !important;
+  }
+
+  .section-header-row h2 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: clamp(2.7rem, 4.4vw, 4rem) !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
+    color: var(--t-main) !important;
+    font-weight: 900 !important;
+  }
+
+  .intel-section > .section-hint {
+    margin-top: 18px !important;
+  }
+
+  .talents-grid {
+    margin-top: clamp(48px, 5vh, 64px) !important;
+  }
+
+  .news-grid {
+    margin-top: clamp(38px, 4vh, 54px) !important;
+  }
+
+  .faq-container {
+    margin-top: clamp(34px, 4vh, 48px) !important;
+  }
+
+  .main-footer {
+    padding-left: var(--portfolio-side-safe) !important;
+    padding-right: calc(var(--portfolio-side-safe) + var(--portfolio-sidebar-safe)) !important;
+    padding-top: clamp(32px, 4vh, 52px) !important;
+    padding-bottom: clamp(26px, 4vh, 46px) !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --portfolio-content-max: 1500px;
+  }
+
+  .talents-grid {
+    grid-template-columns: repeat(3, minmax(330px, 380px)) !important;
+    gap: clamp(42px, 3.5vw, 66px) !important;
+  }
+
+  .roster-card {
+    height: clamp(520px, 50vh, 590px) !important;
+    min-height: 520px !important;
+  }
+
+  .news-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: clamp(34px, 3vw, 54px) !important;
+  }
+
+  .news-card {
+    min-height: 260px !important;
+    padding: clamp(30px, 2.4vw, 40px) !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .hero-section.section-observer {
+    min-height: auto !important;
+    padding-top: 42px !important;
+    padding-bottom: 58px !important;
+  }
+
+  .section-observer {
+    padding-top: 54px !important;
+    padding-bottom: 60px !important;
+  }
+
+  .roster-card {
+    height: 500px !important;
+    min-height: 500px !important;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --portfolio-side-safe: clamp(120px, 9vw, 240px);
+    --portfolio-content-max: 1680px;
+  }
+
+  .hero-section.section-observer {
+    min-height: clamp(760px, 52svh, 980px) !important;
+  }
+
+  .section-observer {
+    padding-top: clamp(92px, 6vh, 140px) !important;
+    padding-bottom: clamp(92px, 6vh, 140px) !important;
+  }
+
+  .roster-card {
+    height: clamp(560px, 36vh, 660px) !important;
+    min-height: 560px !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .section-observer {
+    min-height: auto !important;
+    content-visibility: visible !important;
+    contain-intrinsic-size: unset !important;
+  }
+
+  .hero-section.section-observer {
+    min-height: auto !important;
+  }
+}
+
+/* ================================================================
+   Original: Preload the middle-click cursor SVG on the first paint so Chromium does not
+   / show a low-raster preview the first time the user presses the wheel.
+   HardLight + EVA: El cursor es pequeño pero temperamental; no cambiar tamaños sin revisar
+   click, hover y middle-click.
+   ================================================================ */
+#cursor .cursor-inner {
+  position: relative !important;
+  background-size: contain !important;
+  background-position: center center !important;
+  image-rendering: auto !important;
+  backface-visibility: hidden !important;
+}
+
+#cursor .cursor-inner::before {
+  content: '' !important;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background-image: var(--cursor-middle-svg) !important;
+  background-size: contain !important;
+}
+
+#cursor.middle-clicking .cursor-inner {
+  transform: scale(2.36) !important;
+  transform-origin: center center !important;
+  background-image: var(--cursor-middle-svg) !important;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  image-rendering: auto !important;
+}
+
+
+/* HardLight + EVA: PORTFOLIO PATCH 10.2.8b — ROOT BACKDROP SAFETY FOR FULL-PAGE CAPTURES. El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen cortes visibles entre secciones. */
+html,
+body {
+  background: var(--bg-day) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+html[data-aero-night],
+html[data-aero-night] body {
+  background: var(--bg-night) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+.main-content,
+.section-observer,
+.main-footer {
+  background-color: transparent !important;
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.2.8c — FULL-PAGE ROOT BACKGROUND WITHOUT FIXED CAPTURE
+   ARTIFACT
+   HardLight + EVA: El fondo es una sola atmósfera; si cada sección pinta la suya, aparecen
+   cortes visibles entre secciones.
+   ================================================================ */
+html,
+body,
+html[data-aero-night],
+html[data-aero-night] body {
+  background-attachment: scroll !important;
+}
+
+/* HardLight + EVA: PORTFOLIO PATCH 10.2.8d — 4K BREATHING ROOM FOR PROJECTS. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+@media (min-width: 2200px) {
+  .talents-grid {
+    grid-template-columns: repeat(3, minmax(420px, 500px)) !important;
+    gap: clamp(64px, 3vw, 90px) !important;
+  }
+
+  .news-grid {
+    gap: clamp(48px, 2.6vw, 78px) !important;
+  }
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.0 — CENTERED LAYOUT + LOBBY REDESIGN / Scope: no aesthetic
+   replacement; only alignment, lobby cohesion and transparent seams.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+:root {
+  --portfolio-left-safe: clamp(42px, 6.2vw, 132px);
+  --portfolio-right-safe: clamp(70px, 8vw, 178px);
+  --portfolio-content-max: 1480px;
+  --portfolio-lobby-max: 1440px;
+}
+
+/* ================================================================
+   Original: Separators remain structural for anchors/scroll, but optically disappear.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top: 1px solid transparent !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.section-observer.separator-top::before,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.main-content,
+.hero-section,
+.roster-section,
+.intel-section,
+.data-section,
+.main-footer {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+@media (min-width: 1024px) {
+  /* ================================================================
+   Original: The old version reserved space for the right dock twice. This recenters the
+   / real canvas while still leaving visual clearance for the sidebar.
+   HardLight + EVA: Nota de mantenimiento: funciona, respira, no lo conviertas en
+   experimento de madrugada.
+   ================================================================ */
+  .main-content {
+    padding-right: 0 !important;
+  }
+
+  .section-observer {
+    padding-left: var(--portfolio-left-safe) !important;
+    padding-right: var(--portfolio-right-safe) !important;
+  }
+
+  .main-footer {
+    padding-left: var(--portfolio-left-safe) !important;
+    padding-right: var(--portfolio-right-safe) !important;
+  }
+
+  .hero-content,
+  .section-header,
+  .section-header-row,
+  .section-observer > .section-hint,
+  .talents-grid,
+  .news-grid,
+  .info-box,
+  .faq-container,
+  .main-footer > * {
+    width: min(100%, var(--portfolio-content-max)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .section-header,
+  .section-observer > .section-hint {
+    text-align: left;
+  }
+
+  .data-section .section-header,
+  .data-section .section-hint,
+  .main-footer {
+    text-align: center;
+  }
+
+  /* ================================================================
+   Original: Lobby redesigned as a cohesive hero module using the same glass language as
+   / projects/logs/profile. The original title, copy and buttons stay intact.
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+  .hero-section.section-observer {
+    min-height: clamp(620px, 72svh, 820px) !important;
+    padding-top: clamp(34px, 5vh, 68px) !important;
+    padding-bottom: clamp(56px, 7vh, 92px) !important;
+    justify-content: center !important;
+  }
+
+  .hero-content {
+    max-width: var(--portfolio-lobby-max) !important;
+    display: grid !important;
+    grid-template-columns: minmax(520px, 0.98fr) minmax(300px, 0.52fr) !important;
+    grid-template-areas:
+      "tag console"
+      "title console"
+      "copy console"
+      "actions console" !important;
+    align-items: center !important;
+    column-gap: clamp(42px, 5vw, 92px) !important;
+  }
+
+  .hero-tagline {
+    grid-area: tag !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    margin-bottom: clamp(22px, 2.4vh, 30px) !important;
+  }
+
+  .aero-title {
+    grid-area: title !important;
+    font-size: clamp(4.1rem, 5.9vw, 7rem) !important;
+    line-height: 1.1 !important;
+    margin-bottom: clamp(24px, 3vh, 34px) !important;
+  }
+
+  .hero-paragraph {
+    grid-area: copy !important;
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+    margin-bottom: clamp(28px, 3.5vh, 42px) !important;
+  }
+
+  .hero-actions {
+    grid-area: actions !important;
+  }
+
+  .lobby-console {
+    grid-area: console;
+    width: min(100%, 410px);
+    min-height: 310px;
+    align-self: stretch;
+    justify-self: end;
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    border-top-color: var(--glass-highlight);
+    border-left-color: var(--glass-highlight);
+    background:
+      radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.32), transparent 34%),
+      linear-gradient(155deg, rgba(255, 255, 255, 0.26), rgba(0, 210, 255, 0.08) 58%, rgba(41, 218, 120, 0.12));
+    box-shadow: var(--shadow-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: clamp(26px, 2.2vw, 34px);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  html[data-aero-night] .lobby-console {
+    background:
+      radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.13), transparent 34%),
+      linear-gradient(155deg, rgba(10, 25, 41, 0.58), rgba(0, 210, 255, 0.08) 58%, rgba(41, 218, 120, 0.09));
+  }
+
+  .lobby-console::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.22), transparent 48%);
+    pointer-events: none;
+  }
+
+  .lobby-console::after {
+    content: 'LOBBY';
+    position: absolute;
+    right: -14px;
+    bottom: -22px;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(4.8rem, 6vw, 7.2rem);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+  }
+
+  .lobby-console-head {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Rajdhani', monospace;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--t-sec);
+  }
+
+  .lobby-console-head strong {
+    margin-left: auto;
+    color: var(--cyan);
+    letter-spacing: 0.08em;
+  }
+
+  .lobby-pulse {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: var(--lime);
+    box-shadow: 0 0 18px var(--lime-glow);
+    flex: 0 0 auto;
+  }
+
+  .lobby-signal {
+    position: relative;
+    z-index: 1;
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.11);
+    border: 1px solid rgba(255,255,255,0.16);
+    overflow: hidden;
+    margin: clamp(28px, 4vh, 44px) 0;
+  }
+
+  .lobby-signal span {
+    display: block;
+    width: 72%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cyan), var(--lime));
+    box-shadow: 0 0 18px var(--cyan-glow);
+  }
+
+  .lobby-console-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .lobby-console-grid div {
+    min-height: 82px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(0, 20, 35, 0.13);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .lobby-console-grid span {
+    font-family: 'Rajdhani', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--t-muted);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .lobby-console-grid strong {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--t-main);
+  }
+
+  /* ================================================================
+   Original: Cards stay elongated, but the grid now centers in the true viewport canvas.
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+  .talents-grid {
+    width: min(100%, 1260px) !important;
+    grid-template-columns: repeat(3, minmax(300px, 360px)) !important;
+    justify-content: center !important;
+    gap: clamp(38px, 3.2vw, 58px) !important;
+  }
+
+  .roster-card {
+    height: clamp(520px, 51vh, 585px) !important;
+    min-height: 520px !important;
+  }
+
+  .news-grid {
+    width: min(100%, 1320px) !important;
+    justify-content: center !important;
+  }
+
+  .info-box,
+  .faq-container {
+    width: min(100%, 1320px) !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1599px) {
+  :root {
+    --portfolio-content-max: 1320px;
+    --portfolio-lobby-max: 1260px;
+    --portfolio-left-safe: clamp(48px, 5.2vw, 108px);
+    --portfolio-right-safe: clamp(86px, 8vw, 160px);
+  }
+
+  .hero-content {
+    grid-template-columns: minmax(520px, 1fr) minmax(280px, 360px) !important;
+  }
+
+  .lobby-console {
+    min-height: 285px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero-content {
+    grid-template-columns: minmax(640px, 1fr) minmax(350px, 430px) !important;
+  }
+
+  .section-header-row h2,
+  .section-header h2 {
+    text-wrap: balance;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --portfolio-left-safe: clamp(100px, 7vw, 220px);
+    --portfolio-right-safe: clamp(140px, 8vw, 260px);
+    --portfolio-content-max: 1720px;
+    --portfolio-lobby-max: 1660px;
+  }
+
+  .hero-content {
+    grid-template-columns: minmax(760px, 1fr) minmax(420px, 520px) !important;
+  }
+
+  .lobby-console {
+    min-height: 390px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "tag"
+      "title"
+      "copy"
+      "actions"
+      "console" !important;
+  }
+
+  .lobby-console {
+    width: min(100%, 760px);
+    min-height: auto;
+    margin-top: 34px;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-content,
+  .section-header,
+  .section-header-row,
+  .section-observer > .section-hint,
+  .talents-grid,
+  .news-grid,
+  .info-box,
+  .faq-container {
+    width: min(100%, 760px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .lobby-console {
+    margin-top: 26px;
+    border-radius: 26px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 24px;
+  }
+
+  .lobby-console-head,
+  .lobby-console-grid {
+    display: none;
+  }
+
+  .lobby-signal {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    overflow: hidden;
+  }
+
+  .lobby-signal span {
+    display: block;
+    width: 72%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cyan), var(--lime));
+  }
+}
+
+@media (max-width: 640px) {
+  .lobby-console {
+    display: none;
+  }
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.2 — LOBBY REDESIGN WITHOUT FILLER BOX / Scope: only the
+   first section. Removes the decorative console module and / rebuilds the hero as a
+   balanced editorial/aero landing block.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+
+/* HardLight + EVA: The rejected side console is no longer part of the lobby composition.. Zona superior protegida: afecta primera impresión, scroll y responsive. */
+.lobby-console {
+  display: none !important;
+}
+
+.hero-section.section-observer {
+  min-height: clamp(610px, 70svh, 780px) !important;
+  padding-top: clamp(42px, 6vh, 72px) !important;
+  padding-bottom: clamp(56px, 7vh, 88px) !important;
+  justify-content: center !important;
+  background: transparent !important;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: clamp(28px, 4vw, 58px) clamp(16px, 3vw, 46px);
+  border-radius: clamp(28px, 4vw, 54px);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(0, 210, 255, 0.13), transparent 34%),
+    radial-gradient(circle at 82% 70%, rgba(41, 218, 120, 0.11), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 48%);
+  opacity: 0.72;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 84%, transparent 100%);
+}
+
+.hero-bg-text {
+  top: 46% !important;
+  left: 50% !important;
+  width: 100%;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.hero-bg-text span {
+  font-size: clamp(6.2rem, 13vw, 17rem) !important;
+  letter-spacing: 0.03em;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: min(1180px, 100%) !important;
+  width: min(100%, 1180px) !important;
+}
+
+@media (min-width: 1024px) {
+  .hero-content {
+    display: grid !important;
+    grid-template-columns: minmax(520px, 0.98fr) minmax(360px, 0.68fr) !important;
+    grid-template-areas:
+      "tag tag"
+      "title copy"
+      "actions copy" !important;
+    align-items: center !important;
+    column-gap: clamp(48px, 6vw, 96px) !important;
+    row-gap: clamp(20px, 2.8vh, 34px) !important;
+  }
+
+  .hero-tagline {
+    grid-area: tag !important;
+    justify-self: start !important;
+    margin: 0 !important;
+  }
+
+  .aero-title {
+    grid-area: title !important;
+    align-self: end !important;
+    font-size: clamp(4.7rem, 6.2vw, 7.45rem) !important;
+    line-height: 1.02 !important;
+    margin: 0 !important;
+    padding: 0.04em 0 0.08em !important;
+    max-width: 780px;
+  }
+
+  .hero-paragraph {
+    grid-area: copy !important;
+    align-self: center !important;
+    width: min(100%, 500px) !important;
+    max-width: 500px !important;
+    margin: 0 !important;
+    padding: clamp(26px, 2.4vw, 34px) !important;
+    border-left-width: 4px !important;
+    border-radius: 26px !important;
+    font-size: clamp(1.02rem, 1.1vw, 1.2rem) !important;
+    line-height: 1.78 !important;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.16) !important;
+  }
+
+  .hero-paragraph::after {
+    content: '';
+    position: absolute;
+    left: clamp(24px, 2.2vw, 34px);
+    right: clamp(24px, 2.2vw, 34px);
+    bottom: 16px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.34), rgba(41, 218, 120, 0.24), transparent);
+    pointer-events: none;
+  }
+
+  .hero-actions {
+    grid-area: actions !important;
+    margin: 0 !important;
+    justify-self: start !important;
+    align-self: start !important;
+    gap: clamp(18px, 2vw, 28px) !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-section.section-observer {
+    min-height: clamp(660px, 72svh, 820px) !important;
+  }
+
+  .hero-content {
+    max-width: min(1260px, 100%) !important;
+    width: min(100%, 1260px) !important;
+  }
+
+  .hero-content {
+    grid-template-columns: minmax(620px, 1fr) minmax(390px, 520px) !important;
+  }
+}
+
+@media (min-width: 2200px) {
+  .hero-section.section-observer {
+    min-height: clamp(760px, 66svh, 980px) !important;
+  }
+
+  .hero-content {
+    max-width: min(1560px, 100%) !important;
+    width: min(100%, 1560px) !important;
+    grid-template-columns: minmax(760px, 1fr) minmax(480px, 600px) !important;
+  }
+
+  .aero-title {
+    font-size: clamp(6.8rem, 5.2vw, 9.2rem) !important;
+  }
+
+  .hero-paragraph {
+    max-width: 600px !important;
+    width: min(100%, 600px) !important;
+    font-size: clamp(1.14rem, 0.72vw, 1.32rem) !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "tag"
+      "title"
+      "copy"
+      "actions" !important;
+    row-gap: 22px !important;
+    max-width: min(860px, 100%) !important;
+  }
+
+  .hero-paragraph {
+    justify-self: start !important;
+    width: min(100%, 720px) !important;
+    max-width: 720px !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-section.section-observer {
+    min-height: auto !important;
+    padding-top: clamp(78px, 12vh, 116px) !important;
+    padding-bottom: clamp(62px, 10vh, 92px) !important;
+  }
+
+  .hero-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+    max-width: min(760px, 100%) !important;
+  }
+
+  .hero-tagline,
+  .aero-title,
+  .hero-paragraph,
+  .hero-actions {
+    margin: 0 !important;
+  }
+
+  .aero-title {
+    font-size: clamp(3.35rem, 12vw, 5.4rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .hero-paragraph {
+    width: min(100%, 680px) !important;
+    max-width: 680px !important;
+    font-size: clamp(1rem, 2.6vw, 1.16rem) !important;
+    padding: clamp(22px, 5vw, 30px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-tagline {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    letter-spacing: 0.18em !important;
+    padding-inline: 18px !important;
+  }
+
+  .hero-actions {
+    width: 100% !important;
+    gap: 14px !important;
+  }
+
+  .hero-actions .btn-casino,
+  .hero-actions .btn-protocolo {
+    flex: 1 1 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}
+
+
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.4 — LOBBY OVERLAP + INVISIBLE STRUCTURAL SEAMS +
+   LEGIBILITY / Scope: keep the current aesthetic. Separators remain for layout/anchors,
+   / but do not paint color; lobby copy no longer crosses the title.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+
+/* ================================================================
+   Original: Single continuous canvas: the visual background lives only in html::before.
+   / This prevents every section seam from tinting or banding while keeping DOM /
+   separators/padding untouched.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+html,
+body,
+html[data-aero-night],
+html[data-aero-night] body {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+html::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -2 !important;
+  pointer-events: none !important;
+  background: var(--bg-day) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  transform: translateZ(0) !important;
+}
+
+html[data-aero-night]::before {
+  background: var(--bg-night) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+.main-content,
+.section-observer,
+.hero-section,
+.roster-section,
+.intel-section,
+.data-section,
+.main-footer {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* ================================================================
+   Original: Keep the structural separator hooks alive for scroll/anchors, but make every
+   / rendered line and helper layer completely transparent.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top,
+.main-footer.separator-top {
+  border-top: 1px solid transparent !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.section-observer.separator-top::before,
+.section-observer.separator-top::after,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}
+
+/* ================================================================
+   Original: The previous lobby glow formed a visible rectangular/sliced zone. The hero /
+   keeps the same portfolio background/watermark, but the separator-like panel is / no
+   longer painted.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.hero-section::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* ================================================================
+   Original: Lobby: keep the liked right-side copy position on wide screens, but reserve
+   / enough horizontal space so the glass paragraph never intersects the title.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (min-width: 1500px) {
+  .hero-section.section-observer {
+    min-height: clamp(660px, 72svh, 840px) !important;
+    padding-top: clamp(44px, 5vh, 72px) !important;
+    padding-bottom: clamp(58px, 7vh, 92px) !important;
+  }
+
+  .hero-content {
+    width: min(100%, 1480px) !important;
+    max-width: min(1480px, 100%) !important;
+    display: grid !important;
+    grid-template-columns: minmax(780px, 0.96fr) minmax(410px, 500px) !important;
+    grid-template-areas:
+      "tag tag"
+      "title copy"
+      "actions copy" !important;
+    column-gap: clamp(72px, 5vw, 112px) !important;
+    row-gap: clamp(22px, 2.6vh, 34px) !important;
+    align-items: center !important;
+  }
+
+  .hero-tagline {
+    grid-area: tag !important;
+    margin: 0 !important;
+    justify-self: start !important;
+  }
+
+  .aero-title {
+    grid-area: title !important;
+    max-width: 860px !important;
+    margin: 0 !important;
+    padding: 0.04em 0 0.08em !important;
+    font-size: clamp(5rem, 6vw, 7.1rem) !important;
+    line-height: 1.02 !important;
+    text-wrap: balance !important;
+  }
+
+  .hero-paragraph {
+    grid-area: copy !important;
+    justify-self: start !important;
+    align-self: center !important;
+    width: min(100%, 500px) !important;
+    max-width: 500px !important;
+    margin: 0 !important;
+    padding: clamp(26px, 2.2vw, 34px) !important;
+    font-size: clamp(1.08rem, 1.05vw, 1.22rem) !important;
+    line-height: 1.72 !important;
+  }
+
+  .hero-actions {
+    grid-area: actions !important;
+    margin: 0 !important;
+    justify-self: start !important;
+    align-self: start !important;
+  }
+}
+
+/* ================================================================
+   Original: Medium desktop gets a cleaner editorial stack. This avoids crushed overlap
+   on / 1366/1440 while preserving the premium lobby composition.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (min-width: 1024px) and (max-width: 1499px) {
+  .hero-section.section-observer {
+    min-height: auto !important;
+    padding-top: clamp(52px, 6vh, 78px) !important;
+    padding-bottom: clamp(64px, 8vh, 96px) !important;
+  }
+
+  .hero-content {
+    width: min(100%, 980px) !important;
+    max-width: min(980px, 100%) !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "tag"
+      "title"
+      "copy"
+      "actions" !important;
+    row-gap: clamp(20px, 2.6vh, 30px) !important;
+    justify-items: start !important;
+  }
+
+  .aero-title {
+    max-width: 900px !important;
+    margin: 0 !important;
+    font-size: clamp(4.35rem, 7.4vw, 6rem) !important;
+    line-height: 1.03 !important;
+  }
+
+  .hero-paragraph {
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+    margin: 0 !important;
+    font-size: clamp(1.02rem, 1.35vw, 1.16rem) !important;
+    line-height: 1.72 !important;
+  }
+}
+
+/* ================================================================
+   Original: General readability pass: bigger, calmer text without changing the visual /
+   language or turning the UI into bulky cards.
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.section-hint {
+  font-size: clamp(0.96rem, 0.42vw + 0.78rem, 1.08rem) !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0.005em !important;
+}
+
+.hero-tagline {
+  font-size: clamp(0.8rem, 0.3vw + 0.66rem, 0.95rem) !important;
+  line-height: 1.2 !important;
+}
+
+.news-card p,
+.info-list,
+.faq-text,
+.roster-card .talent-desc {
+  font-size: clamp(0.96rem, 0.36vw + 0.78rem, 1.07rem) !important;
+  line-height: 1.68 !important;
+}
+
+.news-chip,
+.news-date,
+.faq-label,
+.info-header p,
+.footer-sub,
+.footer-sub-lower,
+.roster-card .card-code {
+  font-size: clamp(0.76rem, 0.18vw + 0.68rem, 0.86rem) !important;
+}
+
+.news-card h3 {
+  font-size: clamp(1.35rem, 0.8vw + 1rem, 1.85rem) !important;
+  line-height: 1.22 !important;
+}
+
+.info-header h3 {
+  font-size: clamp(1.5rem, 0.8vw + 1.05rem, 2rem) !important;
+}
+
+.info-desc {
+  font-size: clamp(1rem, 0.42vw + 0.86rem, 1.15rem) !important;
+  line-height: 1.78 !important;
+}
+
+.faq-title {
+  font-size: clamp(1.02rem, 0.42vw + 0.9rem, 1.28rem) !important;
+}
+
+/* ================================================================
+   Original: Keep small devices readable and stop the lobby from turning into a cramped /
+   logo slab.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (max-width: 640px) {
+  .hero-tagline {
+    font-size: 0.74rem !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .section-hint,
+  .news-card p,
+  .info-list,
+  .faq-text,
+  .hero-paragraph {
+    font-size: 0.98rem !important;
+  }
+}
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.5 — READABILITY + SECTION HEADER ALIGNMENT / Scope: fixes
+   misplaced/undersized text blocks without changing the visual identity. / Separators
+   stay in the DOM/flow, but remain optically transparent.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+:root {
+  --portfolio-readable-copy: clamp(1rem, 0.34vw + 0.9rem, 1.16rem);
+  --portfolio-readable-small: clamp(0.84rem, 0.18vw + 0.78rem, 0.96rem);
+  --portfolio-readable-micro: clamp(0.74rem, 0.14vw + 0.68rem, 0.86rem);
+  --portfolio-header-gap: clamp(14px, 1.6vh, 24px);
+}
+
+/* ================================================================
+   Original: Transparent seams: structural spacing stays, the eye sees one continuous
+   canvas.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.section-observer.separator-top,
+.main-footer.separator-top,
+.section-observer.separator-top::before,
+.section-observer.separator-top::after,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after,
+.roster-section,
+.intel-section,
+.data-section {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-top-color: transparent !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ================================================================
+   Original: Common section header grammar: title, divider and helper text keep a single
+   axis.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+.section-header,
+.section-header-row {
+  position: relative !important;
+  z-index: 12 !important;
+}
+
+.section-header h2,
+.section-header-row h2 {
+  letter-spacing: -0.025em !important;
+  line-height: 1.02 !important;
+  margin-top: 0 !important;
+}
+
+.section-divider {
+  margin-top: var(--portfolio-header-gap) !important;
+  margin-bottom: clamp(18px, 2vh, 28px) !important;
+}
+
+.section-hint {
+  font-size: var(--portfolio-readable-copy) !important;
+  line-height: 1.58 !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.005em !important;
+  color: color-mix(in srgb, var(--t-sec) 88%, var(--t-main) 12%) !important;
+}
+
+/* ================================================================
+   Original: PROJECTS: helper copy belongs under its title, not floating as a loose crumb.
+   HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y descripción deben convivir sin
+   duplicar brillo ni aplastar texto.
+   ================================================================ */
+.roster-section .section-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.roster-section .section-header .section-hint {
+  width: min(100%, 720px) !important;
+  max-width: 720px !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+/* ================================================================
+   Original: INTEL: title and live badge share a clean row; descriptive text anchors
+   below title.
+   HardLight + EVA: Tocar con precisión, no con cambio grande; este bloque sostiene más cosas de las
+   que parece.
+   ================================================================ */
+.intel-section .section-header-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) max-content !important;
+  align-items: end !important;
+  gap: clamp(22px, 3vw, 52px) !important;
+}
+
+.intel-section .section-header-row h2 {
+  min-width: 0 !important;
+}
+
+.intel-section .live-feed-badge {
+  justify-self: end !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+  font-size: var(--portfolio-readable-micro) !important;
+  padding: clamp(9px, 0.8vw, 12px) clamp(16px, 1.4vw, 24px) !important;
+}
+
+.intel-section > .section-hint {
+  width: min(100%, var(--portfolio-content-max)) !important;
+  max-width: var(--portfolio-content-max) !important;
+  margin: clamp(10px, 1.3vh, 18px) auto 0 !important;
+  text-align: left !important;
+}
+
+.intel-section > .section-hint::after {
+  content: '';
+  display: block;
+  width: min(100%, 680px);
+}
+
+/* ================================================================
+   Original: DATA: keep the about title, divider and description centered as one unit.
+   HardLight + EVA: Si parece exagerado, recuerda que un margen de 1px ya intentó destruir la
+   paz.
+   ================================================================ */
+.data-section .section-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.data-section .section-header h2,
+.data-section .section-header .section-divider,
+.data-section .section-header .section-hint {
+  align-self: center !important;
+  text-align: center !important;
+}
+
+.data-section .section-header .section-hint {
+  width: min(100%, 760px) !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* HardLight + EVA: Cards and panels: keep detail text legible without making the UI heavy.. Las tarjetas combinan glow, tilt y descripción; evitar brillo duplicado y pérdida de lectura. */
+.roster-card .card-code,
+.roster-card .card-role,
+.news-chip,
+.news-date,
+.info-header p,
+.footer-sub,
+.footer-sub-lower {
+  font-size: var(--portfolio-readable-micro) !important;
+}
+
+.roster-card .talent-desc,
+.news-card p,
+.info-list li,
+.faq-content p {
+  font-size: var(--portfolio-readable-small) !important;
+  line-height: 1.68 !important;
+}
+
+.news-card h3 {
+  font-size: clamp(1.35rem, 0.65vw + 1rem, 1.76rem) !important;
+  line-height: 1.18 !important;
+}
+
+.info-desc {
+  font-size: var(--portfolio-readable-copy) !important;
+  line-height: 1.78 !important;
+}
+
+/* HardLight + EVA: Desktop rhythm: place text as a system, not as scattered islands.. Responsive real: probar ancho, alto, dock y scroll antes de declarar victoria. */
+@media (min-width: 1024px) {
+  .roster-section.section-observer,
+  .intel-section.section-observer,
+  .data-section.section-observer {
+    row-gap: 0 !important;
+  }
+
+  .news-grid {
+    margin-top: clamp(42px, 4.5vh, 66px) !important;
+  }
+
+  .talents-grid {
+    margin-top: clamp(46px, 4.8vh, 70px) !important;
+  }
+
+  .info-box {
+    margin-top: clamp(42px, 4vh, 64px) !important;
+  }
+}
+
+/* ================================================================
+   Original: Tablet/mobile: stack the header elements before they become weirdly
+   distributed.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (max-width: 900px) {
+  .section-header,
+  .section-header-row,
+  .intel-section > .section-hint,
+  .roster-section .section-header,
+  .data-section .section-header {
+    width: min(100%, 720px) !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+
+  .section-header-row,
+  .intel-section .section-header-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .intel-section .live-feed-badge {
+    justify-self: start !important;
+    align-self: flex-start !important;
+  }
+
+  .data-section .section-header,
+  .data-section .section-header h2,
+  .data-section .section-header .section-hint {
+    text-align: center !important;
+    align-items: center !important;
+  }
+}
+
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.7 — BOX COPY SENTENCE BREAKS + HERO BOX PROPORTION /
+   Scope: only copy inside glass boxes. Structural separators remain transparent.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.hero-paragraph,
+.news-card p.box-copy,
+.info-desc.box-copy,
+.faq-text .box-copy,
+.modal-text {
+  text-wrap: pretty;
+}
+
+.hero-paragraph br,
+.news-card p.box-copy br,
+.info-desc.box-copy br,
+.faq-text .box-copy br,
+.modal-text br {
+  content: '';
+  display: block;
+  margin-block: clamp(7px, 0.75vh, 12px);
+}
+
+/* ================================================================
+   Original: Inicio: the welcome glass keeps its position, but grows horizontally and /
+   vertically so it feels intentional instead of a compact note pasted over the hero.
+   HardLight + EVA: Zona superior protegida; afecta primera impresión, scroll y responsive.
+   ================================================================ */
+@media (min-width: 1500px) {
+  .hero-content {
+    width: min(100%, 1540px) !important;
+    max-width: min(1540px, 100%) !important;
+    grid-template-columns: minmax(740px, 0.92fr) minmax(540px, 620px) !important;
+    column-gap: clamp(78px, 5.2vw, 118px) !important;
+  }
+
+  .hero-paragraph {
+    width: min(100%, 620px) !important;
+    max-width: 620px !important;
+    min-height: clamp(230px, 22svh, 292px) !important;
+    padding: clamp(34px, 2.7vw, 46px) clamp(36px, 3vw, 52px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1.74 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1499px) {
+  .hero-paragraph {
+    width: min(100%, 820px) !important;
+    max-width: 820px !important;
+    min-height: clamp(178px, 19svh, 238px) !important;
+    padding: clamp(28px, 2.8vw, 38px) clamp(30px, 3vw, 44px) !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-paragraph {
+    width: min(100%, 720px) !important;
+    max-width: 720px !important;
+    min-height: clamp(168px, 24svh, 236px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-paragraph {
+    min-height: auto !important;
+    padding: 24px !important;
+  }
+}
+
+/* HardLight + EVA: Keep separators as real layout hooks but fully optically transparent.. Las separaciones existen para el flujo, pero deben ser visualmente transparentes. */
+.separator-top,
+.separator-top::before,
+.separator-top::after,
+.section-observer.separator-top,
+.section-observer.separator-top::before,
+.section-observer.separator-top::after,
+.main-footer.separator-top,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.separator-top::before,
+.separator-top::after,
+.section-observer.separator-top::before,
+.section-observer.separator-top::after,
+.main-footer.separator-top::before,
+.main-footer.separator-top::after {
+  opacity: 0 !important;
+}
+
+
+/* ================================================================
+   Original: PORTFOLIO PATCH 10.3.7 — PERIOD BREAK FIX INSIDE BOX COPY / Keeps sentence
+   separators visible in structure but not as extra visual blocks.
+   HardLight + EVA: Las separaciones existen para el flujo, pero deben ser invisibles para el
+   ojo humano y para el navegador.
+   ================================================================ */
+.faq-text .box-copy,
+.news-card p.box-copy,
+.info-desc.box-copy,
+.modal-text,
+.talent-desc.box-copy {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.faq-text .box-copy br,
+.talent-desc.box-copy br {
+  display: block;
+  content: '';
+  margin-block: clamp(6px, 0.65vh, 10px);
+}
+
+
+/* ================================================================
+   HARDLIGHT PATCH 10.4.2 — MODAL GLASS + PORTFOLIO COPY POLISH
+   Scope: solo color/vidrio del modal y pequeños ajustes de presentación visual.
+   HardLight + EVA: la inmersión se moría con un bloque sólido; ahora el cristal vuelve a respirar.
+   ================================================================ */
+.modal-overlay {
+  background:
+    radial-gradient(circle at 28% 18%, rgba(186, 230, 253, 0.42), transparent 28%),
+    radial-gradient(circle at 78% 76%, rgba(41, 218, 120, 0.20), transparent 34%),
+    linear-gradient(135deg, rgba(123, 211, 234, 0.30), rgba(4, 89, 120, 0.24) 48%, rgba(13, 59, 72, 0.38));
+  backdrop-filter: blur(34px) saturate(175%);
+}
+
+.modal-card {
+  background:
+    linear-gradient(145deg, rgba(238, 250, 255, 0.34) 0%, rgba(132, 211, 229, 0.18) 46%, rgba(22, 118, 139, 0.20) 100%),
+    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.55), transparent 34%),
+    radial-gradient(circle at 86% 92%, rgba(41, 218, 120, 0.12), transparent 38%) !important;
+  border-color: rgba(255, 255, 255, 0.62) !important;
+  border-top-color: rgba(255, 255, 255, 0.90) !important;
+  border-left-color: rgba(255, 255, 255, 0.78) !important;
+  box-shadow:
+    0 30px 80px rgba(4, 48, 72, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -26px 62px rgba(0, 118, 145, 0.12) !important;
+}
+
+.modal-card::before {
+  height: 48%;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.14) 45%, transparent 100%) !important;
+}
+
+.modal-card::after {
+  background:
+    linear-gradient(to top, rgba(0, 58, 76, 0.10), transparent 72%) !important;
+}
+
+html[data-aero-night] .modal-overlay {
+  background:
+    radial-gradient(circle at 28% 18%, rgba(0, 212, 255, 0.20), transparent 30%),
+    radial-gradient(circle at 68% 40%, rgba(139, 92, 246, 0.16), transparent 34%),
+    radial-gradient(circle at 76% 82%, rgba(41, 218, 120, 0.16), transparent 32%),
+    linear-gradient(135deg, rgba(1, 12, 28, 0.68), rgba(0, 59, 77, 0.46) 46%, rgba(2, 36, 26, 0.62));
+  backdrop-filter: blur(36px) saturate(185%);
+}
+
+html[data-aero-night] .modal-card {
+  background:
+    linear-gradient(150deg, rgba(18, 45, 68, 0.58), rgba(0, 63, 78, 0.36) 47%, rgba(4, 48, 43, 0.44)),
+    radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 92% 90%, rgba(41, 218, 120, 0.13), transparent 36%) !important;
+  border-color: rgba(123, 211, 234, 0.42) !important;
+  border-top-color: rgba(255, 255, 255, 0.36) !important;
+  border-left-color: rgba(255, 255, 255, 0.24) !important;
+  box-shadow:
+    0 34px 90px rgba(0, 8, 18, 0.56),
+    0 0 54px rgba(0, 212, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.23),
+    inset 0 -30px 70px rgba(0, 0, 0, 0.22) !important;
+}
+
+html[data-aero-night] .modal-card::before {
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.21), rgba(123, 211, 234, 0.06) 48%, transparent 100%) !important;
+}
+
+html[data-aero-night] .modal-card::after {
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.24), transparent 70%) !important;
+}
+
+.modal-title {
+  letter-spacing: -0.02em;
+}
+
+.modal-text {
+  text-wrap: pretty;
+}
+
+
+/* ================================================================
+   HardLight Skills Portfolio: las antiguas tarjetas de proyectos ahora
+   presentan habilidades concretas. Mantener el vidrio, bajar el humo.
+   ================================================================ */
+.roster-card .project-dot,
+.roster-card .talent-dot {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background: var(--card-color) !important;
+  box-shadow: 0 0 12px var(--card-color), 0 0 24px color-mix(in srgb, var(--card-color) 50%, transparent) !important;
+  animation: pulse 2.5s infinite !important;
+  flex-shrink: 0 !important;
+}
+
+.roster-card .project-desc,
+.roster-card .talent-desc {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: clamp(0.86rem, 0.18vw + 0.78rem, 0.98rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.62 !important;
+  color: var(--t-sec) !important;
+  margin: 0 !important;
+  opacity: 0.95 !important;
+}
+html[data-aero-night] .roster-card .project-desc {
+  color: var(--t-muted) !important;
+}
+
+.skills-support-row {
+  width: min(100%, 1160px);
+  margin: clamp(38px, 4.2vh, 62px) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2vw, 28px);
+}
+
+.skill-support-pill {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(18px, 1.8vw, 24px);
+  border-radius: 24px;
+  border: 1px solid transparent;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.55);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.28), rgba(207,235,255,0.14) 58%, rgba(0,212,255,0.06)) padding-box,
+    linear-gradient(135deg, rgba(255,255,255,0.58), rgba(0,212,255,0.22), rgba(41,218,120,0.16)) border-box;
+  backdrop-filter: blur(26px) saturate(190%);
+  -webkit-backdrop-filter: blur(26px) saturate(190%);
+  box-shadow: 0 18px 48px rgba(0, 31, 54, 0.12), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
+.skill-support-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 42%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.22), transparent);
+  pointer-events: none;
+}
+
+.skill-support-pill span {
+  display: inline-flex;
+  margin-bottom: 12px;
+  font-family: 'Rajdhani', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+}
+
+.skill-support-pill strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.05rem, 0.35vw + 0.98rem, 1.26rem);
+  line-height: 1.15;
+  color: var(--t-main);
+  margin-bottom: 10px;
+}
+
+.skill-support-pill p {
+  margin: 0;
+  font-size: clamp(0.88rem, 0.16vw + 0.82rem, 0.98rem);
+  line-height: 1.58;
+  color: var(--t-sec);
+  font-weight: 700;
+}
+
+html[data-aero-night] .skill-support-pill {
+  background:
+    linear-gradient(145deg, rgba(24,42,66,0.68), rgba(8,18,34,0.54) 58%, rgba(0,212,255,0.08)) padding-box,
+    linear-gradient(135deg, rgba(186,230,253,0.26), rgba(0,212,255,0.14), rgba(139,92,246,0.16)) border-box;
+  border-top-color: rgba(255, 255, 255, 0.20);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+html[data-aero-night] .skill-support-pill strong {
+  color: #fff;
+}
+html[data-aero-night] .skill-support-pill p {
+  color: var(--t-muted);
+}
+
+@media (min-width: 1024px) {
+  .talents-grid {
+    grid-template-columns: repeat(3, minmax(280px, 350px)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .skills-support-row {
+    grid-template-columns: 1fr;
+    width: min(100%, 720px);
+  }
+}
+
+
+/* ================================================================
+   HARDLIGHT PATCH 10.4.5 — CARD TITLE FIT / No more clipped skill names
+   HardLight + EVA: si una palabra se sale por 2 píxeles, parece bug aunque el vidrio sea perfecto.
+   Mantener títulos legibles desde el primer frame y sin romper el hover scramble.
+   ================================================================ */
+.talents-grid {
+  width: min(100%, 1280px) !important;
+  grid-template-columns: repeat(3, minmax(330px, 390px)) !important;
+  gap: clamp(32px, 2.8vw, 48px) !important;
+}
+
+.roster-card .slot-text {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 2.18em !important;
+  overflow: visible !important;
+  text-wrap: balance !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.roster-card .slot-text.is-title-long {
+  font-size: clamp(1.74rem, 1.08vw + 1.04rem, 2.12rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.045em !important;
+}
+
+@media (max-width: 1180px) {
+  .talents-grid {
+    width: min(100%, 1040px) !important;
+    grid-template-columns: repeat(3, minmax(270px, 330px)) !important;
+  }
+
+  .roster-card .slot-text {
+    font-size: clamp(1.92rem, 2.6vw, 2.55rem) !important;
+  }
+
+  .roster-card .slot-text.is-title-long {
+    font-size: clamp(1.56rem, 2vw, 1.94rem) !important;
+    letter-spacing: -0.055em !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .talents-grid {
+    width: min(100%, 760px) !important;
+    grid-template-columns: repeat(2, minmax(300px, 360px)) !important;
+  }
+
+  .roster-card .slot-text.is-title-long {
+    font-size: clamp(1.7rem, 3.8vw, 2.15rem) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .talents-grid {
+    width: min(100%, 430px) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .roster-card .slot-text.is-title-long {
+    font-size: clamp(1.72rem, 7vw, 2.18rem) !important;
+    letter-spacing: -0.04em !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .roster-card .slot-text {
+    font-size: clamp(1.82rem, 8vw, 2.32rem) !important;
+  }
+
+  .roster-card .slot-text.is-title-long {
+    font-size: clamp(1.48rem, 6.4vw, 1.82rem) !important;
+  }
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 10.4.7 — FAQ / INFO ARROW BASELINE FIX
+   Scope: corrige el bug visual donde el símbolo ">" se iba a la última línea
+   o quedaba solo porque el texto dentro del box era inline-block con saltos.
+   HardLight + EVA: no mover el texto a mano; la flecha ahora tiene columna propia
+   y deja de bailar como señalética poseída.
+   ================================================================ */
+.faq-text {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: start !important;
+  column-gap: clamp(10px, 0.8vw, 14px) !important;
+}
+
+.faq-text .faq-arrow {
+  display: inline-block !important;
+  color: var(--cyan) !important;
+  font-family: 'Rajdhani', monospace !important;
+  font-size: 1.08em !important;
+  font-weight: 900 !important;
+  line-height: inherit !important;
+  margin-top: 0 !important;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 52%, transparent) !important;
+  transform: translateY(0.02em) !important;
+}
+
+.faq-text .box-copy {
+  display: block !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  vertical-align: top !important;
+}
+
+.faq-text .box-copy br {
+  display: block !important;
+  content: '' !important;
+  margin-block: clamp(6px, 0.65vh, 10px) !important;
+}
+
+.info-list li {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: start !important;
+  column-gap: 0.58em !important;
+}
+
+.info-list li > .aero-accent {
+  display: inline-block !important;
+  line-height: inherit !important;
+  transform: translateY(0.02em) !important;
+}
+
+
+/* ================================================================
+   HARDLIGHT PATCH 10.4.8 — NIGHT HERO TITLE RASTER FIX
+   Scope: corrige los bloques sólidos que aparecían sobre "CON IDENTIDAD"
+   en modo noche por el combo de texto gigante + gradient text animado + GPU.
+   HardLight + EVA: el titular puede brillar, pero no convertirse en mosaico poseído.
+   No tocar el modo día: ahí el contraste ya quedó fino.
+   ================================================================ */
+html[data-aero-night] .aero-title-glow {
+  background: none !important;
+  background-image: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: #58d7ff !important;
+  color: #58d7ff !important;
+  animation: none !important;
+  filter: none !important;
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.10),
+    0 0 18px rgba(0, 212, 255, 0.34),
+    0 0 34px rgba(41, 218, 120, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.34) !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  will-change: auto !important;
+  transform: translateZ(0);
+}
+
+html[data-aero-night] .aero-title-glow::before,
+html[data-aero-night] .aero-title-glow::after {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 10.4.9 — ENCODED CARD TITLES / Hover decode ritual
+   HardLight + EVA: ahora la tarjeta descansa cifrada y se revela al tocarla.
+   No convertir esto en random infinito: el texto debe respirar, no pelearse con el ancho.
+   ================================================================ */
+.roster-card .slot-text.is-encoded {
+  color: color-mix(in srgb, var(--card-color) 46%, var(--t-main)) !important;
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--card-color) 20%, transparent),
+    0 2px 10px rgba(0, 0, 0, 0.12) !important;
+  letter-spacing: -0.035em !important;
+}
+
+html[data-aero-night] .roster-card .slot-text.is-encoded {
+  color: color-mix(in srgb, var(--card-color) 38%, #ffffff) !important;
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--card-color) 28%, transparent),
+    0 2px 14px rgba(0, 0, 0, 0.28) !important;
+}
+
+.roster-card .slot-text.is-scrambling {
+  filter: saturate(1.08) contrast(1.04) !important;
+  will-change: contents, filter;
+}
+
+.roster-card .slot-text.is-decoding {
+  color: color-mix(in srgb, var(--card-color) 24%, #ffffff) !important;
+}
+
+.roster-card .slot-text.is-encoding {
+  color: color-mix(in srgb, var(--card-color) 44%, var(--t-main)) !important;
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 10.5.0 — MULTILINE CARD DECODE FIX
+   Scope: DISEÑO DE INTERFAZ y DIRECCIÓN CREATIVA ya no dependen del wrap
+   automático del navegador durante la decodificación.
+   HardLight + EVA: cada línea tiene su pista. No mezclar otra vez todo en un textContent
+   plano, porque el título empieza a bailar y luego nadie sabe quién pateó el píxel.
+   ================================================================ */
+.roster-card .slot-text .slot-line {
+  display: block !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  line-height: inherit !important;
+}
+
+.roster-card .slot-text .slot-line + .slot-line {
+  margin-top: -0.02em !important;
+}
+
+.roster-card .slot-text.is-scrambling .slot-line {
+  will-change: contents, filter !important;
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 10.5.1 — DAY CARD DECODE CONTRAST
+   HardLight + EVA: modo día estaba traicionando la decodificación con letras casi negras.
+   Regla nueva: al hacer hover, el título debe revelar color con contraste, no ponerse
+   traje de sombra corporativa. No tocar sin revisar ENTREGA TÉCNICA, DISEÑO DE INTERFAZ
+   y DIRECCIÓN CREATIVA en modo día; esos tres son los sensores de humo del bug.
+   ================================================================ */
+html:not([data-aero-night]) .roster-card {
+  --slot-day-readable: color-mix(in srgb, var(--card-color) 58%, #0a345b) !important;
+  --slot-day-shadow: color-mix(in srgb, var(--card-color) 32%, transparent) !important;
+}
+
+html:not([data-aero-night]) .roster-card:hover .slot-text,
+html:not([data-aero-night]) .roster-card .slot-text.is-decoding {
+  color: var(--slot-day-readable) !important;
+  -webkit-text-stroke: 0.35px color-mix(in srgb, #05233c 26%, var(--card-color)) !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.48),
+    0 8px 18px var(--slot-day-shadow),
+    0 0 1px rgba(4, 20, 36, 0.55) !important;
+}
+
+html:not([data-aero-night]) .roster-card:hover .slot-text.is-encoded,
+html:not([data-aero-night]) .roster-card .slot-text.is-encoding {
+  color: color-mix(in srgb, var(--card-color) 50%, #14395d) !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.38),
+    0 6px 16px color-mix(in srgb, var(--card-color) 24%, transparent) !important;
+}
+
+html:not([data-aero-night]) .roster-card:hover .slot-text .slot-line {
+  color: inherit !important;
+  text-shadow: inherit !important;
+}
+
+
+/* ================================================================
+   HARDLIGHT PATCH 10.5.3 — STATS REMOVED FROM SKILL CARDS
+   HardLight + EVA: los números tipo barra se retiraron porque no explicaban una técnica real.
+   Mantener las tarjetas centradas en descripción, criterio y lectura. Si se agregan métricas después,
+   que sean datos concretos, no decoración.
+   ================================================================ */
+.roster-card .stats-block,
+.roster-card .stat,
+.roster-card .stat-label,
+.roster-card .stat-bar,
+.roster-card .stat-fill,
+.roster-card .stat-val {
+  display: none !important;
+}
+
+.roster-card .project-desc,
+.roster-card .talent-desc {
+  margin-bottom: 0 !important;
+}
+
+/* ================================================================
+   HardLight + EVA: Animación sutil para la bitácora creativa.
+   Motivo: las tarjetas tenían buena forma, pero no respondían visualmente.
+   Mantener el efecto discreto; el texto siempre tiene prioridad.
+   ================================================================ */
+.news-card {
+  position: relative !important;
+  isolation: isolate;
+  min-height: clamp(250px, 19vw, 320px);
+}
+
+.news-card .news-header,
+.news-card h3,
+.news-card p {
+  position: relative;
+  z-index: 2;
+}
+
+.news-card-signal {
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.34;
+  background:
+    linear-gradient(115deg,
+      transparent 0%,
+      transparent 32%,
+      rgba(var(--card-color-rgb, 0, 212, 255), 0.14) 44%,
+      rgba(255, 255, 255, 0.14) 50%,
+      rgba(var(--card-color-rgb, 0, 212, 255), 0.10) 57%,
+      transparent 70%,
+      transparent 100%),
+    radial-gradient(circle at 18% 18%, rgba(var(--card-color-rgb, 0, 212, 255), 0.16), transparent 34%),
+    radial-gradient(circle at 82% 78%, rgba(var(--card-color-rgb, 0, 212, 255), 0.12), transparent 38%);
+  transform: translate3d(-18%, 0, 0);
+  animation: newsSignalDrift 7.6s ease-in-out infinite;
+  animation-delay: var(--news-flow-delay, 0s);
+  mix-blend-mode: screen;
+}
+
+.news-card:hover .news-card-signal {
+  opacity: 0.58;
+  animation-duration: 4.8s;
+}
+
+.news-card:hover .news-chip .dot {
+  animation: newsDotPulse 1.7s ease-in-out infinite;
+}
+
+@keyframes newsSignalDrift {
+  0%, 100% {
+    transform: translate3d(-18%, 0, 0);
+    filter: blur(0px);
+  }
+  45% {
+    transform: translate3d(18%, -2%, 0);
+    filter: blur(0.2px);
+  }
+  70% {
+    transform: translate3d(8%, 2%, 0);
+  }
+}
+
+@keyframes newsDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px var(--card-color);
+  }
+  50% {
+    transform: scale(1.22);
+    box-shadow: 0 0 18px var(--card-color);
+  }
+}
+
+html[data-aero-day] .news-card-signal {
+  opacity: 0.24;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(115deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(var(--card-color-rgb, 0, 126, 180), 0.10) 45%,
+      rgba(255, 255, 255, 0.20) 52%,
+      rgba(var(--card-color-rgb, 0, 126, 180), 0.08) 60%,
+      transparent 74%,
+      transparent 100%),
+    radial-gradient(circle at 18% 18%, rgba(var(--card-color-rgb, 0, 126, 180), 0.10), transparent 34%),
+    radial-gradient(circle at 82% 78%, rgba(var(--card-color-rgb, 0, 126, 180), 0.08), transparent 38%);
+}
+
+html[data-aero-day] .news-card:hover .news-card-signal {
+  opacity: 0.34;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-card-signal,
+  .news-card:hover .news-chip .dot {
+    animation: none !important;
+  }
+}

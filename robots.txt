@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /js/hardlight-integrity-guard.js
+Disallow: /Audios/
+
+Sitemap: https://portfolio.example/sitemap.xml

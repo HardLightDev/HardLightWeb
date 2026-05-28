@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es-419">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="description"
+        content="Portafolio de HardLight Dev.: desarrollo y diseño web, dirección creativa e interfaces visuales creadas con detalle, legibilidad y una identidad propia.">
+    <meta name="keywords" content="HardLight Dev., HardLight, portafolio, portfolio, desarrollo web, diseño web, UI, frontend, creative coding, dirección creativa">
+    <meta name="theme-color" content="#29da78">
+    <meta name="application-name" content="HardLight Portfolio">
+    <meta property="og:title" content="HardLight Dev. | Portfolio">
+    <meta property="og:description"
+        content="Trabajo visual y técnico de HardLight Dev.: desarrollo web, diseño de interfaces, prototipos interactivos y dirección creativa con criterio propio.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HardLight Portfolio">
+    <meta property="og:url" content="https://portfolio.example/">
+    <meta property="og:locale" content="es_LA">
+    <meta property="og:image" content="img/social-preview.png">
+
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="color-scheme" content="light">
+    <link rel="canonical" href="https://portfolio.example/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HardLight Dev. | Portfolio">
+    <meta name="twitter:description"
+        content="Portafolio visual y técnico de HardLight Dev.: desarrollo frontend, diseño web, UI systems, dirección creativa y experiencias web con personalidad.">
+
+    <!-- EVA + Alex: Structured Data for SEO/GEO. Esto alimenta a los robots de búsqueda; una coma mala y el oráculo se ofende. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "HardLight Dev.",
+      "alternateName": "HardLight",
+      "url": "https://portfolio.example/",
+      "image": "https://portfolio.example/img/social-preview.png",
+      "jobTitle": "Creative Developer, Web Designer & Creative Director",
+      "description": "Desarrollador creativo enfocado en desarrollo y diseño web, interfaces visuales, experiencias interactivas y dirección creativa con una mezcla de criterio técnico, exploración estética y personalidad.",
+      "knowsAbout": [
+        "Frontend Development",
+        "UI Design",
+        "Creative Coding",
+        "Web Design",
+        "Creative Direction",
+        "Web Performance",
+        "Interactive Systems"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "HardLight Portfolio",
+      "url": "https://portfolio.example/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://portfolio.example/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "¿Qué es este portafolio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es el portafolio visual y técnico de HardLight Dev.: una muestra de desarrollo web, interfaces, prototipos y decisiones de diseño trabajadas con detalle."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Qué tipo de trabajos muestra?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Muestra desarrollo web, diseño de interfaces, sistemas visuales, prototipos interactivos, dirección creativa y piezas de identidad digital con un enfoque personal y profesional."
+        }
+      }, {
+        "@type": "Question",
+        "name": "¿Cómo puedo usarlo como referencia?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sirve como vitrina para entender cómo HardLight Dev. trabaja una idea: claridad, estética, rendimiento, orden visual y una presentación que se sienta cuidada y propia."
+        }
+      }]
+    }
+    </script>
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <noscript>
+        <style>
+            #gate-container {
+                display: none !important;
+            }
+
+            #main-content {
+                opacity: 1 !important;
+                filter: none !important;
+                transform: none !important;
+            }
+
+            body {
+                overflow: auto !important;
+            }
+
+            body.no-js {
+                overflow: auto !important;
+            }
+
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+            }
+
+            #aero-boot-overlay {
+                display: none !important;
+            }
+
+            #cursor,
+            #cursor-dot {
+                display: none !important;
+            }
+
+            html,
+            body,
+            * {
+                cursor: auto !important;
+            }
+        </style>
+    </noscript>
+
+    <title>HardLight Dev. | Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Outfit:wght@400;700;900&family=Rajdhani:wght@500;700&family=Varela+Round&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0" />
+
+    <link rel="stylesheet" href="css/hardlight-interface-core.css?v=10.6.0">
+    <link rel="stylesheet" href="css/hardlight-aero-performance-layer.css?v=5.1.0">
+    <script src="js/hardlight-integrity-guard.js"></script>
+    <script>
+        (function () {
+            var theme = localStorage.getItem('aero-theme');
+            if (theme === 'night') {
+                document.documentElement.setAttribute('data-aero-night', 'true');
+            }
+            document.documentElement.classList.add('aero-js-ready');
+            // EVA + Alex: forzar overflow oculto de inmediato; si el gate parpadea, el inicio se vuelve teatro de sombras.
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            // EVA + Alex: quitar no-js si aparece; pequeño gesto para que la página respire sin modo fósil.
+            document.documentElement.classList.remove('no-js');
+        })();
+    </script>
+</head>
+
+<body class="no-js">
+
+    <div id="aero-boot-overlay">
+        <div class="aero-boot-glow"></div>
+    </div>
+
+    <div class="noise-overlay"></div>
+
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+    <nav class="sr-only" aria-label="Enlaces rápidos">
+        <a href="#inicio">Inicio</a>
+        <a href="#proyectos">Habilidades</a>
+        <a href="#intel">Bitácora</a>
+        <a href="#data">Perfil</a>
+    </nav>
+
+    <div id="cursor"><div class="cursor-inner"></div></div>
+    <div id="cursor-dot"></div>
+
+    <audio id="bgmPlayer" loop preload="auto" src="Audios/bgm.wav"></audio>
+    <audio id="sfx-enter" preload="auto" src="Audios/Click_sfx.wav"></audio>
+    <audio id="sfx-hover" preload="auto" src="Audios/Hover_sfx.wav"></audio>
+    <audio id="sfx-click" preload="auto" src="Audios/Click_sfx.wav"></audio>
+    <audio id="sfx-ui-hover" preload="auto" src="Audios/Hover_sfx.wav"></audio>
+    <audio id="sfx-glitch" preload="auto"
+        src="https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missil.mp3"></audio>
+
+
+    <div id="particles-container"></div>
+
+    <div id="custom-scrollbar" style="display: none;">
+        <div id="custom-scroll-thumb"></div>
+    </div>
+
+    <div id="gate-container" onclick="triggerEntrySequence()">
+        <div class="gate-sky"></div>
+        <div class="central-slit"></div>
+        <div class="light-door-container">
+            <div class="door-panel left"></div>
+            <div class="door-panel right"></div>
+        </div>
+        <div class="gate-scene">
+            <div class="celestial-logo">
+                <div class="logo-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="logo-text">HARDLIGHT</div>
+                <div class="logo-subtext">Visual & Interface Portfolio</div>
+            </div>
+
+            <div class="click-to-start">
+                <div class="line"></div>
+                <span>Haz clic para entrar</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="entry-flash"></div>
+    <div id="theme-wipe-overlay"></div>
+
+    <button id="aero-theme-toggle" onclick="toggleAeroTheme()" aria-label="Cambiar tema día/noche"
+        title="Modo Día / Noche">
+        <span class="toggle-side toggle-side--day">
+            <span class="toggle-icon-wrap">☀️</span>
+            <span class="toggle-label-text">DÍA</span>
+        </span>
+        <div class="toggle-track" aria-hidden="true">
+            <div class="toggle-thumb"></div>
+        </div>
+        <span class="toggle-side toggle-side--night">
+            <span class="toggle-label-text">NOCHE</span>
+            <span class="toggle-icon-wrap">🌙</span>
+        </span>
+    </button>
+
+    <main id="main-content" class="main-content">
+
+        <section id="inicio" class="hero-section section-observer">
+            <div class="hero-bg-text reveal select-none">
+                <span>HARDLIGHT PORTFOLIO</span>
+            </div>
+
+            <div class="hero-content">
+                <div class="hero-tagline reveal">
+                    <span class="pulse-star">✧</span>
+                    HardLight Dev. · Web Design · Creative Direction
+                </div>
+
+                <h1 class="aero-title reveal delay-100">
+                    INTERFACES <br>
+                    <span class="aero-title-glow">CON IDENTIDAD</span>
+                </h1>
+
+                <p class="hero-paragraph reveal delay-200">
+                    Soy HardLight Dev., y este portafolio existe para mostrar cómo desarrollo, diseño y dirijo experiencias web con intención.<br>
+                    Me interesa crear páginas con carácter propio: cada estilo, cada interacción y cada decisión visual tiene que comunicar algo.<br>
+                    Aquí reúno criterio técnico, dirección creativa y esa obsesión útil por pulir detalles hasta que una idea se vea lista para presentarse.
+                </p>
+
+                <div class="hero-actions reveal delay-300">
+                    <button onclick="scrollToSection('proyectos')" class="btn-casino" aria-label="Ver habilidades destacadas">
+                        <span>VER HABILIDADES</span>
+                    </button>
+                    <button onclick="openModal('protocol')" class="btn-protocolo" aria-label="Ver criterio de trabajo">
+                        <span>Mi criterio</span>
+                        <div class="btn-protocolo-hover"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="proyectos" class="roster-section separator-top section-observer">
+            <div class="roster-bg-ornament reveal"></div>
+
+            <div class="section-header reveal">
+                <h2>HABILIDADES <span class="accent-italic">DESTACADAS</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-hint">Habilidades concretas para crear páginas con identidad: código limpio, criterio visual, experimentación, pulido y una entrega que se pueda mostrar sin explicar media vida.</p>
+            </div>
+
+            <div id="projects-grid" class="talents-grid">
+                <!-- EVA + Alex: Cards renderizadas via JS. Ahora son habilidades destacadas: no inflarlas, no convertirlas en humo de portafolio. -->
+            </div>
+
+            <div class="skills-support-row reveal delay-200" aria-label="Resumen breve de enfoque profesional">
+                <div class="skill-support-pill">
+                    <span>01</span>
+                    <strong>Diseño con intención</strong>
+                    <p>Cada decisión visual debe tener una razón, no solo ocupar espacio.</p>
+                </div>
+                <div class="skill-support-pill">
+                    <span>02</span>
+                    <strong>Código presentable</strong>
+                    <p>Código, estructura y assets listos para revisar, mover y publicar.</p>
+                </div>
+                <div class="skill-support-pill">
+                    <span>03</span>
+                    <strong>Exploración controlada</strong>
+                    <p>Explorar caminos menos obvios, pero sin sacrificar lectura ni control.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="intel" class="intel-section separator-top section-observer">
+            <div class="section-header-row reveal">
+                <h2>BITÁCORA <span class="accent-cyan">CREATIVA</span></h2>
+                <div class="live-feed-badge">
+                    <span class="pulse-dot"></span> DEV FEED
+                </div>
+            </div>
+            <p class="section-hint reveal delay-100">
+                Notas cortas sobre decisiones, mejoras y pequeñas batallas de diseño que valía la pena dejar registradas.
+            </p>
+            <div id="news-grid" class="news-grid"></div>
+        </section>
+
+        <section id="data" class="data-section separator-top section-observer">
+            <div class="section-header text-center reveal">
+                <h2 class="aero-text-main">SOBRE <span class="aero-accent">EL PORTAFOLIO</span></h2>
+                <div class="section-divider center-div"></div>
+                <p class="section-hint aero-text-muted">
+                    Un resumen honesto de lo que hago, cómo pienso cada sitio y qué cuido cuando una idea necesita verse profesional sin perder personalidad.
+                </p>
+            </div>
+
+            <div class="aero-glass-box info-box reveal delay-100">
+                <div class="info-header">
+                    <h3>PERFIL_HARDLIGHT</h3>
+                    <p>LAST_UPDATE: 2026 // ENTITY: HARDLIGHT_DEV</p>
+                </div>
+                <p class="info-desc aero-text-secondary box-copy">
+                    <strong class="aero-text-main">HardLight Portfolio</strong> reúne mi trabajo visual y técnico: páginas web, interfaces, sistemas visuales y pruebas de dirección creativa pensadas para sentirse pulidas, claras y con identidad.<br>
+                    No es solo una vitrina; es una muestra de cómo convierto una idea en una experiencia web presentable, ordenada y con carácter propio.
+                </p>
+                <ul class="info-list aero-text-secondary">
+                    <li><span class="aero-accent">▸</span> Enfoque: Desarrollo Web + Diseño UI + Dirección Creativa</li>
+                    <li><span class="aero-accent">▸</span> Base: Trabajo remoto / LATAM</li>
+                    <li><span class="aero-accent">▸</span> Firma: HardLight Dev. @hardlight_editor</li>
+                    <li><span class="aero-accent">▸</span> Principio: que una idea se vea bien, se entienda rápido y funcione con estabilidad
+                    </li>
+                </ul>
+            </div>
+
+            <div id="faq-container" class="faq-container"></div>
+        </section>
+
+        <footer class="main-footer separator-top reveal">
+            <div class="footer-logo">HARDLIGHT</div>
+            <div class="footer-links">
+                <button onclick="openModal('creditos')">CRÉDITOS</button>
+                <button onclick="openModal('privacidad')">PRIVACIDAD</button>
+                <button onclick="openModal('legal')">LEGAL</button>
+            </div>
+            <p class="footer-sub">EST. 2025 // HARDLIGHT PORTFOLIO</p>
+            <p class="footer-sub-lower">Desarrollo web, diseño visual, dirección creativa y bastante paciencia</p>
+        </footer>
+    </main>
+
+    <aside class="desktop-sidebar">
+        <div class="logo-box" onclick="scrollToSection('inicio')" aria-label="Volver al inicio">
+            <span>H</span>
+        </div>
+        <nav class="sidebar-nav" role="navigation" aria-label="Menú principal">
+            <button onclick="scrollToSection('inicio')" id="nav-inicio" class="nav-link active"
+                aria-label="Ir a Inicio">Lobby</button>
+            <button onclick="scrollToSection('proyectos')" id="nav-proyectos" class="nav-link"
+                aria-label="Ir a Habilidades">Habilidades</button>
+            <button onclick="scrollToSection('intel')" id="nav-intel" class="nav-link"
+                aria-label="Ir a Bitácora">Bitácora</button>
+            <button onclick="scrollToSection('data')" id="nav-data" class="nav-link"
+                aria-label="Ir a Perfil">Perfil</button>
+        </nav>
+        <div class="sidebar-audio">
+            <div class="audio-wrapper">
+                <div class="volume-slider-container">
+                    <input type="range" min="0" max="1" step="0.05" value="0.5" oninput="changeVolume(this.value)"
+                        aria-label="Control de volumen">
+                </div>
+                <button onclick="toggleAudio()" class="audio-btn-enhanced" aria-label="Activar/Desactivar Sonido">
+                    <span class="material-symbols-outlined" id="audio-icon">volume_off</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <nav class="mobile-dock" role="navigation" aria-label="Menú móvil">
+        <button onclick="scrollToSection('inicio')" class="mobile-btn active" id="mob-inicio" aria-label="Lobby">
+            <span class="material-symbols-outlined">casino</span>
+            <span>LOBBY</span>
+        </button>
+        <button onclick="scrollToSection('proyectos')" class="mobile-btn" id="mob-proyectos" aria-label="Habilidades">
+            <span class="material-symbols-outlined">playing_cards</span>
+            <span>HABILIDADES</span>
+        </button>
+        <button onclick="toggleAudio()" class="mobile-btn" id="mob-audio" aria-label="Audio">
+            <span class="material-symbols-outlined" id="mob-audio-icon">volume_off</span>
+            <span>AUDIO</span>
+        </button>
+        <button onclick="scrollToSection('intel')" class="mobile-btn" id="mob-intel" aria-label="Bitácora">
+            <span class="material-symbols-outlined">rss_feed</span>
+            <span>LOGS</span>
+        </button>
+        <button onclick="scrollToSection('data')" class="mobile-btn" id="mob-data" aria-label="Perfil">
+            <span class="material-symbols-outlined">database</span>
+            <span>PERFIL</span>
+        </button>
+    </nav>
+
+    <div id="modal" class="modal-overlay" onclick="closeModal()" aria-modal="true" role="dialog">
+        <div class="aero-glass-card modal-card" onclick="event.stopPropagation()">
+            <h3 id="modal-title" class="modal-title">TITULO</h3>
+            <p id="modal-text" class="modal-text">Texto</p>
+            <button onclick="closeModal()" class="btn-modal-close">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/hardlight-runtime-engine.js?v=7.5.0" defer></script>
+</body>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7303445678222043"
+    crossorigin="anonymous"></script>
+
+</html>
