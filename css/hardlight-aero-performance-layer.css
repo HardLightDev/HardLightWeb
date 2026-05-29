@@ -370,3 +370,1263 @@ html:not([data-aero-night]) .toggle-side--night {
    HardLight + EVA: Las tarjetas tienen física visual: glow, tilt y stats deben convivir sin
    duplicar brillo ni aplastar texto.
    ================================================================ */
+/* ================================================================
+   HARDLIGHT PATCH 10.7.0 - MIDNIGHT FRUTIGER AERO GLASS
+   Motivo: el modo noche necesitaba más atmósfera Aero, capas de vidrio,
+   refracción visual y profundidad sin tocar el layout ni la lógica JS.
+   ================================================================ */
+html[data-aero-night] {
+  color-scheme: dark;
+  --p-night-base: #030817;
+  --p-night-navy: #06162b;
+  --p-night-cyan: #5ee7ff;
+  --p-night-lime: #6dffb2;
+  --p-night-aqua: #8bf7ff;
+  --p-night-violet: #7c5cff;
+  --p-night-text-main: #f4fbff;
+  --p-night-text-muted: #b7d9e9;
+  --p-night-text-soft: #85aec3;
+
+  --bg-night:
+    radial-gradient(ellipse at 18% 14%, rgba(255, 255, 255, 0.10) 0%, rgba(94, 231, 255, 0.10) 14%, rgba(94, 231, 255, 0) 42%),
+    radial-gradient(ellipse at 74% 8%, rgba(124, 92, 255, 0.42) 0%, rgba(124, 92, 255, 0.13) 24%, rgba(124, 92, 255, 0) 52%),
+    radial-gradient(ellipse at 32% 42%, rgba(0, 188, 228, 0.36) 0%, rgba(0, 188, 228, 0.12) 32%, rgba(0, 188, 228, 0) 58%),
+    radial-gradient(ellipse at 86% 54%, rgba(109, 255, 178, 0.22) 0%, rgba(109, 255, 178, 0.08) 30%, rgba(109, 255, 178, 0) 58%),
+    radial-gradient(ellipse at 46% 88%, rgba(23, 114, 170, 0.42) 0%, rgba(4, 30, 66, 0.28) 36%, rgba(4, 30, 66, 0) 68%),
+    linear-gradient(145deg, #020611 0%, #06162b 34%, #04243f 62%, #03101f 100%);
+
+  --t-main: var(--p-night-text-main);
+  --t-sec: var(--p-night-text-muted);
+  --t-muted: var(--p-night-text-soft);
+  --cyan: var(--p-night-cyan);
+  --lime: var(--p-night-lime);
+  --cyan-glow: rgba(94, 231, 255, 0.66);
+  --lime-glow: rgba(109, 255, 178, 0.46);
+
+  --glass-bg:
+    linear-gradient(145deg,
+      rgba(246, 253, 255, 0.16) 0%,
+      rgba(134, 224, 255, 0.09) 18%,
+      rgba(14, 36, 66, 0.50) 52%,
+      rgba(3, 11, 25, 0.58) 100%);
+  --glass-border: rgba(185, 239, 255, 0.34);
+  --glass-highlight: rgba(255, 255, 255, 0.54);
+  --glass-blur: blur(42px) saturate(235%) brightness(1.06);
+  --glass-inner-glow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 0 18px rgba(94, 231, 255, 0.07),
+    inset 0 -18px 32px rgba(0, 4, 14, 0.30);
+  --shadow-card:
+    0 12px 34px rgba(0, 0, 0, 0.38),
+    0 30px 90px rgba(0, 16, 38, 0.42),
+    0 0 34px rgba(94, 231, 255, 0.08),
+    var(--glass-inner-glow);
+  --shadow-card-hover:
+    0 18px 42px rgba(0, 0, 0, 0.48),
+    0 44px 120px rgba(0, 30, 64, 0.50),
+    0 0 48px rgba(94, 231, 255, 0.18),
+    0 0 30px rgba(109, 255, 178, 0.10),
+    var(--glass-inner-glow);
+  --shadow-btn:
+    0 10px 28px rgba(0, 0, 0, 0.40),
+    inset 0 2px 4px rgba(255, 255, 255, 0.22),
+    inset 0 -10px 18px rgba(0, 3, 12, 0.34),
+    0 0 18px rgba(94, 231, 255, 0.12);
+}
+
+html[data-aero-night]::before {
+  background: var(--bg-night) !important;
+  background-size: 140% 140%, 150% 150%, 130% 130%, 150% 150%, 145% 145%, cover !important;
+  background-position: 0% 0%, 100% 0%, 30% 45%, 90% 62%, 50% 100%, center !important;
+  animation: midnightAeroBackground 30s ease-in-out infinite;
+}
+
+html[data-aero-night] body::before,
+html[data-aero-night] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+html[data-aero-night] body::before {
+  z-index: 2;
+  opacity: 0.74;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 20% 28%, rgba(255, 255, 255, 0.18) 0 1.5%, rgba(94, 231, 255, 0.18) 1.7% 7%, transparent 18%),
+    radial-gradient(circle at 76% 24%, rgba(255, 255, 255, 0.14) 0 1.2%, rgba(124, 92, 255, 0.18) 1.4% 8%, transparent 20%),
+    radial-gradient(circle at 82% 76%, rgba(255, 255, 255, 0.10) 0 1%, rgba(109, 255, 178, 0.14) 1.3% 9%, transparent 22%),
+    linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.055) 34%, rgba(94, 231, 255, 0.08) 48%, transparent 64%);
+  transform: translate3d(0, 0, 0);
+  animation: midnightAeroOrbs 24s ease-in-out infinite;
+}
+
+html[data-aero-night] body::after {
+  z-index: 3;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(100deg, transparent 0%, transparent 28%, rgba(255, 255, 255, 0.10) 38%, rgba(94, 231, 255, 0.08) 47%, transparent 62%, transparent 100%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 7px);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%);
+}
+
+html[data-aero-night] .noise-overlay {
+  opacity: 0.075 !important;
+  mix-blend-mode: soft-light;
+}
+
+html[data-aero-night] .main-content {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
+}
+
+html[data-aero-night] .desktop-sidebar,
+html[data-aero-night] .mobile-dock,
+html[data-aero-night] #aero-theme-toggle,
+html[data-aero-night] .hero-tagline,
+html[data-aero-night] .hero-paragraph,
+html[data-aero-night] .contact-chip,
+html[data-aero-night] .volume-slider-container,
+html[data-aero-night] .live-feed-badge,
+html[data-aero-night] .news-chip,
+html[data-aero-night] .skip-link,
+html[data-aero-night] .modal-card,
+html[data-aero-night] .info-box,
+html[data-aero-night] .faq-item,
+html[data-aero-night] .news-card,
+html[data-aero-night] .aero-glass-card:not(.roster-card .aero-glass-card) {
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  border-top-color: var(--glass-highlight) !important;
+  border-left-color: rgba(255, 255, 255, 0.42) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+}
+
+html[data-aero-night] .hero-paragraph {
+  border-left-color: rgba(94, 231, 255, 0.82) !important;
+  color: rgba(221, 246, 255, 0.92) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(5, 18, 36, 0.52) 55%, rgba(0, 188, 228, 0.10)),
+    radial-gradient(circle at 12% 12%, rgba(255, 255, 255, 0.18), transparent 34%) !important;
+}
+
+html[data-aero-night] .hero-tagline,
+html[data-aero-night] .contact-chip,
+html[data-aero-night] .news-chip,
+html[data-aero-night] .live-feed-badge {
+  color: rgba(228, 249, 255, 0.94) !important;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.36),
+    0 0 22px rgba(94, 231, 255, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -12px 20px rgba(0, 6, 18, 0.26) !important;
+}
+
+html[data-aero-night] .contact-chip--primary {
+  color: #d8ffe9 !important;
+  background:
+    linear-gradient(135deg, rgba(109, 255, 178, 0.18), rgba(94, 231, 255, 0.12) 48%, rgba(4, 18, 36, 0.54)) !important;
+}
+
+html[data-aero-night] .contact-chip:hover,
+html[data-aero-night] .sidebar-contact a:hover,
+html[data-aero-night] .sidebar-contact button:hover,
+html[data-aero-night] .mobile-btn:hover {
+  color: #ffffff !important;
+  border-color: rgba(210, 249, 255, 0.48) !important;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.44),
+    0 0 34px rgba(94, 231, 255, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
+}
+
+html[data-aero-night] .aero-glass-card::before,
+html[data-aero-night] .info-box::before,
+html[data-aero-night] .faq-item::before,
+html[data-aero-night] .news-card::before {
+  background:
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(185, 239, 255, 0.16) 32%,
+      rgba(94, 231, 255, 0.06) 56%,
+      transparent 100%) !important;
+  opacity: 0.78 !important;
+  mix-blend-mode: screen;
+}
+
+html[data-aero-night] .aero-glass-card::after,
+html[data-aero-night] .info-box::after,
+html[data-aero-night] .faq-item::after,
+html[data-aero-night] .news-card::after {
+  background:
+    linear-gradient(to top, rgba(0, 3, 13, 0.32), transparent 72%) !important;
+  opacity: 0.92 !important;
+}
+
+html[data-aero-night] .aero-glass-card:hover,
+html[data-aero-night] .info-box:hover,
+html[data-aero-night] .faq-item:hover,
+html[data-aero-night] .news-card:hover {
+  border-color: rgba(218, 251, 255, 0.54) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+html[data-aero-night] .desktop-sidebar,
+html[data-aero-night] .mobile-dock {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(8, 22, 44, 0.62) 56%, rgba(0, 188, 228, 0.10)) !important;
+}
+
+html[data-aero-night] .nav-link,
+html[data-aero-night] .mobile-btn,
+html[data-aero-night] .sidebar-contact a,
+html[data-aero-night] .sidebar-contact button {
+  color: rgba(209, 240, 250, 0.82) !important;
+  background: rgba(8, 24, 45, 0.42) !important;
+  border-color: rgba(185, 239, 255, 0.20) !important;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+html[data-aero-night] .nav-link:hover,
+html[data-aero-night] .nav-link.active,
+html[data-aero-night] .mobile-btn.active {
+  color: #ffffff !important;
+  background:
+    linear-gradient(135deg, rgba(94, 231, 255, 0.28), rgba(7, 46, 86, 0.58) 62%, rgba(109, 255, 178, 0.12)) !important;
+  border-color: rgba(218, 251, 255, 0.46) !important;
+  border-top-color: rgba(255, 255, 255, 0.64) !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(94, 231, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -12px 18px rgba(0, 4, 14, 0.26) !important;
+}
+
+html[data-aero-night] .logo-box,
+html[data-aero-night] .audio-btn-enhanced {
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.92), rgba(185, 239, 255, 0.52) 28%, rgba(94, 231, 255, 0.30) 50%, rgba(6, 22, 43, 0.78) 100%) !important;
+  border-color: rgba(230, 253, 255, 0.64) !important;
+  color: #e8fbff !important;
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.40),
+    0 0 26px rgba(94, 231, 255, 0.24),
+    inset 0 2px 4px rgba(255, 255, 255, 0.48),
+    inset 0 -14px 22px rgba(0, 8, 22, 0.36) !important;
+}
+
+html[data-aero-night] .aero-title {
+  color: #f7fdff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 22px rgba(94, 231, 255, 0.18),
+    0 10px 34px rgba(0, 0, 0, 0.44) !important;
+}
+
+html[data-aero-night] .aero-title-glow {
+  -webkit-text-fill-color: #76ebff !important;
+  color: #76ebff !important;
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.12),
+    0 0 18px rgba(94, 231, 255, 0.46),
+    0 0 38px rgba(109, 255, 178, 0.22),
+    0 10px 28px rgba(0, 0, 0, 0.42) !important;
+}
+
+html[data-aero-night] .section-header h2,
+html[data-aero-night] .section-header-row h2,
+html[data-aero-night] .footer-logo {
+  color: #f4fbff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14),
+    0 0 24px rgba(94, 231, 255, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.40) !important;
+}
+
+html[data-aero-night] .section-divider {
+  background: linear-gradient(90deg, rgba(94, 231, 255, 0.98), rgba(109, 255, 178, 0.92), rgba(124, 92, 255, 0.80), rgba(94, 231, 255, 0.98)) !important;
+  background-size: 240% auto !important;
+  box-shadow:
+    0 0 18px rgba(94, 231, 255, 0.42),
+    0 0 36px rgba(109, 255, 178, 0.22) !important;
+}
+
+html[data-aero-night] .btn-casino,
+html[data-aero-night] .btn-protocolo,
+html[data-aero-night] .btn-modal-close {
+  color: #f1fdff !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(94, 231, 255, 0.20) 38%, rgba(7, 34, 67, 0.62) 100%) !important;
+  border-color: rgba(185, 239, 255, 0.38) !important;
+  border-top-color: rgba(255, 255, 255, 0.62) !important;
+  border-left-color: rgba(255, 255, 255, 0.48) !important;
+  box-shadow: var(--shadow-btn) !important;
+}
+
+html[data-aero-night] .btn-casino:hover,
+html[data-aero-night] .btn-protocolo:hover,
+html[data-aero-night] .btn-modal-close:hover {
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.46),
+    0 0 34px rgba(94, 231, 255, 0.28),
+    inset 0 2px 5px rgba(255, 255, 255, 0.30) !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card {
+  background:
+    linear-gradient(158deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(94, 231, 255, 0.10) 18%,
+      rgba(8, 26, 50, 0.60) 54%,
+      rgba(var(--card-color-rgb), 0.16) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.58) 0%,
+      rgba(185, 239, 255, 0.26) 30%,
+      rgba(var(--card-color-rgb), 0.38) 72%,
+      rgba(255, 255, 255, 0.20) 100%) border-box !important;
+  border: 1.5px solid transparent !important;
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.44),
+    0 42px 110px rgba(0, 16, 38, 0.48),
+    0 0 34px rgba(94, 231, 255, 0.11),
+    0 0 22px color-mix(in srgb, var(--card-color) 14%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 0 22px rgba(94, 231, 255, 0.08),
+    inset 0 -22px 34px rgba(0, 4, 14, 0.32) !important;
+  backdrop-filter: blur(44px) saturate(240%) brightness(1.07) !important;
+  -webkit-backdrop-filter: blur(44px) saturate(240%) brightness(1.07) !important;
+}
+
+html[data-aero-night] .roster-card:hover .aero-glass-card {
+  background:
+    linear-gradient(158deg,
+      rgba(255, 255, 255, 0.21) 0%,
+      rgba(94, 231, 255, 0.12) 18%,
+      rgba(8, 26, 50, 0.58) 54%,
+      rgba(var(--card-color-rgb), 0.20) 100%) padding-box,
+    radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.86) 0%,
+      rgba(var(--card-color-rgb), 0.56) 34%,
+      rgba(94, 231, 255, 0.24) 62%,
+      rgba(255, 255, 255, 0.16) 100%) border-box !important;
+  box-shadow:
+    0 22px 58px rgba(0, 0, 0, 0.52),
+    0 56px 130px rgba(0, 18, 48, 0.56),
+    0 0 48px rgba(94, 231, 255, 0.18),
+    0 0 46px color-mix(in srgb, var(--card-color) 28%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.40),
+    inset 0 -20px 32px rgba(0, 4, 14, 0.28) !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::before {
+  background:
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(185, 239, 255, 0.18) 30%,
+      rgba(var(--card-color-rgb), 0.06) 58%,
+      transparent 100%) !important;
+  opacity: 0.82 !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::after {
+  background:
+    linear-gradient(to top, rgba(0, 2, 10, 0.34), rgba(0, 14, 34, 0.08) 50%, transparent) !important;
+}
+
+html[data-aero-night] .roster-card .card-code,
+html[data-aero-night] .roster-card .hover-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(7, 25, 48, 0.66) 62%, rgba(var(--card-color-rgb), 0.12)) !important;
+  border-color: rgba(185, 239, 255, 0.28) !important;
+  border-top-color: rgba(255, 255, 255, 0.50) !important;
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.44),
+    0 0 22px color-mix(in srgb, var(--card-color) 16%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+}
+
+html[data-aero-night] .roster-card .slot-text {
+  color: #ffffff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.10),
+    0 0 22px color-mix(in srgb, var(--card-color) 30%, transparent),
+    0 10px 26px rgba(0, 0, 0, 0.42) !important;
+}
+
+html[data-aero-night] .roster-card .talent-desc,
+html[data-aero-night] .section-hint,
+html[data-aero-night] .info-desc,
+html[data-aero-night] .info-list,
+html[data-aero-night] .faq-content,
+html[data-aero-night] .modal-text {
+  color: rgba(218, 241, 250, 0.90) !important;
+}
+
+html[data-aero-night] .card-bg-symbol,
+html[data-aero-night] .hero-bg-text span {
+  color: rgba(185, 239, 255, 0.055) !important;
+  text-shadow: 0 0 46px rgba(94, 231, 255, 0.08) !important;
+}
+
+html[data-aero-night] #custom-scroll-thumb {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.20), rgba(94, 231, 255, 0.20), rgba(8, 24, 45, 0.48)) !important;
+  border-color: rgba(185, 239, 255, 0.34) !important;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.34),
+    0 0 18px rgba(94, 231, 255, 0.16),
+    inset 0 1px 2px rgba(255, 255, 255, 0.26) !important;
+}
+
+html[data-aero-night] #theme-wipe-overlay {
+  background: var(--bg-night) !important;
+}
+
+html[data-aero-night] #aero-boot-overlay,
+html[data-aero-night] #gate-container {
+  background:
+    radial-gradient(circle at 50% 36%, rgba(94, 231, 255, 0.18), transparent 38%),
+    radial-gradient(circle at 58% 52%, rgba(109, 255, 178, 0.12), transparent 45%),
+    linear-gradient(145deg, #020611 0%, #06162b 55%, #03101f 100%) !important;
+}
+
+html[data-aero-night] .gate-sky {
+  background:
+    radial-gradient(circle at center, rgba(94, 231, 255, 0.28) 0%, rgba(6, 78, 96, 0.42) 42%, rgba(2, 12, 28, 0.94) 100%) !important;
+  box-shadow:
+    0 0 80px rgba(94, 231, 255, 0.20),
+    inset 0 0 90px rgba(255, 255, 255, 0.08) !important;
+}
+
+@keyframes midnightAeroBackground {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 30% 45%, 90% 62%, 50% 100%, center;
+  }
+  50% {
+    background-position: 8% 6%, 92% 4%, 38% 50%, 84% 58%, 46% 96%, center;
+  }
+}
+
+@keyframes midnightAeroOrbs {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.74;
+  }
+  50% {
+    transform: translate3d(1.8%, -1.2%, 0) scale(1.035);
+    opacity: 0.86;
+  }
+}
+
+@media (max-width: 720px) {
+  html[data-aero-night] {
+    --glass-blur: blur(30px) saturate(215%) brightness(1.04);
+  }
+
+  html[data-aero-night] body::before {
+    opacity: 0.56;
+  }
+
+  html[data-aero-night] body::after {
+    opacity: 0.16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-aero-night]::before,
+  html[data-aero-night] body::before {
+    animation: none !important;
+  }
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 10.8.0 - NOSTALGIC SEMI MODERN FRUTIGER AERO NIGHT
+   Motivo: probar una paleta nocturna menos cyber-neon y mas cercana a
+   Windows Vista / Longhorn / aqua web nostalgia, manteniendo glass real.
+   ================================================================ */
+html[data-aero-night] {
+  color-scheme: dark;
+
+  /* Paleta: agua profunda, cielo nocturno limpio, menta suave y perla. */
+  --p-night-base: #061525;
+  --p-night-navy: #0a2946;
+  --p-night-cerulean: #14658a;
+  --p-night-sky: #46c6f2;
+  --p-night-cyan: #8beeff;
+  --p-night-aqua: #b9f8ff;
+  --p-night-mint: #98f1bd;
+  --p-night-lime: #a7e86a;
+  --p-night-pearl: #eefcff;
+  --p-night-text-main: #f2fbff;
+  --p-night-text-muted: #c2e7f1;
+  --p-night-text-soft: #95c2d1;
+
+  --bg-night:
+    radial-gradient(ellipse at 50% 18%, rgba(238, 252, 255, 0.22) 0%, rgba(185, 248, 255, 0.13) 20%, transparent 48%),
+    radial-gradient(circle at 16% 18%, rgba(139, 238, 255, 0.26) 0%, rgba(139, 238, 255, 0.08) 28%, transparent 54%),
+    radial-gradient(circle at 84% 22%, rgba(167, 232, 106, 0.20) 0%, rgba(167, 232, 106, 0.07) 30%, transparent 58%),
+    radial-gradient(ellipse at 52% 72%, rgba(20, 101, 138, 0.46) 0%, rgba(20, 101, 138, 0.16) 40%, transparent 72%),
+    linear-gradient(170deg, #092944 0%, #0b3f63 31%, #08253f 62%, #041321 100%);
+
+  --t-main: var(--p-night-text-main);
+  --t-sec: var(--p-night-text-muted);
+  --t-muted: var(--p-night-text-soft);
+  --cyan: var(--p-night-sky);
+  --lime: var(--p-night-lime);
+  --cyan-glow: rgba(139, 238, 255, 0.34);
+
+  --glass-bg:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.21) 0%,
+      rgba(185, 248, 255, 0.13) 24%,
+      rgba(19, 82, 116, 0.42) 58%,
+      rgba(5, 24, 42, 0.54) 100%);
+  --glass-border: rgba(221, 252, 255, 0.34);
+  --glass-highlight: rgba(255, 255, 255, 0.58);
+  --glass-inner-glow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    inset 0 -1px 0 rgba(5, 22, 36, 0.32),
+    inset 0 0 28px rgba(139, 238, 255, 0.07);
+  --glass-blur: blur(42px) saturate(230%) brightness(1.08);
+
+  --shadow-card:
+    0 16px 38px rgba(0, 12, 26, 0.42),
+    0 44px 100px rgba(0, 30, 58, 0.30),
+    0 0 34px rgba(139, 238, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -22px 30px rgba(2, 14, 25, 0.20);
+  --shadow-card-hover:
+    0 22px 56px rgba(0, 12, 26, 0.50),
+    0 62px 126px rgba(0, 42, 72, 0.36),
+    0 0 42px rgba(139, 238, 255, 0.18),
+    0 0 30px rgba(167, 232, 106, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -18px 28px rgba(2, 14, 25, 0.18);
+  --shadow-btn:
+    0 12px 30px rgba(0, 13, 28, 0.36),
+    0 0 24px rgba(139, 238, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44),
+    inset 0 -14px 20px rgba(5, 35, 56, 0.25);
+}
+
+html[data-aero-night]::before {
+  background: var(--bg-night) !important;
+  background-size: 130% 130%, 120% 120%, 120% 120%, 140% 140%, cover !important;
+  filter: saturate(1.08) contrast(1.03) brightness(1.02) !important;
+  animation: nostalgicAeroWaterShift 34s ease-in-out infinite !important;
+}
+
+html[data-aero-night] body {
+  background: #061525 !important;
+}
+
+html[data-aero-night] body::before {
+  background:
+    radial-gradient(circle at 30% 18%, rgba(238, 252, 255, 0.34), transparent 13%),
+    radial-gradient(circle at 71% 27%, rgba(185, 248, 255, 0.22), transparent 18%),
+    radial-gradient(circle at 50% 86%, rgba(167, 232, 106, 0.16), transparent 27%),
+    conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(139, 238, 255, 0.09) 44deg, transparent 94deg, rgba(238, 252, 255, 0.06) 154deg, transparent 214deg, rgba(167, 232, 106, 0.07) 286deg, transparent 360deg) !important;
+  filter: blur(34px) saturate(1.24) !important;
+  opacity: 0.68 !important;
+  animation: nostalgicAeroOrbs 27s ease-in-out infinite !important;
+}
+
+html[data-aero-night] body::after {
+  background:
+    repeating-linear-gradient(118deg, rgba(255, 255, 255, 0.060) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(28deg, rgba(139, 238, 255, 0.038) 0 1px, transparent 1px 54px),
+    linear-gradient(to bottom, rgba(238, 252, 255, 0.050), transparent 18%, rgba(4, 19, 33, 0.12) 100%) !important;
+  mix-blend-mode: screen !important;
+  opacity: 0.24 !important;
+}
+
+html[data-aero-night] .noise-overlay {
+  opacity: 0.105 !important;
+  mix-blend-mode: soft-light !important;
+}
+
+html[data-aero-night] .desktop-sidebar,
+html[data-aero-night] .mobile-dock,
+html[data-aero-night] #aero-theme-toggle,
+html[data-aero-night] .hero-tagline,
+html[data-aero-night] .hero-paragraph,
+html[data-aero-night] .contact-chip,
+html[data-aero-night] .volume-slider-container,
+html[data-aero-night] .live-feed-badge,
+html[data-aero-night] .news-chip,
+html[data-aero-night] .skip-link,
+html[data-aero-night] .modal-card,
+html[data-aero-night] .info-box,
+html[data-aero-night] .faq-item,
+html[data-aero-night] .news-card,
+html[data-aero-night] .aero-glass-card:not(.roster-card .aero-glass-card) {
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  border-top-color: var(--glass-highlight) !important;
+  border-left-color: rgba(255, 255, 255, 0.46) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+}
+
+html[data-aero-night] .hero-paragraph {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(185, 248, 255, 0.10) 35%, rgba(6, 34, 55, 0.48) 100%) !important;
+  color: rgba(237, 251, 255, 0.92) !important;
+}
+
+html[data-aero-night] .hero-tagline,
+html[data-aero-night] .contact-chip,
+html[data-aero-night] .news-chip,
+html[data-aero-night] .live-feed-badge {
+  color: rgba(238, 252, 255, 0.92) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 18px rgba(139, 238, 255, 0.12) !important;
+}
+
+html[data-aero-night] .contact-chip--primary {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(139, 238, 255, 0.24) 38%, rgba(167, 232, 106, 0.16) 100%) !important;
+  border-color: rgba(238, 252, 255, 0.58) !important;
+  color: #ffffff !important;
+}
+
+html[data-aero-night] .aero-glass-card::before,
+html[data-aero-night] .info-box::before,
+html[data-aero-night] .faq-item::before,
+html[data-aero-night] .news-card::before {
+  background:
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.54) 0%,
+      rgba(238, 252, 255, 0.22) 24%,
+      rgba(185, 248, 255, 0.09) 52%,
+      transparent 100%) !important;
+  opacity: 0.82 !important;
+  mix-blend-mode: screen !important;
+}
+
+html[data-aero-night] .aero-glass-card::after,
+html[data-aero-night] .info-box::after,
+html[data-aero-night] .faq-item::after,
+html[data-aero-night] .news-card::after {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12), transparent 36%),
+    linear-gradient(to top, rgba(3, 18, 31, 0.30), transparent 72%) !important;
+  opacity: 0.9 !important;
+}
+
+html[data-aero-night] .aero-glass-card:hover,
+html[data-aero-night] .info-box:hover,
+html[data-aero-night] .faq-item:hover,
+html[data-aero-night] .news-card:hover {
+  border-color: rgba(238, 252, 255, 0.62) !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+html[data-aero-night] .desktop-sidebar,
+html[data-aero-night] .mobile-dock {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.24), rgba(185, 248, 255, 0.10) 34%, rgba(7, 35, 57, 0.64) 100%) !important;
+  border-color: rgba(238, 252, 255, 0.36) !important;
+  box-shadow:
+    0 18px 42px rgba(0, 12, 26, 0.42),
+    0 0 34px rgba(139, 238, 255, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -24px 32px rgba(4, 25, 42, 0.22) !important;
+}
+
+html[data-aero-night] .nav-link,
+html[data-aero-night] .mobile-btn,
+html[data-aero-night] .sidebar-contact a,
+html[data-aero-night] .sidebar-contact button {
+  color: rgba(220, 246, 252, 0.84) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(12, 61, 92, 0.36) 52%, rgba(4, 22, 38, 0.44)) !important;
+  border-color: rgba(221, 252, 255, 0.24) !important;
+  box-shadow:
+    0 8px 22px rgba(0, 13, 28, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+html[data-aero-night] .nav-link:hover,
+html[data-aero-night] .nav-link.active,
+html[data-aero-night] .mobile-btn:hover,
+html[data-aero-night] .mobile-btn.active {
+  color: #ffffff !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(139, 238, 255, 0.26) 35%, rgba(11, 80, 118, 0.58) 72%, rgba(167, 232, 106, 0.18)) !important;
+  border-color: rgba(238, 252, 255, 0.56) !important;
+  border-top-color: rgba(255, 255, 255, 0.76) !important;
+  box-shadow:
+    0 14px 34px rgba(0, 13, 28, 0.42),
+    0 0 26px rgba(139, 238, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -12px 20px rgba(4, 27, 44, 0.26) !important;
+}
+
+html[data-aero-night] .logo-box,
+html[data-aero-night] .audio-btn-enhanced {
+  background:
+    radial-gradient(circle at 32% 21%, rgba(255, 255, 255, 0.98), rgba(238, 252, 255, 0.70) 24%, rgba(139, 238, 255, 0.42) 48%, rgba(8, 50, 77, 0.82) 100%) !important;
+  border-color: rgba(238, 252, 255, 0.74) !important;
+  color: #f2fdff !important;
+  box-shadow:
+    0 12px 34px rgba(0, 13, 28, 0.42),
+    0 0 26px rgba(139, 238, 255, 0.20),
+    inset 0 2px 4px rgba(255, 255, 255, 0.58),
+    inset 0 -14px 22px rgba(5, 34, 55, 0.34) !important;
+}
+
+html[data-aero-night] .aero-title {
+  color: #f5fcff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 20px rgba(139, 238, 255, 0.16),
+    0 10px 32px rgba(0, 12, 26, 0.44) !important;
+}
+
+html[data-aero-night] .aero-title-glow {
+  -webkit-text-fill-color: #b9f8ff !important;
+  color: #b9f8ff !important;
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.16),
+    0 0 18px rgba(139, 238, 255, 0.38),
+    0 0 34px rgba(167, 232, 106, 0.16),
+    0 10px 28px rgba(0, 12, 26, 0.44) !important;
+}
+
+html[data-aero-night] .section-header h2,
+html[data-aero-night] .section-header-row h2,
+html[data-aero-night] .footer-logo {
+  color: #f2fbff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 22px rgba(139, 238, 255, 0.15),
+    0 8px 24px rgba(0, 12, 26, 0.38) !important;
+}
+
+html[data-aero-night] .section-divider {
+  background:
+    linear-gradient(90deg, rgba(185, 248, 255, 0.95), rgba(167, 232, 106, 0.82), rgba(70, 198, 242, 0.92), rgba(185, 248, 255, 0.95)) !important;
+  background-size: 240% auto !important;
+  box-shadow:
+    0 0 16px rgba(139, 238, 255, 0.36),
+    0 0 30px rgba(167, 232, 106, 0.16) !important;
+}
+
+html[data-aero-night] .btn-casino,
+html[data-aero-night] .btn-protocolo,
+html[data-aero-night] .btn-modal-close {
+  color: #f7feff !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(185, 248, 255, 0.20) 36%, rgba(19, 91, 128, 0.54) 72%, rgba(5, 31, 51, 0.62) 100%) !important;
+  border-color: rgba(221, 252, 255, 0.44) !important;
+  border-top-color: rgba(255, 255, 255, 0.72) !important;
+  border-left-color: rgba(255, 255, 255, 0.54) !important;
+  box-shadow: var(--shadow-btn) !important;
+}
+
+html[data-aero-night] .btn-casino:hover,
+html[data-aero-night] .btn-protocolo:hover,
+html[data-aero-night] .btn-modal-close:hover {
+  box-shadow:
+    0 18px 42px rgba(0, 13, 28, 0.46),
+    0 0 32px rgba(139, 238, 255, 0.24),
+    inset 0 2px 5px rgba(255, 255, 255, 0.34) !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card {
+  background:
+    linear-gradient(158deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(185, 248, 255, 0.13) 20%,
+      rgba(13, 65, 97, 0.56) 56%,
+      rgba(var(--card-color-rgb), 0.14) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.64) 0%,
+      rgba(221, 252, 255, 0.32) 32%,
+      rgba(var(--card-color-rgb), 0.32) 74%,
+      rgba(255, 255, 255, 0.22) 100%) border-box !important;
+  border: 1.5px solid transparent !important;
+  box-shadow:
+    0 16px 44px rgba(0, 13, 28, 0.44),
+    0 42px 110px rgba(0, 33, 60, 0.38),
+    0 0 32px rgba(139, 238, 255, 0.10),
+    0 0 20px color-mix(in srgb, var(--card-color) 12%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 0 22px rgba(139, 238, 255, 0.07),
+    inset 0 -22px 34px rgba(3, 20, 34, 0.28) !important;
+  backdrop-filter: blur(44px) saturate(232%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(44px) saturate(232%) brightness(1.08) !important;
+}
+
+html[data-aero-night] .roster-card:hover .aero-glass-card {
+  background:
+    linear-gradient(158deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(185, 248, 255, 0.15) 20%,
+      rgba(13, 65, 97, 0.54) 56%,
+      rgba(var(--card-color-rgb), 0.18) 100%) padding-box,
+    radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(221, 252, 255, 0.48) 26%,
+      rgba(var(--card-color-rgb), 0.46) 58%,
+      rgba(255, 255, 255, 0.16) 100%) border-box !important;
+  box-shadow:
+    0 22px 58px rgba(0, 13, 28, 0.52),
+    0 56px 130px rgba(0, 38, 67, 0.46),
+    0 0 44px rgba(139, 238, 255, 0.16),
+    0 0 42px color-mix(in srgb, var(--card-color) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44),
+    inset 0 -20px 32px rgba(3, 20, 34, 0.24) !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::before {
+  background:
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.56) 0%,
+      rgba(238, 252, 255, 0.22) 28%,
+      rgba(var(--card-color-rgb), 0.055) 58%,
+      transparent 100%) !important;
+  opacity: 0.84 !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::after {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.11), transparent 38%),
+    linear-gradient(to top, rgba(3, 18, 31, 0.30), rgba(9, 48, 76, 0.06) 50%, transparent) !important;
+}
+
+html[data-aero-night] .roster-card .card-code,
+html[data-aero-night] .roster-card .hover-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(12, 62, 92, 0.54) 62%, rgba(var(--card-color-rgb), 0.10)) !important;
+  border-color: rgba(221, 252, 255, 0.32) !important;
+  border-top-color: rgba(255, 255, 255, 0.56) !important;
+  box-shadow:
+    0 10px 32px rgba(0, 13, 28, 0.42),
+    0 0 20px color-mix(in srgb, var(--card-color) 14%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+html[data-aero-night] .roster-card .slot-text {
+  color: #ffffff !important;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 20px color-mix(in srgb, var(--card-color) 24%, transparent),
+    0 10px 26px rgba(0, 13, 28, 0.42) !important;
+}
+
+html[data-aero-night] .roster-card .talent-desc,
+html[data-aero-night] .section-hint,
+html[data-aero-night] .info-desc,
+html[data-aero-night] .info-list,
+html[data-aero-night] .faq-content,
+html[data-aero-night] .modal-text {
+  color: rgba(224, 247, 253, 0.90) !important;
+}
+
+html[data-aero-night] .card-bg-symbol,
+html[data-aero-night] .hero-bg-text span {
+  color: rgba(221, 252, 255, 0.060) !important;
+  text-shadow: 0 0 42px rgba(139, 238, 255, 0.10) !important;
+}
+
+html[data-aero-night] #custom-scroll-thumb {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(185, 248, 255, 0.18), rgba(10, 64, 94, 0.48)) !important;
+  border-color: rgba(221, 252, 255, 0.40) !important;
+  box-shadow:
+    0 4px 16px rgba(0, 13, 28, 0.34),
+    0 0 18px rgba(139, 238, 255, 0.14),
+    inset 0 1px 2px rgba(255, 255, 255, 0.30) !important;
+}
+
+html[data-aero-night] #theme-wipe-overlay {
+  background: var(--bg-night) !important;
+}
+
+html[data-aero-night] #aero-boot-overlay,
+html[data-aero-night] #gate-container {
+  background:
+    radial-gradient(circle at 50% 34%, rgba(238, 252, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 52% 48%, rgba(139, 238, 255, 0.18), transparent 42%),
+    radial-gradient(circle at 60% 62%, rgba(167, 232, 106, 0.10), transparent 48%),
+    linear-gradient(145deg, #071726 0%, #0b3f63 54%, #041321 100%) !important;
+}
+
+html[data-aero-night] .gate-sky {
+  background:
+    radial-gradient(circle at center, rgba(238, 252, 255, 0.30) 0%, rgba(139, 238, 255, 0.30) 24%, rgba(20, 101, 138, 0.44) 48%, rgba(4, 19, 33, 0.94) 100%) !important;
+  box-shadow:
+    0 0 78px rgba(139, 238, 255, 0.20),
+    inset 0 0 92px rgba(255, 255, 255, 0.09) !important;
+}
+
+@keyframes nostalgicAeroWaterShift {
+  0%, 100% {
+    background-position: 50% 0%, 0% 0%, 100% 10%, 48% 78%, center;
+  }
+  50% {
+    background-position: 52% 4%, 6% 5%, 94% 14%, 54% 72%, center;
+  }
+}
+
+@keyframes nostalgicAeroOrbs {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.64;
+  }
+  50% {
+    transform: translate3d(-1.4%, 1.1%, 0) scale(1.025);
+    opacity: 0.78;
+  }
+}
+
+@media (max-width: 720px) {
+  html[data-aero-night] {
+    --glass-blur: blur(32px) saturate(218%) brightness(1.06);
+  }
+
+  html[data-aero-night] body::before {
+    opacity: 0.58 !important;
+  }
+
+  html[data-aero-night] body::after {
+    opacity: 0.18 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-aero-night]::before,
+  html[data-aero-night] body::before {
+    animation: none !important;
+  }
+}
+
+/* ================================================================
+   HardLight Patch 5.3.1: Night portfolio cards seam cleanup.
+   Objetivo: eliminar bandas/espaciadores visibles dentro de las tarjetas
+   sin sacrificar el vidrio Frutiger Aero nostálgico.
+   ================================================================ */
+html[data-aero-night] .roster-card .aero-glass-card {
+  isolation: isolate !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.22) 0%, rgba(221, 252, 255, 0.10) 28%, transparent 62%) padding-box,
+    radial-gradient(ellipse at 84% 108%, rgba(var(--card-color-rgb), 0.18) 0%, rgba(139, 238, 255, 0.08) 42%, transparent 70%) padding-box,
+    linear-gradient(158deg,
+      rgba(66, 149, 176, 0.34) 0%,
+      rgba(20, 91, 128, 0.72) 34%,
+      rgba(8, 48, 78, 0.76) 68%,
+      rgba(6, 28, 49, 0.84) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.68) 0%,
+      rgba(221, 252, 255, 0.36) 30%,
+      rgba(var(--card-color-rgb), 0.34) 72%,
+      rgba(255, 255, 255, 0.18) 100%) border-box !important;
+  background-clip: padding-box, padding-box, padding-box, border-box !important;
+  box-shadow:
+    0 16px 44px rgba(0, 13, 28, 0.44),
+    0 42px 110px rgba(0, 33, 60, 0.36),
+    0 0 32px rgba(139, 238, 255, 0.10),
+    0 0 20px color-mix(in srgb, var(--card-color) 12%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 1px 0 0 rgba(255, 255, 255, 0.13),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 72px rgba(221, 252, 255, 0.055),
+    inset 0 -34px 56px rgba(3, 20, 34, 0.30) !important;
+  backdrop-filter: blur(56px) saturate(230%) brightness(1.06) !important;
+  -webkit-backdrop-filter: blur(56px) saturate(230%) brightness(1.06) !important;
+}
+
+html[data-aero-night] .roster-card:hover .aero-glass-card {
+  background:
+    radial-gradient(circle 180px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.16), transparent 68%) padding-box,
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.26) 0%, rgba(221, 252, 255, 0.12) 28%, transparent 62%) padding-box,
+    radial-gradient(ellipse at 84% 108%, rgba(var(--card-color-rgb), 0.22) 0%, rgba(139, 238, 255, 0.09) 42%, transparent 70%) padding-box,
+    linear-gradient(158deg,
+      rgba(72, 158, 186, 0.38) 0%,
+      rgba(21, 96, 134, 0.74) 34%,
+      rgba(8, 50, 80, 0.76) 68%,
+      rgba(6, 29, 50, 0.84) 100%) padding-box,
+    radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(221, 252, 255, 0.48) 26%,
+      rgba(var(--card-color-rgb), 0.46) 58%,
+      rgba(255, 255, 255, 0.16) 100%) border-box !important;
+  background-clip: padding-box, padding-box, padding-box, padding-box, border-box !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::before {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  height: 62% !important;
+  background:
+    radial-gradient(ellipse at 26% 0%, rgba(255, 255, 255, 0.42) 0%, rgba(238, 252, 255, 0.18) 38%, transparent 74%),
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(238, 252, 255, 0.13) 36%,
+      rgba(139, 238, 255, 0.040) 68%,
+      rgba(139, 238, 255, 0.000) 100%) !important;
+  border-radius: inherit !important;
+  opacity: 0.76 !important;
+  mix-blend-mode: screen !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card::after {
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: auto !important;
+  border-radius: inherit !important;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(255, 255, 255, 0.075), transparent 48%),
+    linear-gradient(to bottom, transparent 0%, rgba(7, 50, 78, 0.045) 55%, rgba(2, 14, 26, 0.24) 100%) !important;
+  opacity: 0.92 !important;
+}
+
+/* El panel oculto con backdrop-filter dejaba una huella rectangular/banda inferior en Chromium.
+   En reposo se apaga por completo; al hover recupera el vidrio. */
+html[data-aero-night] .roster-card .hover-panel {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: translateY(22px) scale(0.97) !important;
+  transition:
+    opacity 0.44s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.54s cubic-bezier(0.34, 1.56, 0.64, 1),
+    visibility 0s linear 0.44s !important;
+}
+
+html[data-aero-night] .roster-card:hover .hover-panel,
+html[data-aero-night] .roster-card:focus-within .hover-panel {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.19),
+      rgba(31, 103, 135, 0.66) 56%,
+      rgba(var(--card-color-rgb), 0.12)) !important;
+  border-color: rgba(221, 252, 255, 0.34) !important;
+  border-top-color: rgba(255, 255, 255, 0.58) !important;
+  box-shadow:
+    0 14px 38px rgba(0, 13, 28, 0.44),
+    0 0 22px color-mix(in srgb, var(--card-color) 16%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.27) !important;
+  backdrop-filter: blur(30px) saturate(210%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(210%) brightness(1.05) !important;
+  transform: translateY(0) scale(1) !important;
+  transition:
+    opacity 0.34s ease,
+    transform 0.54s cubic-bezier(0.34, 1.56, 0.64, 1),
+    visibility 0s linear 0s !important;
+}
+
+/* ================================================================
+   HardLight Patch 5.3.2: Seamless nostalgic night glass.
+   Objetivo: eliminar el patrón rectangular/espaciadores internos que
+   aparecían por la textura global y por overlays parciales de vidrio.
+   La noche conserva Frutiger Aero, pero el cristal queda continuo.
+   ================================================================ */
+html[data-aero-night] body::after {
+  background:
+    radial-gradient(ellipse at 22% 18%, rgba(255, 255, 255, 0.045), transparent 34%),
+    radial-gradient(ellipse at 76% 26%, rgba(139, 238, 255, 0.035), transparent 38%),
+    radial-gradient(ellipse at 50% 80%, rgba(167, 232, 106, 0.026), transparent 44%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.028), transparent 24%, rgba(139, 238, 255, 0.020) 52%, transparent 78%) !important;
+  mix-blend-mode: screen !important;
+  opacity: 0.15 !important;
+  filter: blur(0.3px) saturate(1.08) !important;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 82%, transparent 100%) !important;
+}
+
+html[data-aero-night] .noise-overlay {
+  opacity: 0.045 !important;
+  mix-blend-mode: soft-light !important;
+}
+
+html[data-aero-night] .desktop-sidebar,
+html[data-aero-night] .mobile-dock,
+html[data-aero-night] #aero-theme-toggle,
+html[data-aero-night] .hero-tagline,
+html[data-aero-night] .hero-paragraph,
+html[data-aero-night] .contact-chip,
+html[data-aero-night] .volume-slider-container,
+html[data-aero-night] .live-feed-badge,
+html[data-aero-night] .news-chip,
+html[data-aero-night] .skip-link,
+html[data-aero-night] .modal-card,
+html[data-aero-night] .info-box,
+html[data-aero-night] .faq-item,
+html[data-aero-night] .news-card,
+html[data-aero-night] .aero-glass-box,
+html[data-aero-night] .aero-glass-card {
+  isolation: isolate !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.22) 0%, rgba(238, 252, 255, 0.11) 32%, transparent 70%),
+    radial-gradient(ellipse at 92% 100%, rgba(167, 232, 106, 0.060) 0%, rgba(139, 238, 255, 0.035) 42%, transparent 78%),
+    linear-gradient(154deg,
+      rgba(94, 174, 204, 0.28) 0%,
+      rgba(24, 93, 130, 0.58) 34%,
+      rgba(8, 49, 80, 0.66) 68%,
+      rgba(5, 25, 43, 0.76) 100%) !important;
+  border-color: rgba(221, 252, 255, 0.36) !important;
+  border-top-color: rgba(255, 255, 255, 0.60) !important;
+  border-left-color: rgba(255, 255, 255, 0.46) !important;
+  box-shadow:
+    0 16px 42px rgba(0, 13, 28, 0.42),
+    0 42px 104px rgba(0, 31, 58, 0.31),
+    0 0 32px rgba(139, 238, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 1px 0 0 rgba(255, 255, 255, 0.11),
+    inset 0 -26px 48px rgba(2, 15, 28, 0.25) !important;
+  backdrop-filter: blur(38px) saturate(220%) brightness(1.065) !important;
+  -webkit-backdrop-filter: blur(38px) saturate(220%) brightness(1.065) !important;
+}
+
+html[data-aero-night] .roster-card .aero-glass-card {
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.24) 0%, rgba(238, 252, 255, 0.115) 34%, transparent 72%) padding-box,
+    radial-gradient(ellipse at 86% 104%, rgba(var(--card-color-rgb), 0.20) 0%, rgba(139, 238, 255, 0.060) 44%, transparent 78%) padding-box,
+    linear-gradient(156deg,
+      rgba(78, 162, 190, 0.36) 0%,
+      rgba(24, 99, 136, 0.69) 35%,
+      rgba(8, 50, 80, 0.76) 69%,
+      rgba(5, 27, 47, 0.86) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.70) 0%,
+      rgba(221, 252, 255, 0.38) 32%,
+      rgba(var(--card-color-rgb), 0.36) 72%,
+      rgba(255, 255, 255, 0.18) 100%) border-box !important;
+  background-clip: padding-box, padding-box, padding-box, border-box !important;
+}
+
+html[data-aero-night] .roster-card:hover .aero-glass-card {
+  background:
+    radial-gradient(circle 190px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.13), transparent 70%) padding-box,
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.27) 0%, rgba(238, 252, 255, 0.13) 34%, transparent 72%) padding-box,
+    radial-gradient(ellipse at 86% 104%, rgba(var(--card-color-rgb), 0.22) 0%, rgba(139, 238, 255, 0.070) 44%, transparent 78%) padding-box,
+    linear-gradient(156deg,
+      rgba(83, 171, 199, 0.40) 0%,
+      rgba(25, 104, 143, 0.71) 35%,
+      rgba(8, 52, 82, 0.77) 69%,
+      rgba(5, 28, 48, 0.86) 100%) padding-box,
+    radial-gradient(circle 170px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(221, 252, 255, 0.46) 30%,
+      rgba(var(--card-color-rgb), 0.40) 62%,
+      rgba(255, 255, 255, 0.15) 100%) border-box !important;
+  background-clip: padding-box, padding-box, padding-box, padding-box, border-box !important;
+}
+
+html[data-aero-night] .aero-glass-card::before,
+html[data-aero-night] .info-box::before,
+html[data-aero-night] .faq-item::before,
+html[data-aero-night] .news-card::before,
+html[data-aero-night] .modal-card::before {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: auto !important;
+  border-radius: inherit !important;
+  background:
+    radial-gradient(ellipse at 24% 0%, rgba(255, 255, 255, 0.36) 0%, rgba(238, 252, 255, 0.15) 30%, rgba(139, 238, 255, 0.040) 58%, transparent 78%),
+    linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.17) 0%,
+      rgba(238, 252, 255, 0.080) 34%,
+      rgba(139, 238, 255, 0.020) 62%,
+      transparent 100%) !important;
+  opacity: 0.68 !important;
+  mix-blend-mode: screen !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+html[data-aero-night] .aero-glass-card::after,
+html[data-aero-night] .info-box::after,
+html[data-aero-night] .faq-item::after,
+html[data-aero-night] .news-card::after,
+html[data-aero-night] .modal-card::after {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: auto !important;
+  border-radius: inherit !important;
+  background:
+    radial-gradient(ellipse at 50% 4%, rgba(255, 255, 255, 0.055), transparent 44%),
+    radial-gradient(ellipse at 50% 108%, rgba(2, 14, 26, 0.30), rgba(2, 14, 26, 0.12) 32%, transparent 74%),
+    linear-gradient(to bottom, transparent 0%, rgba(7, 50, 78, 0.018) 54%, rgba(2, 14, 26, 0.18) 100%) !important;
+  opacity: 0.80 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+html[data-aero-night] .aero-glass-card > *,
+html[data-aero-night] .info-box > *,
+html[data-aero-night] .faq-item > *,
+html[data-aero-night] .news-card > *,
+html[data-aero-night] .modal-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+html[data-aero-night] .news-card-signal {
+  inset: 0 !important;
+  opacity: 0.20 !important;
+  background:
+    radial-gradient(ellipse at 18% 18%, rgba(var(--card-color-rgb, 139, 238, 255), 0.13), transparent 40%),
+    radial-gradient(ellipse at 84% 82%, rgba(var(--card-color-rgb, 139, 238, 255), 0.09), transparent 46%),
+    linear-gradient(118deg, transparent 0%, rgba(255, 255, 255, 0.045) 42%, rgba(var(--card-color-rgb, 139, 238, 255), 0.035) 53%, transparent 70%) !important;
+  filter: blur(0.45px) !important;
+  mix-blend-mode: screen !important;
+}
+
+html[data-aero-night] .news-card:hover .news-card-signal {
+  opacity: 0.32 !important;
+}
+
+html[data-aero-night] .info-header {
+  border-bottom-color: rgba(221, 252, 255, 0.22) !important;
+}
+
+html[data-aero-night] .faq-btn:hover {
+  background: rgba(238, 252, 255, 0.055) !important;
+}
+
+@media (max-width: 720px) {
+  html[data-aero-night] .desktop-sidebar,
+  html[data-aero-night] .mobile-dock,
+  html[data-aero-night] #aero-theme-toggle,
+  html[data-aero-night] .hero-tagline,
+  html[data-aero-night] .hero-paragraph,
+  html[data-aero-night] .contact-chip,
+  html[data-aero-night] .volume-slider-container,
+  html[data-aero-night] .live-feed-badge,
+  html[data-aero-night] .news-chip,
+  html[data-aero-night] .skip-link,
+  html[data-aero-night] .modal-card,
+  html[data-aero-night] .info-box,
+  html[data-aero-night] .faq-item,
+  html[data-aero-night] .news-card,
+  html[data-aero-night] .aero-glass-box,
+  html[data-aero-night] .aero-glass-card {
+    backdrop-filter: blur(30px) saturate(205%) brightness(1.055) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(205%) brightness(1.055) !important;
+  }
+}

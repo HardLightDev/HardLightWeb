@@ -51,7 +51,7 @@
         var after = new Date().getTime();
         if (after - before > 100) {
             // HardLight + EVA: Someone paused the debugger. Candado de exhibición: no es blindaje militar, pero evita manos curiosas y clicks demasiado felices.
-            document.body.innerHTML = "Brecha de seguridad detectada, interacción no permitida.";
+            document.body.innerHTML = "Brecha de seguridad detectada no permitida.";
         }
     }, 1000);
 })();
