@@ -48,40 +48,54 @@ const BackgroundShader = {
 // ================================================================
 const PORTFOLIO_ITEMS = [
     {
-        id: 1, name: 'DESARROLLO FULLSTACK', role: 'PHP · JS', color: '#29da78',
-        suit: '✦', volume: 0.6,
-        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
-        desc: 'Construyo sitios desde la base técnica hasta la interfaz: estructura, vistas, componentes, contenido y comportamiento. Mi stack fuerte es PHP, JavaScript, HTML y CSS, con prioridad en que la web funcione, se entienda y pueda mantenerse.'
-    },
-    {
-        id: 2, name: 'FRONTEND CON DISEÑO', role: 'UI RESPONSIVE', color: '#00D4FF',
+        id: 1, name: 'FRONTEND TÉCNICO', role: 'HTML · CSS · JS', color: '#00D4FF',
         suit: '✧', volume: 0.5,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/paus.wav',
-        desc: 'Trabajo frontend como una mezcla de código y lectura visual: jerarquía, espaciado, estados, responsive e interacción. No busco llenar la pantalla; busco que cada bloque tenga función, ritmo y una identidad reconocible.'
+        desc: 'Construyo interfaces con HTML, CSS y JavaScript cuidando estructura, semántica, responsive, estados visuales y comportamiento real. No es solo maqueta: cada bloque debe responder, adaptarse y sentirse terminado.'
     },
     {
-        id: 3, name: 'PHP Y BACKEND WEB', role: 'LÓGICA', color: '#C6F135',
+        id: 2, name: 'PHP BACKEND WEB', role: 'PHP · APIS', color: '#29da78',
+        suit: '✦', volume: 0.6,
+        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
+        desc: 'Uso PHP para lógica web, separación de vistas, formularios, rutas simples, estructuras mantenibles e integración con datos. Mi enfoque es crear bases claras, rápidas de subir a hosting y fáciles de extender.'
+    },
+    {
+        id: 3, name: 'JAVASCRIPT DOM GSAP', role: 'DOM · MOTION', color: '#C6F135',
         suit: '✺', volume: 0.62,
         audio: 'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missil.mp3',
-        desc: 'Uso PHP para ordenar la parte funcional: separar vistas, preparar formularios, manejar rutas simples y estructurar datos sin inflar el proyecto. Prefiero una base clara y estable antes que una arquitectura grande que nadie necesita.'
+        desc: 'Trabajo manipulación DOM, eventos, estados, scroll, interacciones y animaciones con GSAP. Puedo crear movimiento fluido sin convertir la web en una feria pesada: animar con intención, rendimiento y control.'
     },
     {
-        id: 4, name: 'WIDGETS WEB PARA OBS', role: 'STREAM TOOLS', color: '#8B5CF6',
-        suit: '✦', volume: 0.56,
-        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
-        desc: 'Desarrollo widgets web para OBS y StreamElements: chats personalizados, alertas, notificaciones, paneles y overlays dinámicos. Si la idea tiene una lógica clara y una interfaz posible, se puede convertir en una herramienta real.'
-    },
-    {
-        id: 5, name: 'DIRECCIÓN CREATIVA WEB', role: 'CRITERIO', color: '#38BDF8',
-        suit: '◆', volume: 0.48,
+        id: 4, name: 'VUE COMPONENTES UI', role: 'VUE · UI', color: '#42D392',
+        suit: '◆', volume: 0.54,
         audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/paus.wav',
-        desc: 'Defino dirección visual para que una web no parezca ensamblada al azar: tono, referencias, composición, interacción y límites. La creatividad funciona mejor cuando hay criterio para decidir qué entra, qué sale y qué se pule.'
+        desc: 'Trabajo Vue para interfaces por componentes: vistas reutilizables, estados limpios, estructura más ordenada y experiencia visual consistente. Ideal cuando la web necesita crecer sin volverse un rompecabezas.'
     },
     {
-        id: 6, name: 'PULIDO Y ENTREGA WEB', role: 'QA VISUAL', color: '#F472B6',
-        suit: '✹', volume: 0.52,
+        id: 5, name: 'PYTHON AUTOMATIZACIÓN', role: 'PYTHON · TOOLS', color: '#7DD3FC',
+        suit: '✹', volume: 0.48,
+        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
+        desc: 'Uso Python para automatización, procesamiento de archivos, apoyo técnico, scripts, utilidades internas y tareas repetitivas. Cuando una parte del flujo se puede acelerar con código, la convierto en herramienta.'
+    },
+    {
+        id: 6, name: 'NODEJS TOOLING', role: 'NODE · BUILD', color: '#8B5CF6',
+        suit: '✦', volume: 0.56,
         audio: 'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/missil.mp3',
-        desc: 'Reviso contraste, textos, responsive, modo día/noche, hover, scroll, estructura de archivos y detalles de entrega. Esta parte evita que una web bonita se caiga por cosas pequeñas cuando alguien la abre en un dispositivo real.'
+        desc: 'Uso Node.js para tooling, scripts, dependencias, builds ligeros y apoyo al desarrollo frontend. Me sirve para ordenar procesos, preparar assets y trabajar proyectos modernos sin perder compatibilidad práctica.'
+    },
+    {
+        id: 7, name: 'UI RESPONSIVE QA', role: 'CSS · UX', color: '#38BDF8',
+        suit: '✧', volume: 0.52,
+        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/paus.wav',
+        desc: 'Reviso responsive, contraste, accesibilidad visual, modo día/noche, hover, scroll, legibilidad, espaciado y errores de layout. El detalle importa porque una web no solo debe verse bien en una captura.',
+        pillDesc: 'Responsive, contraste, accesibilidad visual y consistencia de layout en día/noche.'
+    },
+    {
+        id: 8, name: 'WIDGETS OBS WEB', role: 'OBS · STREAM', color: '#F472B6',
+        suit: '✹', volume: 0.52,
+        audio: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bons.wav',
+        desc: 'Desarrollo widgets web para OBS y StreamElements: chats personalizados, alertas, notificaciones, paneles, overlays dinámicos y herramientas visuales para stream. Si se puede imaginar con una interfaz, se puede programar.',
+        pillDesc: 'Widgets para OBS y StreamElements: chats, alertas, overlays y paneles dinámicos.'
     }
 ];
 
@@ -139,7 +153,7 @@ const FAQS = [
     },
     {
         q: 'PF_02 // ENFOQUE_TÉCNICO',
-        a: 'Soy dev fullstack con foco en frontend y diseño. Mi experiencia más fuerte está en PHP, JavaScript, HTML y CSS, creando páginas, interfaces, componentes y sistemas visuales con estructura clara.'
+        a: 'Soy dev fullstack con foco en frontend y diseño. Trabajo con PHP, HTML, CSS, JavaScript, Python, Node.js, Vue, manipulación DOM y GSAP para crear páginas, interfaces, componentes, animaciones y sistemas visuales con estructura clara.'
     },
     {
         q: 'PF_03 // CONTACTO',
@@ -285,18 +299,56 @@ function initSmoothCursor() {
     }
 
     let isHovered = false;
+    const cursorHoverSelector = 'button, a, .nav-link, .roster-card, .logo-box, .audio-btn-enhanced, input[type=range], .faq-item, #custom-scroll-thumb, .hover-trigger, .btn-modal-close';
+
+    function isPointInsideSkillPillCapsule(x, y, pill) {
+        if (!pill) return true;
+        const rect = pill.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return false;
+        if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return false;
+
+        const radius = Math.min(rect.height / 2, rect.width / 2);
+        const localX = x - rect.left;
+        const localY = y - rect.top;
+
+        if (localX >= radius && localX <= rect.width - radius) return true;
+
+        const circleX = localX < radius ? radius : rect.width - radius;
+        const circleY = rect.height / 2;
+        const dx = localX - circleX;
+        const dy = localY - circleY;
+        return (dx * dx) + (dy * dy) <= radius * radius;
+    }
+
+    function resolveCursorHoverTarget(e) {
+        const target = e.target.closest(cursorHoverSelector);
+        if (!target) return null;
+
+        const pill = target.closest('.skill-feature-pill');
+        if (pill && !isPointInsideSkillPillCapsule(e.clientX, e.clientY, pill)) {
+            return null;
+        }
+
+        return target;
+    }
+
+    function syncCursorHover(shouldHover) {
+        if (shouldHover === isHovered) return;
+        isHovered = shouldHover;
+        DOM.cursor.classList.toggle('hovered', shouldHover);
+    }
+
     document.addEventListener('mouseover', (e) => {
         if (State.isPerformanceMode) return;
-        const target = e.target.closest('button, a, .nav-link, .roster-card, .logo-box, .audio-btn-enhanced, input[type=range], .faq-item, #custom-scroll-thumb, .hover-trigger, .btn-modal-close');
-        const shouldHover = !!target;
-        if (shouldHover !== isHovered) {
-            isHovered = shouldHover;
-            if (shouldHover) {
-                DOM.cursor.classList.add('hovered');
-            } else {
-                DOM.cursor.classList.remove('hovered');
-            }
-        }
+        syncCursorHover(!!resolveCursorHoverTarget(e));
+    });
+
+    // HardLight + EVA: Las píldoras son cápsulas redondeadas, pero el DOM sigue siendo
+    // rectangular. Revalidar en mousemove evita que el cursor cambie en las esquinas
+    // invisibles del botón y mantiene el puntero personalizado limpio.
+    document.addEventListener('mousemove', (e) => {
+        if (State.isPerformanceMode) return;
+        syncCursorHover(!!resolveCursorHoverTarget(e));
     });
 
     document.addEventListener('mousedown', (e) => {
@@ -676,12 +728,14 @@ function getSkillTitleLines(name) {
     // No dejar que el navegador decida el corte: los títulos compuestos necesitan líneas controladas.
     const cleanName = String(name || '').trim();
     const customLines = {
-        'DESARROLLO FULLSTACK': ['DESARROLLO', 'FULLSTACK'],
-        'FRONTEND CON DISEÑO': ['FRONTEND', 'CON DISEÑO'],
-        'PHP Y BACKEND WEB': ['PHP Y', 'BACKEND WEB'],
-        'WIDGETS WEB PARA OBS': ['WIDGETS WEB', 'PARA OBS'],
-        'DIRECCIÓN CREATIVA WEB': ['DIRECCIÓN', 'CREATIVA WEB'],
-        'PULIDO Y ENTREGA WEB': ['PULIDO Y', 'ENTREGA WEB']
+        'FRONTEND TÉCNICO': ['FRONTEND', 'TECNICO'],
+        'PHP BACKEND WEB': ['PHP', 'BACKEND WEB'],
+        'JAVASCRIPT DOM GSAP': ['JAVASCRIPT', 'DOM · GSAP'],
+        'VUE COMPONENTES UI': ['VUE', 'COMPONENTES UI'],
+        'PYTHON AUTOMATIZACIÓN': ['PYTHON', 'AUTOMATIZACION'],
+        'NODEJS TOOLING': ['NODEJS', 'TOOLING'],
+        'UI RESPONSIVE QA': ['UI RESPONSIVE', 'QA'],
+        'WIDGETS OBS WEB': ['WIDGETS', 'OBS WEB']
     };
     return customLines[cleanName] || cleanName.split(/\s+/).filter(Boolean);
 }
@@ -699,17 +753,20 @@ function renderPortfolioItems() {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
 
-    grid.innerHTML = PORTFOLIO_ITEMS.map((t, index) => {
+    const regularCards = PORTFOLIO_ITEMS.slice(0, -2);
+    const supportPills = PORTFOLIO_ITEMS.slice(-2);
+
+    const cardsMarkup = regularCards.map((t, index) => {
         // HardLight + EVA: regla actual: reposo cifrado, hover decodificado.
-        // No volver a random infinito; mantiene mal el ancho y rompe la lectura.
+        // Las primeras seis habilidades mantienen formato tarjeta para cerrar la grilla sin huecos.
         const displayName = escapeHTML(t.name);
-        const cipherName = escapeHTML(generateSkillCipher(t.name));
         const delayClass = index % 2 === 0 ? '' : 'delay-100';
         const titleFitClass = t.name.length >= 17 ? ' is-title-long' : '';
 
         return `
             <div class="roster-card reveal ${delayClass}" tabindex="0" style="--card-color: ${t.color}; --card-color-rgb: ${hexToRgbTuple(t.color)};"
                  onclick="openModal('project-' + ${t.id})"
+                 onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openModal('project-' + ${t.id}); }"
                  onmouseenter="handleCardHover(this, '${t.name}', 'audio-project-${t.id}', ${t.volume})"
                  onmouseleave="handleCardLeave(this, '${t.name}')" role="article" aria-label="Habilidad ${t.name} - ${t.role}">
 
@@ -725,13 +782,13 @@ function renderPortfolioItems() {
                         <div class="project-dot"></div>
                     </div>
 
-                    <!-- HardLight + EVA: título cifrado por líneas controladas. No volver a textContent plano: ahí nacen los cortes raros en DISEÑO/DIRECCIÓN. -->
+                    <!-- HardLight + EVA: título cifrado por líneas controladas. -->
                     <h2 class="slot-text${titleFitClass} is-encoded" data-original="${escapeHTML(t.name)}" data-cipher="${escapeHTML(generateSkillCipher(t.name))}" aria-label="${displayName}">${renderSlotTitleLines(t.name)}</h2>
 
                     <!-- HardLight + EVA: rol y símbolo; pequeño, pero ayuda a ubicar la habilidad sin cargar la tarjeta. -->
                     <p class="card-role">${t.role} <span class="card-suit">${t.suit}</span></p>
 
-                    <!-- HardLight + EVA: panel hover solo con descripción útil. Los stats numéricos se retiraron porque ocupaban espacio sin explicar técnica real. -->
+                    <!-- HardLight + EVA: panel hover solo con descripción útil. -->
                     <div class="hover-panel">
                         <p class="project-desc box-copy">${formatBoxText(t.desc)}</p>
                     </div>
@@ -740,9 +797,45 @@ function renderPortfolioItems() {
         `;
     }).join('');
 
+    const pillsMarkup = supportPills.length ? `
+        <div class="skills-pills-row reveal delay-100" aria-label="Habilidades complementarias en píldoras horizontales">
+            ${supportPills.map((t) => `
+                <button class="skill-feature-pill" type="button"
+                    style="--card-color: ${t.color}; --card-color-rgb: ${hexToRgbTuple(t.color)};"
+                    onclick="openModal('project-' + ${t.id})"
+                    onmouseenter="handleSkillPillHover(this, 'audio-project-${t.id}', ${t.volume})"
+                    onmouseleave="handleSkillPillLeave(this)"
+                    aria-label="Abrir habilidad ${escapeHTML(t.name)} - ${escapeHTML(t.role)}">
+                    <audio id="audio-project-${t.id}" src="${t.audio}" preload="none"></audio>
+                    <span class="skill-pill-orb" aria-hidden="true">${t.suit}</span>
+                    <span class="skill-pill-copy">
+                        <span class="skill-pill-kicker">PF_${String(t.id).padStart(2, '0')} · ${escapeHTML(t.role)}</span>
+                        <strong>${escapeHTML(t.name)}</strong>
+                        <span class="skill-pill-desc">${escapeHTML(t.pillDesc || t.desc)}</span>
+                    </span>
+                    <span class="skill-pill-arrow" aria-hidden="true">↗</span>
+                </button>
+            `).join('')}
+        </div>
+    ` : '';
+
+    grid.innerHTML = cardsMarkup + pillsMarkup;
+
     // HardLight + EVA: primer frame blindado. Ahora el reposo cifrado es intencional:
     // si el cursor no está encima, cada tarjeta guarda su identidad como archivo encriptado.
     requestAnimationFrame(() => restoreAllSlotTexts());
+}
+
+function handleSkillPillHover(pillElement, audioId, customVolume) {
+    if (audioId) {
+        const sfx = document.getElementById(audioId);
+        if (sfx) playAudio(sfx, customVolume || 0.5);
+    }
+    pillElement.classList.add('is-pill-active');
+}
+
+function handleSkillPillLeave(pillElement) {
+    pillElement.classList.remove('is-pill-active');
 }
 
 // ================================================================
@@ -1334,7 +1427,7 @@ function openModal(type) {
     const data = {
         protocol: {
             t: 'MI CRITERIO DE TRABAJO',
-            b: 'HardLight Portfolio muestra cómo trabajo una web: estructura técnica, frontend cuidado, diseño con identidad y movimiento solo cuando aporta. Me interesa desarrollar páginas, interfaces y piezas interactivas que se puedan usar, mostrar y explicar con claridad.'
+            b: 'HardLight Portfolio muestra cómo trabajo una web: stack real, estructura técnica, frontend cuidado, diseño con identidad y movimiento solo cuando aporta. Uso PHP, HTML, CSS, JavaScript, Python, Node.js, Vue, DOM y GSAP para desarrollar páginas, interfaces y piezas interactivas que se puedan usar, mostrar y explicar con claridad.'
         },
         contacto: {
             t: 'CONTACTO DIRECTO',
@@ -1342,7 +1435,7 @@ function openModal(type) {
         },
         legal: {
             t: 'USO DE ESTA REFERENCIA',
-            b: 'Este sitio funciona como portafolio y referencia visual de HardLight Dev. Los textos, estilos e interacciones están pensados para presentar habilidades de desarrollo web, frontend, diseño de interfaz, dirección creativa y entrega técnica.'
+            b: 'Este sitio funciona como portafolio y referencia visual de HardLight Dev. Los textos, estilos e interacciones están pensados para presentar habilidades reales de desarrollo web: PHP, HTML, CSS, JavaScript, Python, Node.js, Vue, DOM, GSAP, frontend, diseño de interfaz y entrega técnica.'
         },
         privacidad: {
             t: 'PRIVACIDAD',

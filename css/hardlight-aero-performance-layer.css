@@ -2089,3 +2089,671 @@ html:not([data-aero-night]) .volume-slider-container input[type="range"]::-moz-r
     gap: 8px !important;
   }
 }
+
+
+/* ================================================================
+   HARDLIGHT PATCH 5.3.5 — REAL SKILL STACK PANEL
+   Scope: hace visible el stack técnico real sin romper la estética Aero.
+   ================================================================ */
+.skill-stack-panel {
+  width: min(100%, 1180px) !important;
+  margin: clamp(26px, 3vw, 40px) auto clamp(22px, 3vw, 34px) !important;
+  padding: clamp(18px, 2.4vw, 28px) !important;
+  border-radius: 30px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.56), rgba(214,244,255,0.30) 52%, rgba(143,231,215,0.18)) padding-box,
+    linear-gradient(135deg, rgba(255,255,255,0.82), rgba(125,211,252,0.28), rgba(198,241,53,0.20)) border-box !important;
+  border: 1.5px solid transparent !important;
+  box-shadow:
+    0 24px 70px rgba(15, 118, 168, 0.16),
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    inset 0 -1px 0 rgba(20, 83, 112, 0.10) !important;
+}
+
+.skill-stack-panel::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 0 auto 0 !important;
+  height: 52% !important;
+  pointer-events: none !important;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.34), rgba(255,255,255,0.05), transparent) !important;
+  border-radius: inherit !important;
+}
+
+.skill-stack-head {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 10px 14px !important;
+  margin-bottom: 16px !important;
+  color: var(--t-main) !important;
+}
+
+.skill-stack-kicker {
+  font-family: 'Rajdhani', monospace !important;
+  font-size: 0.76rem !important;
+  letter-spacing: 0.22em !important;
+  font-weight: 800 !important;
+  color: var(--cyan) !important;
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.42) !important;
+  border: 1px solid rgba(255,255,255,0.56) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.72) !important;
+}
+
+.skill-stack-head strong {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(1.05rem, 1.1vw + 0.7rem, 1.42rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.skill-stack-groups {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(12px, 1.5vw, 18px) !important;
+}
+
+.skill-stack-group {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-content: flex-start !important;
+  gap: 8px !important;
+  padding: 14px !important;
+  border-radius: 22px !important;
+  background: rgba(255,255,255,0.32) !important;
+  border: 1px solid rgba(255,255,255,0.48) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.58) !important;
+}
+
+.skill-stack-label {
+  flex: 1 0 100% !important;
+  font-family: 'Rajdhani', monospace !important;
+  font-size: 0.76rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: color-mix(in srgb, var(--t-main) 72%, var(--cyan)) !important;
+  margin-bottom: 2px !important;
+}
+
+.skill-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 28px !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  font-family: 'Rajdhani', sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  color: #07304a !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.80), rgba(189,241,255,0.46)) !important;
+  border: 1px solid rgba(255,255,255,0.72) !important;
+  box-shadow: 0 8px 18px rgba(14, 116, 144, 0.10), inset 0 1px 0 rgba(255,255,255,0.92) !important;
+}
+
+html[data-aero-night] .skill-stack-panel {
+  background:
+    linear-gradient(145deg, rgba(21, 44, 70, 0.72), rgba(6, 18, 36, 0.62) 56%, rgba(37, 99, 96, 0.26)) padding-box,
+    linear-gradient(135deg, rgba(255,255,255,0.34), rgba(125,211,252,0.24), rgba(198,241,53,0.16)) border-box !important;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.42),
+    0 0 42px rgba(34, 211, 238, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.28) !important;
+}
+
+html[data-aero-night] .skill-stack-panel::before {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(125,211,252,0.05), transparent) !important;
+}
+
+html[data-aero-night] .skill-stack-kicker,
+html[data-aero-night] .skill-stack-group {
+  background: rgba(7, 22, 42, 0.34) !important;
+  border-color: rgba(169, 226, 255, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12) !important;
+}
+
+html[data-aero-night] .skill-stack-head,
+html[data-aero-night] .skill-stack-label {
+  color: rgba(235, 253, 255, 0.94) !important;
+}
+
+html[data-aero-night] .skill-chip {
+  color: rgba(232, 253, 255, 0.96) !important;
+  background: linear-gradient(180deg, rgba(125,211,252,0.24), rgba(8, 47, 73, 0.40)) !important;
+  border-color: rgba(186, 230, 253, 0.24) !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.14) !important;
+}
+
+@media (max-width: 980px) {
+  .skill-stack-groups {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .skill-stack-panel {
+    border-radius: 24px !important;
+    padding: 16px !important;
+  }
+
+  .skill-chip {
+    font-size: 0.78rem !important;
+  }
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 5.3.6 — SKILL PILLS / No orphan cards
+   Las dos últimas habilidades dejan de parecer tarjetas faltantes y se convierten
+   en píldoras horizontales independientes, manteniendo vidrio Aero y lectura real.
+   ================================================================ */
+.skills-pills-row {
+  grid-column: 1 / -1 !important;
+  width: min(100%, 1180px) !important;
+  margin: clamp(-12px, -0.8vw, -4px) auto 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(18px, 2.1vw, 30px) !important;
+  align-items: stretch !important;
+}
+
+.skill-feature-pill {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  border: 1.5px solid transparent !important;
+  border-radius: 999px !important;
+  min-height: clamp(118px, 9.8vw, 146px) !important;
+  padding: clamp(18px, 1.8vw, 24px) clamp(22px, 2.4vw, 34px) !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: clamp(14px, 1.8vw, 24px) !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  color: var(--t-main) !important;
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.54) 0%,
+      rgba(211, 244, 255, 0.30) 48%,
+      rgba(var(--card-color-rgb), 0.10) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(125, 211, 252, 0.40),
+      rgba(var(--card-color-rgb), 0.34)) border-box !important;
+  backdrop-filter: blur(34px) saturate(205%) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(34px) saturate(205%) brightness(1.04) !important;
+  box-shadow:
+    0 18px 46px rgba(7, 64, 98, 0.16),
+    0 0 28px color-mix(in srgb, var(--card-color) 10%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(4, 48, 76, 0.10) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transform: translateZ(0) !important;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s ease,
+    border-color 0.32s ease,
+    filter 0.32s ease !important;
+}
+
+.skill-feature-pill::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.36), rgba(255,255,255,0.06) 46%, transparent 72%),
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,0.72), transparent 28%),
+    radial-gradient(circle at 86% 110%, rgba(var(--card-color-rgb), 0.18), transparent 42%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.skill-feature-pill::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 2px !important;
+  border-radius: inherit !important;
+  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.skill-feature-pill:hover,
+.skill-feature-pill:focus-visible,
+.skill-feature-pill.is-pill-active {
+  transform: translateY(-4px) scale(1.012) !important;
+  box-shadow:
+    0 24px 64px rgba(7, 64, 98, 0.20),
+    0 0 42px color-mix(in srgb, var(--card-color) 20%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -1px 0 rgba(4, 48, 76, 0.12) !important;
+  filter: saturate(1.05) brightness(1.03) !important;
+  outline: none !important;
+}
+
+.skill-pill-orb,
+.skill-pill-copy,
+.skill-pill-arrow {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.skill-pill-orb {
+  width: clamp(54px, 4.8vw, 70px) !important;
+  height: clamp(54px, 4.8vw, 70px) !important;
+  border-radius: 999px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(1.55rem, 2vw, 2.1rem) !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  color: color-mix(in srgb, var(--card-color) 62%, #ffffff) !important;
+  background:
+    radial-gradient(circle at 35% 24%, rgba(255,255,255,0.98), rgba(255,255,255,0.36) 24%, rgba(var(--card-color-rgb), 0.28) 62%, rgba(3, 73, 98, 0.34) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.66) !important;
+  box-shadow:
+    0 10px 22px rgba(6, 78, 112, 0.16),
+    0 0 18px color-mix(in srgb, var(--card-color) 22%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.92) !important;
+  flex: 0 0 auto !important;
+}
+
+.skill-pill-copy {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.skill-pill-kicker {
+  font-family: 'Rajdhani', monospace !important;
+  font-size: clamp(0.76rem, 0.26vw + 0.7rem, 0.9rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: color-mix(in srgb, var(--card-color) 42%, #075985) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.40) !important;
+}
+
+.skill-pill-copy strong {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(1.08rem, 0.5vw + 1rem, 1.46rem) !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+  color: color-mix(in srgb, var(--card-color) 38%, #08334f) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.54) !important;
+}
+
+.skill-pill-desc {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-size: clamp(0.84rem, 0.18vw + 0.78rem, 0.96rem) !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+  color: rgba(7, 55, 82, 0.76) !important;
+}
+
+.skill-pill-arrow {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 999px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 1.12rem !important;
+  font-weight: 900 !important;
+  color: color-mix(in srgb, var(--card-color) 54%, #074761) !important;
+  background: rgba(255,255,255,0.44) !important;
+  border: 1px solid rgba(255,255,255,0.56) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 10px 20px rgba(6, 78, 112, 0.12) !important;
+  transition: transform 0.3s ease !important;
+}
+
+.skill-feature-pill:hover .skill-pill-arrow,
+.skill-feature-pill:focus-visible .skill-pill-arrow,
+.skill-feature-pill.is-pill-active .skill-pill-arrow {
+  transform: translate(2px, -2px) !important;
+}
+
+html[data-aero-night] .skill-feature-pill {
+  color: #f8fdff !important;
+  background:
+    linear-gradient(145deg,
+      rgba(24, 48, 72, 0.72) 0%,
+      rgba(7, 20, 38, 0.60) 50%,
+      rgba(var(--card-color-rgb), 0.13) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255,255,255,0.30),
+      rgba(125,211,252,0.20),
+      rgba(var(--card-color-rgb),0.24)) border-box !important;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,0.38),
+    0 0 34px color-mix(in srgb, var(--card-color) 12%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.20),
+    inset 0 -1px 0 rgba(0,0,0,0.25) !important;
+}
+
+html[data-aero-night] .skill-feature-pill::before {
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(125,211,252,0.04) 48%, transparent 72%),
+    radial-gradient(circle at 18% 12%, rgba(186,230,253,0.28), transparent 30%),
+    radial-gradient(circle at 86% 110%, rgba(var(--card-color-rgb), 0.20), transparent 42%) !important;
+}
+
+html[data-aero-night] .skill-feature-pill::after {
+  border-color: rgba(186,230,253,0.16) !important;
+}
+
+html[data-aero-night] .skill-feature-pill:hover,
+html[data-aero-night] .skill-feature-pill:focus-visible,
+html[data-aero-night] .skill-feature-pill.is-pill-active {
+  box-shadow:
+    0 24px 70px rgba(0,0,0,0.46),
+    0 0 48px color-mix(in srgb, var(--card-color) 22%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.23),
+    inset 0 -1px 0 rgba(0,0,0,0.28) !important;
+}
+
+html[data-aero-night] .skill-pill-kicker {
+  color: color-mix(in srgb, var(--card-color) 46%, #dffaff) !important;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--card-color) 18%, transparent) !important;
+}
+
+html[data-aero-night] .skill-pill-copy strong {
+  color: color-mix(in srgb, var(--card-color) 30%, #ffffff) !important;
+  text-shadow: 0 0 24px color-mix(in srgb, var(--card-color) 16%, transparent) !important;
+}
+
+html[data-aero-night] .skill-pill-desc {
+  color: rgba(226, 246, 255, 0.78) !important;
+}
+
+html[data-aero-night] .skill-pill-arrow {
+  color: color-mix(in srgb, var(--card-color) 42%, #f4fdff) !important;
+  background: rgba(6, 22, 40, 0.36) !important;
+  border-color: rgba(186,230,253,0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 22px rgba(0,0,0,0.20) !important;
+}
+
+@media (max-width: 980px) {
+  .skills-pills-row {
+    width: min(100%, 760px) !important;
+    grid-template-columns: 1fr !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .skill-feature-pill {
+    border-radius: 32px !important;
+    min-height: 0 !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    padding: 18px !important;
+  }
+
+  .skill-pill-arrow {
+    display: none !important;
+  }
+
+  .skill-pill-desc {
+    -webkit-line-clamp: 3 !important;
+  }
+}
+
+/* ================================================================
+   HARDLIGHT PATCH 5.3.7 — SKILL PILLS / Aesthetic continuity
+   Las píldoras finales ya no compiten con las tarjetas: misma familia Aero,
+   menos peso visual, cápsulas más limpias y sin texto cortado.
+   ================================================================ */
+.skills-pills-row {
+  width: min(100%, 1240px) !important;
+  margin: clamp(2px, 0.35vw, 8px) auto 0 !important;
+  gap: clamp(18px, 2vw, 28px) !important;
+}
+
+.skill-feature-pill {
+  min-height: clamp(88px, 7.2vw, 104px) !important;
+  padding: clamp(14px, 1.1vw, 18px) clamp(18px, 1.7vw, 26px) !important;
+  gap: clamp(12px, 1.25vw, 18px) !important;
+  border-radius: 34px !important;
+  border-width: 1px !important;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.58) 0%,
+      rgba(221,247,255,0.34) 42%,
+      rgba(138,210,231,0.18) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(255,255,255,0.72),
+      rgba(116,214,241,0.34) 52%,
+      rgba(var(--card-color-rgb),0.22)) border-box !important;
+  backdrop-filter: blur(24px) saturate(175%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(175%) !important;
+  box-shadow:
+    0 14px 34px rgba(7, 64, 98, 0.14),
+    inset 0 1px 0 rgba(255,255,255,0.82),
+    inset 0 -1px 0 rgba(2, 76, 104, 0.12) !important;
+}
+
+.skill-feature-pill::before {
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.42), rgba(255,255,255,0.10) 38%, transparent 72%),
+    radial-gradient(ellipse at 16% 0%, rgba(255,255,255,0.55), transparent 32%),
+    radial-gradient(ellipse at 92% 120%, rgba(var(--card-color-rgb), 0.12), transparent 48%) !important;
+  opacity: 0.86 !important;
+}
+
+.skill-feature-pill::after {
+  inset: 1px !important;
+  border-color: rgba(255,255,255,0.24) !important;
+}
+
+.skill-feature-pill:hover,
+.skill-feature-pill:focus-visible,
+.skill-feature-pill.is-pill-active {
+  transform: translateY(-3px) scale(1.006) !important;
+  box-shadow:
+    0 18px 44px rgba(7, 64, 98, 0.18),
+    0 0 26px color-mix(in srgb, var(--card-color) 14%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.86),
+    inset 0 -1px 0 rgba(2, 76, 104, 0.14) !important;
+}
+
+.skill-pill-orb {
+  width: clamp(46px, 3.8vw, 56px) !important;
+  height: clamp(46px, 3.8vw, 56px) !important;
+  font-size: clamp(1.18rem, 1.35vw, 1.52rem) !important;
+  color: color-mix(in srgb, var(--card-color) 48%, #ffffff) !important;
+  background:
+    radial-gradient(circle at 36% 22%, rgba(255,255,255,0.98), rgba(255,255,255,0.48) 28%, rgba(var(--card-color-rgb),0.24) 65%, rgba(21,91,122,0.28) 100%) !important;
+  border-color: rgba(255,255,255,0.62) !important;
+  box-shadow:
+    0 8px 16px rgba(6, 78, 112, 0.14),
+    inset 0 1px 0 rgba(255,255,255,0.92),
+    inset 0 -1px 0 rgba(3, 52, 77, 0.12) !important;
+}
+
+.skill-pill-copy {
+  gap: 2px !important;
+}
+
+.skill-pill-kicker {
+  font-size: clamp(0.68rem, 0.2vw + 0.64rem, 0.78rem) !important;
+  letter-spacing: 0.14em !important;
+  color: color-mix(in srgb, var(--card-color) 36%, #0e6682) !important;
+}
+
+.skill-pill-copy strong {
+  font-size: clamp(0.98rem, 0.42vw + 0.92rem, 1.22rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.02em !important;
+  color: color-mix(in srgb, var(--card-color) 30%, #093951) !important;
+}
+
+.skill-pill-desc {
+  display: block !important;
+  overflow: visible !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  font-size: clamp(0.76rem, 0.18vw + 0.72rem, 0.88rem) !important;
+  line-height: 1.22 !important;
+  font-weight: 780 !important;
+  color: rgba(7, 55, 82, 0.72) !important;
+}
+
+.skill-pill-arrow {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 0.98rem !important;
+  background: rgba(255,255,255,0.36) !important;
+  border-color: rgba(255,255,255,0.48) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 8px 16px rgba(6, 78, 112, 0.10) !important;
+}
+
+html[data-aero-night] .skill-feature-pill {
+  background:
+    linear-gradient(180deg,
+      rgba(47, 87, 111, 0.62) 0%,
+      rgba(16, 43, 66, 0.54) 48%,
+      rgba(5, 22, 38, 0.52) 100%) padding-box,
+    linear-gradient(135deg,
+      rgba(219,248,255,0.30),
+      rgba(74,179,210,0.22) 54%,
+      rgba(var(--card-color-rgb),0.22)) border-box !important;
+  box-shadow:
+    0 14px 38px rgba(0,0,0,0.34),
+    inset 0 1px 0 rgba(225,250,255,0.20),
+    inset 0 -1px 0 rgba(0,0,0,0.28) !important;
+}
+
+html[data-aero-night] .skill-feature-pill::before {
+  background:
+    linear-gradient(to bottom, rgba(231,250,255,0.16), rgba(125,211,252,0.04) 42%, transparent 74%),
+    radial-gradient(ellipse at 18% 0%, rgba(186,230,253,0.20), transparent 34%),
+    radial-gradient(ellipse at 94% 118%, rgba(var(--card-color-rgb), 0.14), transparent 48%) !important;
+  opacity: 0.88 !important;
+}
+
+html[data-aero-night] .skill-feature-pill::after {
+  border-color: rgba(190,236,249,0.13) !important;
+}
+
+html[data-aero-night] .skill-feature-pill:hover,
+html[data-aero-night] .skill-feature-pill:focus-visible,
+html[data-aero-night] .skill-feature-pill.is-pill-active {
+  box-shadow:
+    0 18px 48px rgba(0,0,0,0.42),
+    0 0 28px color-mix(in srgb, var(--card-color) 14%, transparent),
+    inset 0 1px 0 rgba(225,250,255,0.24),
+    inset 0 -1px 0 rgba(0,0,0,0.30) !important;
+}
+
+html[data-aero-night] .skill-pill-orb {
+  color: color-mix(in srgb, var(--card-color) 36%, #ffffff) !important;
+  background:
+    radial-gradient(circle at 36% 22%, rgba(255,255,255,0.92), rgba(186,230,253,0.34) 28%, rgba(var(--card-color-rgb),0.26) 66%, rgba(9,28,48,0.44) 100%) !important;
+  border-color: rgba(214,244,255,0.36) !important;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.48),
+    inset 0 -1px 0 rgba(0,0,0,0.22) !important;
+}
+
+html[data-aero-night] .skill-pill-kicker {
+  color: color-mix(in srgb, var(--card-color) 35%, #dffaff) !important;
+}
+
+html[data-aero-night] .skill-pill-copy strong {
+  color: color-mix(in srgb, var(--card-color) 22%, #ffffff) !important;
+}
+
+html[data-aero-night] .skill-pill-desc {
+  color: rgba(226,246,255,0.74) !important;
+}
+
+html[data-aero-night] .skill-pill-arrow {
+  background: rgba(12, 38, 60, 0.38) !important;
+  border-color: rgba(190,236,249,0.16) !important;
+}
+
+@media (max-width: 980px) {
+  .skills-pills-row {
+    width: min(100%, 760px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .skill-feature-pill {
+    border-radius: 28px !important;
+    padding: 15px !important;
+  }
+
+  .skill-pill-desc {
+    font-size: 0.8rem !important;
+    line-height: 1.25 !important;
+  }
+}
+
+
+/* ================================================================
+   HARDLIGHT PATCH 5.3.8 — SKILL PILLS / Cursor-safe capsule hitbox
+   Corrige el corte del cursor personalizado en esquinas y bordes de
+   las píldoras finales: sin cursor nativo, sin hover fantasma en la
+   caja rectangular invisible y con brillo Aero conservado.
+   ================================================================ */
+.skills-pills-row,
+.skills-pills-row *,
+.skills-pills-row *::before,
+.skills-pills-row *::after {
+  cursor: none !important;
+}
+
+.skill-feature-pill {
+  cursor: none !important;
+  isolation: isolate !important;
+  -webkit-clip-path: inset(0 round 999px) !important;
+  clip-path: inset(0 round 999px) !important;
+  filter: drop-shadow(0 14px 28px rgba(7, 64, 98, 0.10)) !important;
+}
+
+.skill-feature-pill:hover,
+.skill-feature-pill:focus-visible,
+.skill-feature-pill.is-pill-active {
+  cursor: none !important;
+  filter: drop-shadow(0 18px 34px rgba(7, 64, 98, 0.14)) saturate(1.045) brightness(1.025) !important;
+}
+
+html[data-aero-night] .skill-feature-pill {
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.28)) !important;
+}
+
+html[data-aero-night] .skill-feature-pill:hover,
+html[data-aero-night] .skill-feature-pill:focus-visible,
+html[data-aero-night] .skill-feature-pill.is-pill-active {
+  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.34)) saturate(1.045) brightness(1.025) !important;
+}
+
+@media (max-width: 640px) {
+  .skill-feature-pill {
+    -webkit-clip-path: inset(0 round 28px) !important;
+    clip-path: inset(0 round 28px) !important;
+  }
+}
